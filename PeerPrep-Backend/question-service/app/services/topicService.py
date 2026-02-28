@@ -1,4 +1,4 @@
-from app.database.db import QuestionServiceDatabase
+from database.db import QuestionServiceDatabase
 
 class TopicService:
     def __init__(self):
