@@ -1,26 +1,14 @@
-from fastapi import FastAPI, Request, Response, status
-from services.questionService import QuestionService
-from services.topicService import TopicService
-from pydantic import BaseModel, ConfigDict, ValidationError
-from typing import List, Literal
-import uvicorn
+from fastapi import APIRouter, Response, status
+from ..services.questionService import QuestionService
+from ..services.topicService import TopicService
+from pydantic import ValidationError
 
-app = FastAPI()
+QuestionRouter = APIRouter(prefix="/questions", tags=["Questions"])
 
 questionService = QuestionService()
 topicService = TopicService()
 
-
-class Question(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-
-    title: str
-    description: str
-    category: List[str]
-    complexity: Literal["easy", "medium", "hard"]
-
-
-@app.post("/newQuestion")
+@QuestionRouter.post("/newQuestion")
 def insertQuestion(questionData: Question, res: Response):
     try:
         questionData = questionData.model_dump()  # convert back to dict
@@ -38,7 +26,7 @@ def insertQuestion(questionData: Question, res: Response):
         return {"message": "Server error"}
 
 
-@app.get("/fetchQuestions")
+@QuestionRouter.get("/fetchQuestions")
 def fetchAllQuestions(res: Response):
     try:
         getAllQuestions = questionService.fetch_all_questions()
@@ -51,7 +39,7 @@ def fetchAllQuestions(res: Response):
         return {"message": "Server error"}
 
 
-@app.get("/fetchQuestions/{questionID}")
+@QuestionRouter.get("/fetchQuestions/{questionID}")
 def fetchQuestion(questionID: int, res: Response):
     try:
         getQuestion = questionService.fetch_question(questionID)
@@ -65,7 +53,7 @@ def fetchQuestion(questionID: int, res: Response):
         return {"message": "Server error"}
 
 
-@app.put("/updateQuestion/{questionID}")
+@QuestionRouter.put("/updateQuestion/{questionID}")
 def updateQuestion(questionID: int, questionData: Question, res: Response):
     try:
         questionData = questionData.model_dump()
@@ -87,7 +75,7 @@ def updateQuestion(questionID: int, questionData: Question, res: Response):
         return {"message": "Server error", "detail": str(e)}
 
 
-@app.delete("/deleteQuestion/{questionID}")
+@QuestionRouter.delete("/deleteQuestion/{questionID}")
 def deleteQuestion(questionID: int, res: Response):
     try:
         deleteQuestion = questionService.delete_question(questionID)
@@ -105,7 +93,7 @@ def deleteQuestion(questionID: int, res: Response):
         return {"message": "Server error", "detail": str(e)}
 
 
-@app.post("/newTopic/{topic}")
+@QuestionRouter.post("/newTopic/{topic}")
 def newTopic(topic: str, res: Response):
     try:
         newTopic = topicService.create_topic(topic)
@@ -119,7 +107,7 @@ def newTopic(topic: str, res: Response):
         return {"message": "Server error", "detail": str(e)}
 
 
-@app.get("/topics")
+@QuestionRouter.get("/topics")
 def allTopics(res: Response):
     try:
         topics = topicService.available_topics()
@@ -127,7 +115,3 @@ def allTopics(res: Response):
         return {"topics": topics}
     except Exception as e:
         return {"error": str(e)}
-
-
-if __name__ == "__main__":
-    uvicorn.run("main:app", port=5002, reload=True)

@@ -1,4 +1,10 @@
-from database.db import QuestionServiceDatabase
+import sys
+import os
+
+app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(app_path)
+
+from ..database.db import QuestionServiceDatabase
 
 class TopicService:
     def __init__(self):
@@ -28,7 +34,7 @@ class TopicService:
 
     def available_topics(self):
         topics = []
-        topicsDB = self.collection.find({})
-        for topic in topicsDB:
+        topics_db = self.collection.find({})
+        for topic in topics_db:
             topics.append(topic["topic"])
         return topics

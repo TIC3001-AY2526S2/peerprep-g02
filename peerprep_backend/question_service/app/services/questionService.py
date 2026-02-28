@@ -1,12 +1,17 @@
-from database.db import QuestionServiceDatabase
-from services.topicService import TopicService
+import sys
+import os
 
+app_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.append(app_path)
+
+from ..services.topicService import TopicService
+from ..database.db import QuestionServiceDatabase
 
 class QuestionService:
     def __init__(self):
-        questionServiceDB = QuestionServiceDatabase()
+        question_service_db = QuestionServiceDatabase()
         self.topicService = TopicService()
-        self.collection = questionServiceDB.get_collection("questions")
+        self.collection = question_service_db.get_collection("questions")
         self.collection.create_index("id", unique=True)
 
     def insert_question(self, question_data):
@@ -25,7 +30,7 @@ class QuestionService:
                 return {"insert": False, "error": "Category not available"}
 
         try:
-            self.collection.insert_one(question_data)  # add into db
+            self.collection.insert_one(question_data)  # add into db.py
             question_data["_id"] = str(question_data["_id"])
             return {"insert": True, "question": question_data}
         except Exception as e:
@@ -85,7 +90,7 @@ class QuestionService:
             question = self.collection.find_one({"id": questionID})
             if question is None:
                 return {"deleted": False, "error": "Question not found"}
-            deleted = self.collection.delete_one({"id": questionID})  # add into db
+            deleted = self.collection.delete_one({"id": questionID})  # add into db.py
             if deleted.deleted_count == 1:
                 return {"deleted": True}
             raise Exception
