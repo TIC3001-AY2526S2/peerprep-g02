@@ -1,34 +1,31 @@
-import React, {useState} from "react";
-import DropdownContainer from "./DropdownContainer";
+import React, { useState } from "react";
+import About from "./About";
+import HowToPlay from "./HowToPlay";
+import Questions from "./Questions";
+import FindMatch from "./FindMatch";
+import LoginSignup from "./LoginSignup/LoginSignup";
 
-function Hero(){
-    //dropdown stuff
-    const [selectedDifficulty, setSelectedDifficulty] = useState();
-    const [selectedTopic, setSelectedTopic] = useState();
-    const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
-    const topicOptions = ["Array", "Hash Table", "List", "String", "Tree"];
+function Hero({ ...heroArgs }) {
+    const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword } = heroArgs;
 
-    const start = (e) => {
-        e.preventDefault();
-        console.log("start")
+    const loginSignupArgs = {
+        showLogin: showLogin,
+        showSignup: showSignup,
+        showForgotPassword: showForgotPassword,
+        setShowLogin: setShowLogin,
+        setShowSignup: setShowSignup,
+        showForgotPassword: showForgotPassword,
+        setShowForgotPassword: setShowForgotPassword
     }
 
-    return(
+    return (
         <div className="hero-section-wrapper">
-                <div className="findmatch-container">
-                    <div className="findamatch-fontstyle">Find a Match!</div>
-                    <div className="topic-difficulty-container">
-
-                        <DropdownContainer label ={"Topic"} options={topicOptions} selected={selectedTopic} setSelected={setSelectedTopic}/>
-
-                        <DropdownContainer label = {"Difficulty"} options={difficultyOptions} selected={selectedDifficulty} setSelected={setSelectedDifficulty}/>
-
-                    </div>
-                    <div className="lets-go-wrapper">
-                        <div className='letsgo-button' onClick={(e)=>start(e)}>Let's Go</div>
-                    </div>
-                </div>
-            </div>
+            {showAboutUs && <About />}
+            {showHowToPlay && <HowToPlay />}
+            {showQuestions && <Questions />}
+            {!showAboutUs && !showHowToPlay && !showQuestions && <FindMatch />}
+            {(showLogin || showSignup || showForgotPassword) && <LoginSignup {...loginSignupArgs} />}
+        </div>
     );
 }
 

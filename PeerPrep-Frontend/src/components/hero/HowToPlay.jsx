@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import './HowToPlay.css';
-import Header from '../components/header/Header'
-import Footer from "../components/footer/Footer";
 
 function HowToPlay() {
-    const [isLoggedIn, setLoggedIn] = useState(false);
 
     return (
-        <div className='background-container'>
-
-            <Header isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />
-            <div className="hero-section-wrapper">
+            <div className="how-to-play-container">
                 <div className="title-text">How to Play</div>
                 <div className="text-group">
                     <div className="box">Step 1: Create Your Account</div>
@@ -29,9 +23,6 @@ function HowToPlay() {
                     Queue up for another challenge anytime to continue improving your technical interview skills.
                 </div>
             </div>
-
-            <Footer />
-        </div>
     );
 }
 

@@ -5,25 +5,7 @@
     /* stack header and hero vertically */
     background-color: #F5F5F5;
     height: 100vh;
-}
-
-/* Header Section */
-.header-container {
-    height: fit-content;
-    /* colours */
-    background-color: #F5F5F5;
-    outline: 3px solid #1E1E1E;
-    /* alignment */
-    align-content: center;
-    display: flex;
-    padding: 1.5rem;
-    justify-content: space-between;
-}
-
-.logo {
-    font-weight: 700;
-    font-size: 1.5rem;
-    cursor: pointer;
+    overflow-y: hidden;
 }
 
 .button-group {
@@ -63,7 +45,10 @@
     flex: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: flex-start; */
+    min-height: 0vh;
+    /* align-items: center; */
+    overflow-y: auto;
 }
 
 .findmatch-container {
@@ -74,6 +59,8 @@
     text-align: center;
     justify-content: center;
     gap: 2rem;
+    flex:1;
+    height: 100%;
 
 }
 
