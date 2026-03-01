@@ -7,8 +7,9 @@ from ..services.auth import (
     create_token,
     decode_token
 )
+from ..services.userService import UserService
 
-UserRouter = APIRouter(prefix="/users", tags=["Users"])
+UserRouter = APIRouter(tags=["Users"])
 
 @UserRouter.post("/register")
 def register(data: RegisterRequest):
@@ -21,22 +22,23 @@ def register(data: RegisterRequest):
             "Password must contain upper & lower case letters and be ≥ 8 chars"
         )
 
-    if get_user_by_email(data.email):
+    if UserService.get_user_by_email(data.email):
         raise HTTPException(400, "Email already exists")
 
-    create_user(data.email, data.password, data.username)
+    UserService.create_user(data.email, data.password, data.username)
     return {"message": "User registered successfully"}
 
 @UserRouter.post("/login")
 def login(data: LoginRequest):
-    user = get_user_by_email(data.email)
+    user = UserService.get_user_by_email(data.email)
     if not user:
         raise HTTPException(404, "Email not found")
 
-    if not verify_password(data.password, user["passwordHash"]):
+    print(user)
+    if not verify_password(data.password, user["password_hash"]):
         raise HTTPException(401, "Incorrect password")
 
-    token = create_token(user["userId"])
+    token = create_token(user["user_id"])
     return {"token": token}
 
 def get_current_user(authorization: str = Header(None)):
@@ -54,5 +56,5 @@ def update_profile(
     data: UpdateProfileRequest,
     userId: str = Depends(get_current_user)
 ):
-    update_username(userId, data.username)
+    UserService.update_username(userId, data.username)
     return {"message": "Profile updated"}

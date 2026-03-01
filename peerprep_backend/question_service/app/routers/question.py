@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Response, status
 from ..services.questionService import QuestionService
 from ..services.topicService import TopicService
+from ..models.question import Question
 from pydantic import ValidationError
 
-QuestionRouter = APIRouter(prefix="/questions", tags=["Questions"])
+QuestionRouter = APIRouter(tags=["Questions"])
 
 questionService = QuestionService()
 topicService = TopicService()
@@ -28,6 +29,7 @@ def insertQuestion(questionData: Question, res: Response):
 
 @QuestionRouter.get("/fetchQuestions")
 def fetchAllQuestions(res: Response):
+    print("help")
     try:
         getAllQuestions = questionService.fetch_all_questions()
         if getAllQuestions.get("fetched"):

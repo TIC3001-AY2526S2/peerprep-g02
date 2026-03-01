@@ -1,26 +1,19 @@
-from fastapi import FastAPI
-import uvicorn
-import asyncio
-from user_service.app.routers.user import UserRouter
-from question_service.app.routers.question import QuestionRouter
+import subprocess
 
-appUserService = FastAPI(title="PeerPrep User Service")
-appUserService.include_router(UserRouter)
-appQuestionService = FastAPI(title="PeerPrep Question Service")
-appQuestionService.include_router(QuestionRouter)
+services = [
+    ["uvicorn", "user_service.app.main:app", "--port", "5001", "--reload"],
+    ["uvicorn", "question_service.app.main:app", "--port", "5002", "--reload"],
+    ["uvicorn", "api_gateway.app.main:app", "--port", "5000", "--reload"],
+]
 
-async def run_user_service():
-    config = uvicorn.Config(appUserService, host="0.0.0.0", port=5000, reload=True, log_level="info")
-    server = uvicorn.Server(config)
-    await server.serve()
+processes = []
 
-async def run_question_service():
-    config = uvicorn.Config(appQuestionService, host="0.0.0.0", port=5001, reload=True, log_level="info")
-    server = uvicorn.Server(config)
-    await server.serve()
+for service in services:
+    processes.append(subprocess.Popen(service))
 
-async def main():
-    await asyncio.gather(run_user_service(), run_question_service())
-
-if __name__ == "__main__":
-    asyncio.run(main())
+try:
+    for p in processes:
+        p.wait()
+except KeyboardInterrupt:
+    for p in processes:
+        p.terminate()

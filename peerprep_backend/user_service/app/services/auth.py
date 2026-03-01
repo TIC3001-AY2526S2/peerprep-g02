@@ -1,7 +1,7 @@
 import os
 import hashlib
 import re
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from passlib.context import CryptContext
 
@@ -15,6 +15,7 @@ pwd_context = CryptContext(
 )
 
 def hash_password(password: str) -> str:
+    print("password: ", password)
     return pwd_context.hash(password)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
@@ -33,7 +34,7 @@ def validate_password(password: str) -> bool:
     return re.match(PASSWORD_REGEX, password) is not None
 
 def create_token(user_id: str) -> str:
-    payload = {"sub": user_id, "exp": datetime.datetime.now(datetime.timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)}   # fixed datetime.utcnow() deprecation
+    payload = {"sub": user_id, "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)}   # fixed datetime.utcnow() deprecation
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 def decode_token(token: str) -> str | None:
