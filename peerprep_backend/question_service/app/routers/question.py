@@ -41,7 +41,7 @@ def fetchAllQuestions(res: Response):
         return {"message": "Server error"}
 
 
-@QuestionRouter.get("/fetchQuestions/{questionID}")
+@QuestionRouter.get("/fetchQuestion/{questionID}")
 def fetchQuestion(questionID: int, res: Response):
     try:
         getQuestion = questionService.fetch_question(questionID)
