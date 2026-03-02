@@ -1,10 +1,19 @@
 from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
 import httpx
 
 app = FastAPI()
 
 USER_SERVICE = "http://localhost:5001"
 QUESTION_SERVICE = "http://localhost:5002"
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 async def forward_request(request: Request, target_url: str):
     async with httpx.AsyncClient() as client:

@@ -32,7 +32,8 @@ function LandingPage() {
         showForgotPassword: showForgotPassword,
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
-        setShowForgotPassword: setShowForgotPassword
+        setShowForgotPassword: setShowForgotPassword,
+        setLoggedIn:setLoggedIn
     }
 
     return (

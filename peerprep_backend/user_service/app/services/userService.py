@@ -6,7 +6,7 @@ class UserService:
     def __init__(self):
         user_service_db = UserServiceDatabase()
         self.collection = user_service_db.get_collection("users")
-        self.collection.create_index("title", unique=True)
+        self.collection.create_index("user_id", unique=True)
         
     def create_user(self, email, password, username):
         user_id = str(uuid.uuid4())

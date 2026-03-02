@@ -39,7 +39,7 @@ def login(data: LoginRequest):
         raise HTTPException(401, "Incorrect password")
 
     token = create_token(user["user_id"])
-    return {"token": token}
+    return {"token": token, "username": user["username"]}
 
 def get_current_user(authorization: str = Header(None)):
     if not authorization:

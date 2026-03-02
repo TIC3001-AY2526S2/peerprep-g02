@@ -1,12 +1,20 @@
 import { useEffect, useState } from 'react';
+import { loginUser } from '../../../api/UserApi';
+import { useUser } from '../../../context/UserContext';
 
-function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin }) {
+function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLoggedIn }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const {login} = useUser();
 
-    const login = (e) => {
+    const login_user = async (e) => {
         e.preventDefault();
-        console.log("Login");
+        const user = await loginUser(email, password);
+        if (user.username){
+            setLoggedIn(true);
+            login(user.username, user.token);
+            setShowLogin(false);
+        }
     }
 
     const handleForgotPassword = () => {
@@ -15,7 +23,7 @@ function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin }) {
     }
 
     return (
-        <form className="forgot-password-form" onSubmit={(e) => { login(e) }}>
+        <form className="forgot-password-form" onSubmit={(e) => { login_user(e) }}>
             <p>Log in to your account</p>
             <p>Enter your email and password to log in</p>
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />

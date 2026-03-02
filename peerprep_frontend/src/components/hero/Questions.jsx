@@ -1,29 +1,18 @@
 import './Questions.css';
+import { getQuestions } from '../../api/QuestionApi';
+import { useEffect, useState } from 'react';
 
 function Questions() {
-    const questions = [
-        {
-            id: 1,
-            name: "Two Sum",
-            topic: "Arrays",
-            difficulty: "Easy",
-            attempted: true,
-        },
-        {
-            id: 2,
-            name: "Longest Substring Without Repeating Characters",
-            topic: "Sliding Window",
-            difficulty: "Medium",
-            attempted: false,
-        },
-        {
-            id: 3,
-            name: "Merge k Sorted Lists",
-            topic: "Linked List",
-            difficulty: "Hard",
-            attempted: true,
-        },
-    ];
+    const [questions, setQuestions] = useState([]);
+
+    const get_questions = async() =>{
+        const availableQuestions = await getQuestions();
+        setQuestions(availableQuestions);
+    }
+
+    useEffect(()=>{
+        get_questions();
+    },[]);
     return (
         <table className="question-table">
             <thead>
@@ -36,8 +25,8 @@ function Questions() {
                 </tr>
             </thead>
             <tbody>
-                {questions.map((q) => (
-                    <tr key={q.id}>
+                {questions.map((q, index) => (
+                    <tr key={q._id}>
                         <td className="status-cell">
                             {q.attempted ? (
                                 <span className="tick">✓</span>
@@ -45,12 +34,12 @@ function Questions() {
                                 <span className="no-tick">—</span>
                             )}
                         </td>
-                        <td>{q.id}</td>
-                        <td className="question-name">{q.name}</td>
-                        <td>{q.topic}</td>
+                        <td>{index+1}</td>
+                        <td className="question-name">{q.title}</td>
+                        <td>{q.category}</td>
                         <td>
-                            <span className={`difficulty ${q.difficulty.toLowerCase()}`}>
-                                {q.difficulty}
+                            <span className={`difficulty ${(q.complexity).toLowerCase()}`}>
+                                {q.complexity}
                             </span>
                         </td>
                     </tr>

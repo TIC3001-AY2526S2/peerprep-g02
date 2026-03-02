@@ -6,7 +6,7 @@ import FindMatch from "./FindMatch";
 import LoginSignup from "./LoginSignup/LoginSignup";
 
 function Hero({ ...heroArgs }) {
-    const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword } = heroArgs;
+    const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword, setLoggedIn } = heroArgs;
 
     const loginSignupArgs = {
         showLogin: showLogin,
@@ -15,7 +15,8 @@ function Hero({ ...heroArgs }) {
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         showForgotPassword: showForgotPassword,
-        setShowForgotPassword: setShowForgotPassword
+        setShowForgotPassword: setShowForgotPassword,
+        setLoggedIn:setLoggedIn
     }
 
     return (
