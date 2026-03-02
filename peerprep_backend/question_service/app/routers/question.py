@@ -30,11 +30,11 @@ def insertQuestion(questionData: Question, res: Response):
 @QuestionRouter.get("/fetchQuestions")
 def fetchAllQuestions(res: Response):
     try:
-        getAllQuestions = questionService.fetch_all_questions()
-        if getAllQuestions.get("fetched"):
+        fetchAllQuestions = questionService.fetch_all_questions()
+        if fetchAllQuestions.get("fetched"):
             res.status_code = status.HTTP_200_OK
-            print(getAllQuestions)
-            return {"message": "Questions fetched", "questions": getAllQuestions.get("questions")}
+            print(fetchAllQuestions)
+            return {"message": "Questions fetched", "questions": fetchAllQuestions.get("questions")}
     except Exception:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": "Server error"}
@@ -43,12 +43,12 @@ def fetchAllQuestions(res: Response):
 @QuestionRouter.get("/fetchQuestion/{questionID}")
 def fetchQuestion(questionID: int, res: Response):
     try:
-        getQuestion = questionService.fetch_question(questionID)
-        if getQuestion.get("fetched"):
+        fetchQuestion = questionService.fetch_question(questionID)
+        if fetchQuestion.get("fetched"):
             res.status_code = status.HTTP_200_OK
-            return {"message": "Question fetched", "question": getQuestion.get("question")}
+            return {"message": "Question fetched", "question": fetchQuestion.get("question")}
         res.status_code = status.HTTP_400_BAD_REQUEST
-        return {"message": getQuestion.get("error")}
+        return {"message": fetchQuestion.get("error")}
     except Exception:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": "Server error"}
