@@ -10,6 +10,7 @@ from ..services.auth import (
 from ..services.userService import UserService
 
 UserRouter = APIRouter(tags=["Users"])
+userService = UserService()
 
 @UserRouter.post("/register")
 def register(data: RegisterRequest):
@@ -22,19 +23,18 @@ def register(data: RegisterRequest):
             "Password must contain upper & lower case letters and be ≥ 8 chars"
         )
 
-    if UserService.get_user_by_email(data.email):
+    if userService.get_user_by_email(data.email):
         raise HTTPException(400, "Email already exists")
 
-    UserService.create_user(data.email, data.password, data.username)
+    userService.create_user(data.email, data.password, data.username)
     return {"message": "User registered successfully"}
 
 @UserRouter.post("/login")
 def login(data: LoginRequest):
-    user = UserService.get_user_by_email(data.email)
+    user = userService.get_user_by_email(data.email)
     if not user:
         raise HTTPException(404, "Email not found")
 
-    print(user)
     if not verify_password(data.password, user["password_hash"]):
         raise HTTPException(401, "Incorrect password")
 
@@ -56,5 +56,5 @@ def update_profile(
     data: UpdateProfileRequest,
     userId: str = Depends(get_current_user)
 ):
-    UserService.update_username(userId, data.username)
+    userService.update_username(userId, data.username)
     return {"message": "Profile updated"}

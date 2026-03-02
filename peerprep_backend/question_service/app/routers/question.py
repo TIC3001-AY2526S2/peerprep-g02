@@ -29,7 +29,6 @@ def insertQuestion(questionData: Question, res: Response):
 
 @QuestionRouter.get("/fetchQuestions")
 def fetchAllQuestions(res: Response):
-    print("help")
     try:
         getAllQuestions = questionService.fetch_all_questions()
         if getAllQuestions.get("fetched"):

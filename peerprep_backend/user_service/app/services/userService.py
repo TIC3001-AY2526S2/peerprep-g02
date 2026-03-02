@@ -1,14 +1,19 @@
 import uuid
-from ..database.db import users_col
+from ..database.db import UserServiceDatabase
 from ..services.auth import sha256_hash, hash_password
 
 class UserService:
-    def create_user(email, password, username):
+    def __init__(self):
+        user_service_db = UserServiceDatabase()
+        self.collection = user_service_db.get_collection("users")
+        self.collection.create_index("title", unique=True)
+        
+    def create_user(self, email, password, username):
         user_id = str(uuid.uuid4())
         email_hash = sha256_hash(email)
         password_hash = hash_password(password)
 
-        users_col.insert_one({
+        self.collection.insert_one({
             "user_id": user_id,
             "email_hash": email_hash,
             "password_hash": password_hash,
@@ -16,9 +21,9 @@ class UserService:
             "role": "user"
         })
 
-    def get_user_by_email(email):
+    def get_user_by_email(self, email):
         email_hash = sha256_hash(email)
-        return users_col.find_one({"email_hash": email_hash})
+        return self.collection.find_one({"email_hash": email_hash})
 
-    def update_username(user_id, username):
-        users_col.update_one({"user_id": user_id}, {"$set": {"username": username}})
+    def update_username(self, user_id, username):
+        self.collection.update_one({"user_id": user_id}, {"$set": {"username": username}})

@@ -6,23 +6,16 @@ sys.path.append(app_path)
 
 from ..services.topicService import TopicService
 from ..database.db import QuestionServiceDatabase
+from bson import ObjectId
 
 class QuestionService:
     def __init__(self):
         question_service_db = QuestionServiceDatabase()
         self.topicService = TopicService()
         self.collection = question_service_db.get_collection("questions")
-        self.collection.create_index("id", unique=True)
+        self.collection.create_index("title", unique=True)
 
     def insert_question(self, question_data):
-        latest_id = self.collection.find_one(sort=[("id", -1)])
-        if latest_id is None:  # no id, i.e. first entry
-            latest_id = 0
-        else:
-            latest_id = latest_id["id"]
-
-        question_data["id"] = latest_id + 1
-
         topics = self.topicService.available_topics()
 
         for cat in question_data["category"]:
@@ -50,7 +43,7 @@ class QuestionService:
             if questionID is None:
                 return {"fetched": False, "error": "Missing question ID"}
 
-            fetched_data = self.collection.find_one({"id": questionID})
+            fetched_data = self.collection.find_one({"_id": ObjectId(questionID)})
 
             fetched_data["_id"] = str(fetched_data["_id"])
             return {"fetched": True, "question": fetched_data}
@@ -60,12 +53,12 @@ class QuestionService:
 
     def update_question(self, question_data):
         try:
-            questionID = question_data.get("id")
+            questionID = question_data.get("_id")
 
             if not questionID:
                 return {"updated": False, "error": "Missing question ID"}
 
-            update = self.collection.update_one({"id": questionID},
+            update = self.collection.update_one({"_id": ObjectId(questionID)},
                                                 {"$set": {
                                                     "title": question_data.get("title"),
                                                     "description": question_data.get("description"),
@@ -87,10 +80,10 @@ class QuestionService:
             if questionID is None:
                 return {"deleted": False, "error": "Missing question ID"}
 
-            question = self.collection.find_one({"id": questionID})
+            question = self.collection.find_one({"_id": ObjectId(questionID)})
             if question is None:
                 return {"deleted": False, "error": "Question not found"}
-            deleted = self.collection.delete_one({"id": questionID})  # add into db.py
+            deleted = self.collection.delete_one({"_id": ObjectId(questionID)})  # add into db.py
             if deleted.deleted_count == 1:
                 return {"deleted": True}
             raise Exception
