@@ -1,0 +1,42 @@
+  /* Fonts Below */
+
+  /* Light */
+  @font-face {
+    font-family: 'PitagonSansMono';
+    src: url('./assets/fonts/PitagonMonoSans/PitagonSansMono-Light.otf') format('opentype');
+    font-weight: 300;
+  }
+
+  /* Regular */
+  @font-face {
+    font-family: 'PitagonSansMono';
+    src: url('./assets/fonts/PitagonMonoSans/PitagonSansMono-Regular.otf') format('opentype');
+    font-weight: 400;
+  }
+
+  /* SemiBold */
+  @font-face {
+    font-family: 'PitagonSansMono';
+    src: url('./assets/fonts/PitagonMonoSans/PitagonSansMono-SemiBold.otf') format('opentype');
+    font-weight: 600;
+  }
+
+  /* Bold */
+  @font-face {
+    font-family: 'PitagonSansMono';
+    src: url('./assets/fonts/PitagonMonoSans/PitagonSansMono-Bold.otf') format('opentype');
+    font-weight: 700;
+  }
+
+  /* Italic */
+  @font-face {
+    font-family: 'PitagonSansMono';
+    src: url('./assets/fonts/PitagonMonoSans/PitagonSansMono-Italic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  body {
+    font-family: 'PitagonSansMono', monospace;
+    color: #1E1E1E;
+  }
