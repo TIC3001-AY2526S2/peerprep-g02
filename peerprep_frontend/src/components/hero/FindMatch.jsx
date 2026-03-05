@@ -1,26 +1,17 @@
 import React, {useEffect, useState} from "react";
 import DropdownContainer from "./DropdownContainer";
-import { getTopics } from "../../api/QuestionApi";
 
-function FindMatch() {
+function FindMatch({topicOptions}) {
     //dropdown stuff
     const [selectedDifficulty, setSelectedDifficulty] = useState();
     const [selectedTopic, setSelectedTopic] = useState();
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
-    const [topicOptions,setTopicOptions] = useState([]);
     
-    useEffect(()=>{
-        get_topics(setTopicOptions);
-    },[]);
+    
 
     const start = (e) => {
         e.preventDefault();
         console.log("start")
-    }
-
-    const get_topics = async (setTopicOptions)=>{
-        const topics = await getTopics();
-        setTopicOptions(topics)
     }
 
     return (

@@ -2,50 +2,65 @@ import './Questions.css';
 import { getQuestions } from '../../api/QuestionApi';
 import { useEffect, useState } from 'react';
 
-function Questions() {
+function Questions({ ...questionArgs }) {
+    const { showQuestionForm, setShowQuestionForm, setSelectedQuestion } = questionArgs;
     const [questions, setQuestions] = useState([]);
 
-    const get_questions = async() =>{
+    const get_questions = async () => {
         const availableQuestions = await getQuestions();
         setQuestions(availableQuestions);
     }
 
-    useEffect(()=>{
+    const handleShowQuestionForm = () => {
+        setShowQuestionForm((prev) => !prev);
+        setSelectedQuestion({})
+    }
+
+    useEffect(() => {
         get_questions();
-    },[]);
+    }, []);
     return (
-        <table className="question-table">
-            <thead>
-                <tr>
-                    <th>Status</th>
-                    <th>#</th>
-                    <th>Question</th>
-                    <th>Topic</th>
-                    <th>Difficulty</th>
-                </tr>
-            </thead>
-            <tbody>
-                {questions.map((q, index) => (
-                    <tr key={q._id}>
-                        <td className="status-cell">
-                            {q.attempted ? (
-                                <span className="tick">✓</span>
-                            ) : (
-                                <span className="no-tick">—</span>
-                            )}
-                        </td>
-                        <td>{index+1}</td>
-                        <td className="question-name">{q.title}</td>
-                        <td>{q.category}</td>
-                        <td>
-                            <span className={`difficulty ${(q.complexity).toLowerCase()}`}>
-                                {q.complexity}
-                            </span>
-                        </td>
+        <div className='question-container'>
+            <div className='button-group'>
+                <div className='button' onClick={handleShowQuestionForm}>Add Question</div>
+            </div>
+            <table className="question-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>#</th>
+                        <th>Question</th>
+                        <th>Topic</th>
+                        <th>Difficulty</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {questions.map((q, index) => (
+                        <tr key={q._id}>
+                            <td className="status-cell">
+                                {q.attempted ? (
+                                    <span className="tick">✓</span>
+                                ) : (
+                                    <span className="no-tick">—</span>
+                                )}
+                            </td>
+                            <td>{index + 1}</td>
+                            <td className="question-name">{q.title}</td>
+                            <td>{q.categories.join(', ')}</td>
+                            <td>
+                                <span className={`difficulty ${(q.complexity).toLowerCase()}`}>
+                                    {q.complexity}
+                                </span>
+                            </td>
+                            <td><button onClick={()=>{setShowQuestionForm(true);setSelectedQuestion(q)}}>Edit</button></td>
+                            <td><button>Delete</button></td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 }
 

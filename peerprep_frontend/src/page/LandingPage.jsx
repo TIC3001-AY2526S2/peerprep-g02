@@ -12,6 +12,7 @@ function LandingPage() {
     const [showLogin, setShowLogin] = useState(false);
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [showQuestionForm, setShowQuestionForm] = useState(false);
 
     const headerArgs = {
         isLoggedIn: isLoggedIn,
@@ -30,10 +31,12 @@ function LandingPage() {
         showLogin: showLogin,
         showSignup: showSignup,
         showForgotPassword: showForgotPassword,
+        showQuestionForm: showQuestionForm,
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         setShowForgotPassword: setShowForgotPassword,
-        setLoggedIn:setLoggedIn
+        setLoggedIn:setLoggedIn,
+        setShowQuestionForm: setShowQuestionForm
     }
 
     return (
