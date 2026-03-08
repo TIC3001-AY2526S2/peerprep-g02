@@ -11,6 +11,7 @@ topicService = TopicService()
 
 @QuestionRouter.post("/newQuestion")
 def insertQuestion(questionData: Question, res: Response):
+    print("Received question data:", questionData) #Log request
     try:
         questionData = questionData.model_dump()  # convert back to dict
 
@@ -25,7 +26,6 @@ def insertQuestion(questionData: Question, res: Response):
     except Exception:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": "Server error"}
-
 
 @QuestionRouter.get("/fetchQuestions")
 def fetchAllQuestions(res: Response):
@@ -77,7 +77,7 @@ def updateQuestion(questionID: int, questionData: Question, res: Response):
 
 
 @QuestionRouter.delete("/deleteQuestion/{questionID}")
-def deleteQuestion(questionID: int, res: Response):
+def deleteQuestion(questionID: str, res: Response): # now str
     try:
         deleteQuestion = questionService.delete_question(questionID)
 
@@ -86,13 +86,9 @@ def deleteQuestion(questionID: int, res: Response):
             return {"message": "Question deleted"}
         res.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": deleteQuestion.get("error")}
-    except ValidationError:
-        res.status_code = status.HTTP_400_BAD_REQUEST
-        return {"message": "Missing or invalid fields"}
     except Exception as e:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": "Server error", "detail": str(e)}
-
 
 @QuestionRouter.post("/newTopic/{topic}")
 def newTopic(topic: str, res: Response):

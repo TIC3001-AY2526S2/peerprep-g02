@@ -18,7 +18,7 @@ class QuestionService:
     def insert_question(self, question_data):
         topics = self.topicService.available_topics()
 
-        for cat in question_data["category"]:
+        for cat in question_data["categories"]:
             if cat not in topics:
                 return {"insert": False, "error": "Category not available"}
 
@@ -58,11 +58,11 @@ class QuestionService:
             if not questionID:
                 return {"updated": False, "error": "Missing question ID"}
 
-            update = self.collection.update_one({"_id": ObjectId(questionID)},
+            update = self.collection.update_one({"_id": ObjectId(questionID)},  # convert to ObjectId
                                                 {"$set": {
                                                     "title": question_data.get("title"),
                                                     "description": question_data.get("description"),
-                                                    "category": question_data.get("category"),
+                                                    "category": question_data.get("categories"),
                                                     "complexity": question_data.get("complexity")
                                                 }})
 
@@ -75,12 +75,12 @@ class QuestionService:
             print(str(e))
             return {"updated": False, "error": str(e)}
 
-    def delete_question(self, questionID):
+    def delete_question(self, questionID: str): # now str
         try:
             if questionID is None:
                 return {"deleted": False, "error": "Missing question ID"}
-
-            question = self.collection.find_one({"_id": ObjectId(questionID)})
+            print(f"Attempting to delete with questionID: {questionID}")
+            question = self.collection.find_one({"_id": ObjectId(questionID)})  # cast here
             if question is None:
                 return {"deleted": False, "error": "Question not found"}
             deleted = self.collection.delete_one({"_id": ObjectId(questionID)})  # add into db.py

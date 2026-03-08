@@ -23,3 +23,37 @@ export const getQuestions = async () => {
         return [];
     }
 }
+
+export const createQuestion = async (questionData) => {
+    try {
+        const response = await axios.post(`${QUESTION_GATEWAY}/newQuestion`, questionData); // Adjusted route
+        return response.data;
+    } catch (error) {
+        console.error("Error creating question:", error);
+        throw error;
+    }
+};
+
+export const updateQuestion = async (id, questionData) => {
+    try {
+        const response = await axios.put(`${QUESTION_GATEWAY}/updateQuestion/${id}`, questionData, {
+        headers: {
+           'Content-Type': 'application/json'
+        }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating question:", error);
+        throw error;
+    }
+};
+
+export const deleteQuestion = async (id) => {
+    try {
+        const response = await axios.delete(`${QUESTION_GATEWAY}/deleteQuestion/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting question:", error);
+        throw error;
+    }
+};

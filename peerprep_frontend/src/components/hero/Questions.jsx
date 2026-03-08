@@ -1,5 +1,5 @@
 import './Questions.css';
-import { getQuestions } from '../../api/QuestionApi';
+import { getQuestions, deleteQuestion } from '../../api/QuestionApi';
 import { useEffect, useState } from 'react';
 
 function Questions({ ...questionArgs }) {
@@ -16,9 +16,24 @@ function Questions({ ...questionArgs }) {
         setSelectedQuestion({})
     }
 
+    const handleDeleteQuestion = async (id) => {
+        console.log("Deleting question with ID:", id); // Add this line
+        if (window.confirm("Are you sure you want to delete this question?")) {
+            try {
+                await deleteQuestion(id);
+                alert("Question deleted successfully!");
+                get_questions(); // Refresh the question list
+            } catch (error) {
+                console.error("Error deleting question:", error);
+                alert("Failed to delete question. See console for details.");
+            }
+        }
+    };
+
     useEffect(() => {
         get_questions();
     }, []);
+
     return (
         <div className='question-container'>
             <div className='button-group'>
@@ -55,7 +70,7 @@ function Questions({ ...questionArgs }) {
                                 </span>
                             </td>
                             <td><button onClick={()=>{setShowQuestionForm(true);setSelectedQuestion(q)}}>Edit</button></td>
-                            <td><button>Delete</button></td>
+                            <td><button onClick={() => handleDeleteQuestion(q._id)}>Delete</button></td> {/* Added onClick */}
                         </tr>
                     ))}
                 </tbody>

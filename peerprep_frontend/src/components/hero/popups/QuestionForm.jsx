@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
-import { loginUser } from '../../../api/UserApi';
+import { createQuestion, updateQuestion } from '../../../api/QuestionApi';
 import { useUser } from '../../../context/UserContext';
-import './questionForm.css'
+import './questionForm.css';
 
-function QuestionForm({ handleCancelQuestion, question, topics }) {
-    const [title, setTitle] = useState(question?.title);
-    const [description, setDescription] = useState(question?.description);
-    const [categories, setCategories] = useState(question?.categories)
-    const [complexity, setComplexity] = useState(question?.complexity)
+function QuestionForm({ handleCancelQuestion, question, topics, get_questions }) {
+    const [title, setTitle] = useState(question?.title || "");
+    const [description, setDescription] = useState(question?.description || "");
+    const [categories, setCategories] = useState(question?.categories || []);
+    const [complexity, setComplexity] = useState(question?.complexity || "Easy");
+
     let update = false;
     if (question) {
         update = true;
@@ -25,9 +26,35 @@ function QuestionForm({ handleCancelQuestion, question, topics }) {
         }
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const questionData = {
+            title: title,
+            description: description,
+            categories: categories,
+            complexity: complexity
+        };
+
+        console.log("Creating question with data:", questionData);
+
+        try {
+            const response = await createQuestion(questionData);
+            console.log("Create response:", response);
+            alert("Question created successfully!");
+            handleCancelQuestion();
+            get_questions();
+        } catch (error) {
+            console.error("Error creating question:", error);
+            alert("Failed to create question. See console for details.");
+        } finally {
+            console.log("This request finished")
+        }
+    };
+
     return (
         <div className='question-form-container'>
-            <form className="forgot-password-form">
+            <form className="forgot-password-form" onSubmit={handleSubmit}> {/* Added onSubmit */}
                 <p>Questions</p>
                 <div>
                     <label>Title: </label>
@@ -42,9 +69,8 @@ function QuestionForm({ handleCancelQuestion, question, topics }) {
                     <div className='topics-container'>
 
                         {topics.map((topic) => (
-                            <div>
+                            <div key={topic}> {/* Added key for React list */}
                                 <input
-                                    key={topic}
                                     type="checkbox"
                                     value={topic}
                                     checked={categories?.includes(topic)}
