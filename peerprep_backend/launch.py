@@ -1,9 +1,9 @@
 import subprocess
 
 services = [
-    ["uvicorn", "user_service.app.main:app", "--port", "5001", "--reload"],
-    ["uvicorn", "question_service.app.main:app", "--port", "5002", "--reload"],
-    ["uvicorn", "api_gateway.app.main:app", "--port", "5000", "--reload"],
+    ["uvicorn", "user_service.app.main:app", "--port", "5001"],
+    ["uvicorn", "question_service.app.main:app", "--port", "5002"],
+    ["uvicorn", "api_gateway.app.main:app", "--port", "5000"],
 ]
 
 processes = []

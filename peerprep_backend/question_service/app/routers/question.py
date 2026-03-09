@@ -41,7 +41,7 @@ def fetchAllQuestions(res: Response):
 
 
 @QuestionRouter.get("/fetchQuestion/{questionID}")
-def fetchQuestion(questionID: int, res: Response):
+def fetchQuestion(questionID: str, res: Response):
     try:
         fetchQuestion = questionService.fetch_question(questionID)
         if fetchQuestion.get("fetched"):
@@ -55,18 +55,16 @@ def fetchQuestion(questionID: int, res: Response):
 
 
 @QuestionRouter.put("/updateQuestion/{questionID}")
-def updateQuestion(questionID: int, questionData: Question, res: Response):
+def updateQuestion(questionID: str, questionData: Question, res: Response):
     try:
         questionData = questionData.model_dump()
 
-        questionData["id"] = questionID
+        questionData["_id"] = questionID
 
         updateQuestion = questionService.update_question(questionData)
-
         if updateQuestion.get("updated"):
             res.status_code = status.HTTP_200_OK
             return {"message": "Question updated", "question": updateQuestion.get("question")}
-        res.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": updateQuestion.get("error")}
     except ValidationError:
         res.status_code = status.HTTP_400_BAD_REQUEST

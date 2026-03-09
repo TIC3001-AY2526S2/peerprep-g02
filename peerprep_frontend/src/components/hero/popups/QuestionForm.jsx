@@ -3,16 +3,11 @@ import { createQuestion, updateQuestion } from '../../../api/QuestionApi';
 import { useUser } from '../../../context/UserContext';
 import './questionForm.css';
 
-function QuestionForm({ handleCancelQuestion, question, topics, get_questions }) {
+function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, update }) {
     const [title, setTitle] = useState(question?.title || "");
     const [description, setDescription] = useState(question?.description || "");
     const [categories, setCategories] = useState(question?.categories || []);
     const [complexity, setComplexity] = useState(question?.complexity || "Easy");
-
-    let update = false;
-    if (question) {
-        update = true;
-    }
 
     const handleTopicChange = (e) => {
         const value = e.target.value;
@@ -36,19 +31,26 @@ function QuestionForm({ handleCancelQuestion, question, topics, get_questions })
             complexity: complexity
         };
 
-        console.log("Creating question with data:", questionData);
-
         try {
-            const response = await createQuestion(questionData);
-            console.log("Create response:", response);
-            alert("Question created successfully!");
+            if (update) {
+                const response = await updateQuestion(question._id, questionData);
+                console.log("Updated response:", response);
+                alert("Question updated successfully!");
+                questionData["_id"] = question._id;
+                setQuestions(prevQuestions =>
+                    prevQuestions.map(q =>
+                        q._id === questionData._id ? questionData : q
+                    )
+                );
+            } else {
+                const response = await createQuestion(questionData);
+                alert("Question created successfully!");
+                setQuestions(prevQuestions => [...prevQuestions, response.question]);
+            }
             handleCancelQuestion();
-            get_questions();
         } catch (error) {
             console.error("Error creating question:", error);
             alert("Failed to create question. See console for details.");
-        } finally {
-            console.log("This request finished")
         }
     };
 

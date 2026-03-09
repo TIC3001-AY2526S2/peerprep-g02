@@ -10,8 +10,9 @@ import QuestionForm from "./popups/QuestionForm";
 function Hero({ ...heroArgs }) {
     const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword, setLoggedIn, showQuestionForm, setShowQuestionForm } = heroArgs;
     const [topicOptions, setTopicOptions] = useState([]);
-
-    const [selectedQuestion, setSelectedQuestion] = useState({})
+    const [questions, setQuestions] = useState([]);
+    const [selectedQuestion, setSelectedQuestion] = useState()
+    const [update, setUpdate] = useState(false);
     
     useEffect(() => {
         get_topics(setTopicOptions);
@@ -41,7 +42,10 @@ function Hero({ ...heroArgs }) {
         showQuestionForm: showQuestionForm,
         setShowQuestionForm: setShowQuestionForm,
         handleCancelQuestion: handleCancelQuestion,
-        setSelectedQuestion: setSelectedQuestion
+        setSelectedQuestion: setSelectedQuestion,
+        questions:questions,
+        setQuestions,setQuestions,
+        setUpdate:setUpdate
     }
 
 
@@ -53,7 +57,7 @@ function Hero({ ...heroArgs }) {
             {showQuestions && <Questions {...questionArgs} />}
             {!showAboutUs && !showHowToPlay && !showQuestions && <FindMatch topicOptions={topicOptions}/>}
             {(showLogin || showSignup || showForgotPassword) && <LoginSignup {...loginSignupArgs} />}
-            {showQuestionForm && <QuestionForm handleCancelQuestion={handleCancelQuestion} question={selectedQuestion} topics={topicOptions}/>}
+            {showQuestionForm && <QuestionForm handleCancelQuestion={handleCancelQuestion} question={selectedQuestion} topics={topicOptions} setQuestions={setQuestions} questions={questions} update={update}/>}
         </div>
     );
 }

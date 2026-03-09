@@ -3,8 +3,7 @@ import { getQuestions, deleteQuestion } from '../../api/QuestionApi';
 import { useEffect, useState } from 'react';
 
 function Questions({ ...questionArgs }) {
-    const { showQuestionForm, setShowQuestionForm, setSelectedQuestion } = questionArgs;
-    const [questions, setQuestions] = useState([]);
+    const { showQuestionForm, setShowQuestionForm, setSelectedQuestion, setQuestions, questions, setUpdate } = questionArgs;
 
     const get_questions = async () => {
         const availableQuestions = await getQuestions();
@@ -13,16 +12,19 @@ function Questions({ ...questionArgs }) {
 
     const handleShowQuestionForm = () => {
         setShowQuestionForm((prev) => !prev);
+        setUpdate(false);
         setSelectedQuestion({})
     }
 
     const handleDeleteQuestion = async (id) => {
-        console.log("Deleting question with ID:", id); // Add this line
+        // console.log("Deleting question with ID:", id); // Add this line
         if (window.confirm("Are you sure you want to delete this question?")) {
             try {
                 await deleteQuestion(id);
                 alert("Question deleted successfully!");
-                get_questions(); // Refresh the question list
+                setQuestions(prevQuestions =>
+                    prevQuestions.filter(q => q._id !== id)
+                );
             } catch (error) {
                 console.error("Error deleting question:", error);
                 alert("Failed to delete question. See console for details.");
@@ -69,8 +71,8 @@ function Questions({ ...questionArgs }) {
                                     {q.complexity}
                                 </span>
                             </td>
-                            <td><button onClick={()=>{setShowQuestionForm(true);setSelectedQuestion(q)}}>Edit</button></td>
-                            <td><button onClick={() => handleDeleteQuestion(q._id)}>Delete</button></td> {/* Added onClick */}
+                            <td><button onClick={() => { setShowQuestionForm(true); setSelectedQuestion(q); setUpdate(true) }}>Edit</button></td>
+                            <td><button onClick={() => handleDeleteQuestion(q._id)}>Delete</button></td>
                         </tr>
                     ))}
                 </tbody>
