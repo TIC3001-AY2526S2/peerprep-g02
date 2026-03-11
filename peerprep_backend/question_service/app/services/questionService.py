@@ -18,7 +18,7 @@ class QuestionService:
     def insert_question(self, question_data):
         topics = self.topicService.available_topics()
 
-        for cat in question_data["categories"]:
+        for cat in question_data["category"]:
             if cat not in topics:
                 return {"insert": False, "error": "Category not available"}
 
@@ -62,7 +62,7 @@ class QuestionService:
                                                 {"$set": {
                                                     "title": question_data.get("title"),
                                                     "description": question_data.get("description"),
-                                                    "category": question_data.get("categories"),
+                                                    "category": question_data.get("category"),
                                                     "complexity": question_data.get("complexity")
                                                 }})
 

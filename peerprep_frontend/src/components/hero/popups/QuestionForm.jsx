@@ -6,17 +6,17 @@ import './questionForm.css';
 function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, update }) {
     const [title, setTitle] = useState(question?.title || "");
     const [description, setDescription] = useState(question?.description || "");
-    const [categories, setCategories] = useState(question?.categories || []);
+    const [category, setcategory] = useState(question?.category || []);
     const [complexity, setComplexity] = useState(question?.complexity || "Easy");
 
     const handleTopicChange = (e) => {
         const value = e.target.value;
 
         if (e.target.checked) {
-            setCategories([...categories, value]);
+            setcategory([...category, value]);
         } else {
-            setCategories(
-                categories.filter((topic) => topic !== value)
+            setcategory(
+                category.filter((topic) => topic !== value)
             );
         }
     };
@@ -27,7 +27,7 @@ function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, up
         const questionData = {
             title: title,
             description: description,
-            categories: categories,
+            category: category,
             complexity: complexity
         };
 
@@ -75,7 +75,7 @@ function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, up
                                 <input
                                     type="checkbox"
                                     value={topic}
-                                    checked={categories?.includes(topic)}
+                                    checked={category?.includes(topic)}
                                     onChange={handleTopicChange}
                                 />
                                 <label>{topic}</label>

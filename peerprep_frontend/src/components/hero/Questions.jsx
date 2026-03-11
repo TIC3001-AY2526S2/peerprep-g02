@@ -65,7 +65,7 @@ function Questions({ ...questionArgs }) {
                             </td>
                             <td>{index + 1}</td>
                             <td className="question-name">{q.title}</td>
-                            <td>{q.categories.join(', ')}</td>
+                            <td>{q.category.join(', ')}</td>
                             <td>
                                 <span className={`difficulty ${(q.complexity).toLowerCase()}`}>
                                     {q.complexity}
