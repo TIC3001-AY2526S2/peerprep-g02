@@ -1,0 +1,182 @@
+/* Overall Container */
+.background-container {
+    display: flex;
+    flex-direction: column;
+    /* stack header and hero vertically */
+    background-color: #F5F5F5;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.login-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.button {
+    /* dimensions */
+    width: fit-content;
+    /* alignment */
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    /* colour */
+    background-color: #F5F5F5;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+    cursor: pointer;
+}
+
+.profile-image {
+    height: 40px;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+    cursor: pointer;
+}
+
+/* HERO SECTION */
+.hero-section-wrapper {
+    /* Takes remaining space below header */
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    /* align-items: flex-start; */
+    min-height: 0vh;
+    /* align-items: center; */
+    overflow-y: auto;
+}
+
+.findmatch-container {
+    width: 100%;
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 2rem;
+    flex:1;
+    height: 100%;
+
+}
+
+.findamatch-fontstyle {
+    font-weight: 700;
+    font-size: 32px;
+}
+
+.topic-difficulty-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.topic-difficulty-font {
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.topic-difficulty-box {
+    /* dimensions */
+    width: 25%;
+    height: 8rem;
+    /* alignment */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    /* colour */
+    background-color: #F5F5F5;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+}
+
+/* Dropdown */
+/* Wrap the dropdowns horizontally */
+.dropdowns-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    /* space between dropdowns and button */
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.dropdown-button {
+    width: 15rem;
+    background-color: #F5F5F5;
+    padding: 0.5rem 1rem;
+    border: 2px solid #1E1E1E;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: 'PitagonSansMono', monospace;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.dropdown-icon {
+    transition: transform 0.2s ease;
+}
+
+.dropdown-content {
+    display: none;
+    /* hidden by default */
+    position: absolute;
+    background-color: #F5F5F5;
+    width: 15rem;
+    z-index: 1;
+    flex-direction: column;
+}
+
+/* Dropdown item */
+.dropdown-item {
+    padding: 0.5rem;
+    cursor: pointer;
+    text-align: left;
+}
+
+.dropdown-item:hover {
+    background-color: coral;
+}
+
+/* Show menu on hover */
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+.lets-go-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.letsgo-button {
+    /* dimensions */
+    width: fit-content;
+    /* alignment */
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    /* colour */
+    background-color: #F5F5F5;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+    /* text */
+    font-weight: 700;
+    font-size: 32px;
+    cursor: pointer;
+}

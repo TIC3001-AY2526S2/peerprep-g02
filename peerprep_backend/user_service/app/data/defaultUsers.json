@@ -1,0 +1,9 @@
+[
+    {
+        "user_id": "c6445e3b-53a2-4986-b152-dec6cd166215",
+        "email_hash": "ef2b71fc6aa4eb79dcfd7e0d8b2cf3b0e2e3abd2f7ce4ae3e2da1d562ab55266",
+        "password_hash": "$2b$12$LQO.DVUlliOfM8wV8eWFJu1UdDDlebzlx1R2PCvpK1hBeoEIPwaMK",
+        "username": "User123",
+        "role": "user"
+    }
+]

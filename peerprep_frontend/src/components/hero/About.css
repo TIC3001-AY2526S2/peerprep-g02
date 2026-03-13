@@ -1,0 +1,14 @@
+.title-text {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.about-container {
+    /* dimensions */
+    flex: 1;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    padding: 6rem;
+    gap: 2rem;
+}
