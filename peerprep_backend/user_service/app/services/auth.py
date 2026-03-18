@@ -32,8 +32,12 @@ def validate_email(email: str) -> bool:
 def validate_password(password: str) -> bool:
     return re.match(PASSWORD_REGEX, password) is not None
 
-def create_token(user_id: str) -> str:
-    payload = {"sub": user_id, "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)}   # fixed datetime.utcnow() deprecation
+def create_token(user_id: str, role: str = "user") -> str:
+    payload = {
+        "sub": user_id,
+        "role": role,
+        "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
+    }
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 def decode_token(token: str) -> str | None:

@@ -27,3 +27,7 @@ class UserService:
 
     def update_username(self, user_id, username):
         self.collection.update_one({"user_id": user_id}, {"$set": {"username": username}})
+
+    def get_user_role(self, user_id: str) -> str:
+        user = self.collection.find_one({"user_id": user_id})
+        return user.get("role", "user") if user else "user"

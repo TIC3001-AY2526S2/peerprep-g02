@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, Response, Request, status
 from ..services.questionService import QuestionService
 from ..services.topicService import TopicService
 from ..models.question import Question
@@ -75,7 +75,10 @@ def updateQuestion(questionID: str, questionData: Question, res: Response):
 
 
 @QuestionRouter.delete("/deleteQuestion/{questionID}")
-def deleteQuestion(questionID: str, res: Response): # now str
+def deleteQuestion(questionID: str, res: Response, request: Request):
+    role = request.headers.get("X-User-Role")
+    username = request.headers.get("X-Username")
+    print(f"Delete requested by {username} with role {role}")
     try:
         deleteQuestion = questionService.delete_question(questionID)
 
