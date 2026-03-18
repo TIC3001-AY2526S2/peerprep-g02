@@ -6,5 +6,5 @@ class Question(BaseModel):
 
     title: str
     description: str
-    category: List[str]
+    categories: List[str]
     complexity: Literal["Easy", "Medium", "Hard"]

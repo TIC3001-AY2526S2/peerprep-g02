@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 import { createQuestion, updateQuestion } from '../../../api/QuestionApi';
-import { useUser } from '../../../context/UserContext';
 import './questionForm.css';
 
 function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, update }) {
     const [title, setTitle] = useState(question?.title || "");
     const [description, setDescription] = useState(question?.description || "");
-    const [category, setcategory] = useState(question?.category || []);
+    const [categories, setCategories] = useState(question?.categories || []);
     const [complexity, setComplexity] = useState(question?.complexity || "Easy");
 
     const handleTopicChange = (e) => {
         const value = e.target.value;
 
         if (e.target.checked) {
-            setcategory([...category, value]);
+            setCategories([...categories, value]);
         } else {
-            setcategory(
-                category.filter((topic) => topic !== value)
+            setCategories(
+                categories.filter((topic) => topic !== value)
             );
         }
     };
@@ -27,7 +26,7 @@ function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, up
         const questionData = {
             title: title,
             description: description,
-            category: category,
+            categories: categories,
             complexity: complexity
         };
 
@@ -75,7 +74,7 @@ function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, up
                                 <input
                                     type="checkbox"
                                     value={topic}
-                                    checked={category?.includes(topic)}
+                                    checked={categories?.includes(topic)}
                                     onChange={handleTopicChange}
                                 />
                                 <label>{topic}</label>

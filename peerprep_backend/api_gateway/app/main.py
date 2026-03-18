@@ -4,12 +4,12 @@ import httpx
 
 app = FastAPI()
 
-USER_SERVICE = "http://localhost:5001"
-QUESTION_SERVICE = "http://localhost:5002"
+USER_SERVICE = "http://user-service:8000"
+QUESTION_SERVICE = "http://question-service:8000"
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

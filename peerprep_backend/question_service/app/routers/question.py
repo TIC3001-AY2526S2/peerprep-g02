@@ -16,16 +16,17 @@ def insertQuestion(questionData: Question, res: Response):
         questionData = questionData.model_dump()  # convert back to dict
 
         addQuestion = questionService.insert_question(questionData)
-        if addQuestion.get("insert"):
+        if addQuestion.get("insert") == True:
             res.status_code = status.HTTP_201_CREATED
             return {"message": "Question added", "question": addQuestion.get("question")}
-        return {"message": addQuestion.get("error")}
+        res.status_code = status.HTTP_400_BAD_REQUEST
+        return {"message": addQuestion.get("message")}
     except ValidationError:
         res.status_code = status.HTTP_400_BAD_REQUEST
         return {"message": "Missing or invalid fields"}
-    except Exception:
+    except Exception as e:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return {"message": "Server error"}
+        return {"message": str(e)}
 
 @QuestionRouter.get("/fetchQuestions")
 def fetchAllQuestions(res: Response):
@@ -33,7 +34,6 @@ def fetchAllQuestions(res: Response):
         fetchAllQuestions = questionService.fetch_all_questions()
         if fetchAllQuestions.get("fetched"):
             res.status_code = status.HTTP_200_OK
-            print(fetchAllQuestions)
             return {"message": "Questions fetched", "questions": fetchAllQuestions.get("questions")}
     except Exception:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR

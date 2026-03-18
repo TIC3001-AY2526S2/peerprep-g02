@@ -54,8 +54,8 @@ function Questions({ ...questionArgs }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {questions.map((q, index) => (
-                        <tr key={q._id}>
+                    {questions?.map((q, index) => (
+                        <tr key={q?._id}>
                             <td className="status-cell">
                                 {q.attempted ? (
                                     <span className="tick">✓</span>
@@ -64,11 +64,11 @@ function Questions({ ...questionArgs }) {
                                 )}
                             </td>
                             <td>{index + 1}</td>
-                            <td className="question-name">{q.title}</td>
-                            <td>{q.category.join(', ')}</td>
+                            <td className="question-name">{q?.title}</td>
+                            <td>{q?.categories.join(', ')}</td>
                             <td>
-                                <span className={`difficulty ${(q.complexity).toLowerCase()}`}>
-                                    {q.complexity}
+                                <span className={`difficulty ${(q?.complexity).toLowerCase()}`}>
+                                    {q?.complexity}
                                 </span>
                             </td>
                             <td><button onClick={() => { setShowQuestionForm(true); setSelectedQuestion(q); setUpdate(true) }}>Edit</button></td>

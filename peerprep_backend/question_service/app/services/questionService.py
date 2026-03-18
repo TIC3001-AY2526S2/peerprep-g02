@@ -7,6 +7,7 @@ sys.path.append(app_path)
 from ..services.topicService import TopicService
 from ..database.db import QuestionServiceDatabase
 from bson import ObjectId
+from pymongo.errors import DuplicateKeyError
 
 class QuestionService:
     def __init__(self):
@@ -18,16 +19,18 @@ class QuestionService:
     def insert_question(self, question_data):
         topics = self.topicService.available_topics()
 
-        for cat in question_data["category"]:
+        for cat in question_data["categories"]:
             if cat not in topics:
-                return {"insert": False, "error": "Category not available"}
+                return {"insert": False, "message": "Category not available"}
 
         try:
             self.collection.insert_one(question_data)  # add into db.py
             question_data["_id"] = str(question_data["_id"])
             return {"insert": True, "question": question_data}
+        except DuplicateKeyError as e:
+            return {"insert": False, "message": "Question already exist."}
         except Exception as e:
-            return {"insert": False, "error": str(e)}
+            return {"insert": False, "message": str(e)}
 
     def fetch_all_questions(self):
         try:
@@ -36,12 +39,12 @@ class QuestionService:
                 data["_id"] = str(data["_id"])
             return {"fetched": True, "questions": fetched_data}
         except Exception as e:
-            return {"fetched": False, "error": str(e)}
+            return {"fetched": False, "message": str(e)}
 
     def fetch_question(self, questionID):
         try:
             if questionID is None:
-                return {"fetched": False, "error": "Missing question ID"}
+                return {"fetched": False, "message": "Missing question ID"}
 
             fetched_data = self.collection.find_one({"_id": ObjectId(questionID)})
 
@@ -49,7 +52,7 @@ class QuestionService:
             return {"fetched": True, "question": fetched_data}
         except Exception as e:
             print(str(e))
-            return {"fetched": False, "error": str(e)}
+            return {"fetched": False, "message": str(e)}
 
     def update_question(self, question_data):
         try:
