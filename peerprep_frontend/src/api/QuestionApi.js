@@ -7,7 +7,7 @@ export const getTopics = async () => {
         const response = await axios.get(`${QUESTION_GATEWAY}/topics`);
         const topics = response.data.topics;
         return topics;
-    }catch(error){
+    } catch (error) {
         console.log(error);
         return [];
     }
@@ -18,15 +18,21 @@ export const getQuestions = async () => {
         const response = await axios.get(`${QUESTION_GATEWAY}/fetchQuestions`);
         const questions = response.data.questions;
         return questions;
-    }catch(error){
+    } catch (error) {
         console.log(error);
         return [];
     }
 }
 
 export const createQuestion = async (questionData) => {
+    const token = sessionStorage.getItem("token");
     try {
-        const response = await axios.post(`${QUESTION_GATEWAY}/newQuestion`, questionData); // Adjusted route
+        const response = await axios.post(`${QUESTION_GATEWAY}/newQuestion`, questionData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }); // Adjusted route
         return response.data;
     } catch (error) {
         console.error("Error creating question:", error);
@@ -35,12 +41,15 @@ export const createQuestion = async (questionData) => {
 };
 
 export const updateQuestion = async (id, questionData) => {
+    const token = sessionStorage.getItem("token");
     try {
-        const response = await axios.put(`${QUESTION_GATEWAY}/updateQuestion/${id}`, questionData, {
-        headers: {
-           'Content-Type': 'application/json'
-        }
-        });
+        const response = await axios.put(`${QUESTION_GATEWAY}/updateQuestion/${id}`, questionData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
         return response.data;
     } catch (error) {
         console.error("Error updating question:", error);
@@ -49,8 +58,15 @@ export const updateQuestion = async (id, questionData) => {
 };
 
 export const deleteQuestion = async (id) => {
+    const token = sessionStorage.getItem("token");
     try {
-        const response = await axios.delete(`${QUESTION_GATEWAY}/deleteQuestion/${id}`);
+        const response = await axios.delete(`${QUESTION_GATEWAY}/deleteQuestion/${id}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
         return response.data;
     } catch (error) {
         console.error("Error deleting question:", error);

@@ -10,5 +10,6 @@
     text-align: center;
     flex-direction: column;
     padding: 6rem;
+    padding-top:2rem;
     gap: 2rem;
 }

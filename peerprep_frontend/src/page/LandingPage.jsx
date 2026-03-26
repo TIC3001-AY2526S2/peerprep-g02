@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './LandingPage.css';
 import Header from '../components/header/Header'
 import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
+import {useUser} from "../context/UserContext"
 
 function LandingPage() {
     const[isLoggedIn, setLoggedIn] = useState(false);
@@ -13,8 +14,18 @@ function LandingPage() {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
-    
+    const user = JSON.parse(sessionStorage.getItem("user"));
 
+    const {login, logout, isTokenExpired} = useUser();
+
+    useEffect(()=>{
+        const token = sessionStorage.getItem("token");
+        if (token && !isTokenExpired(token) && user){
+            login(user, token);
+        }else{
+            logout();
+        }
+    },[]);
     const headerArgs = {
         isLoggedIn: isLoggedIn,
         setShowAboutUs: setShowAboutUs,

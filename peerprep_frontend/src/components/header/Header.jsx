@@ -17,9 +17,18 @@ function Header({...headerArgs}) {
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup
     }
+
+    const reset = () =>{
+        setShowAboutUs(false);
+        setShowHowToPlay(false);
+        setShowLogin(false);
+        setShowQuestions(false);
+        setShowSignup(false);
+    }
+
     return (
         <div className='header-container'>
-            <div className='logo'>PeerPrep</div>
+            <div className='logo' onClick={reset}>PeerPrep</div>
             <MenuTab {...menuTabArgs} />
             <LoginSignupOptions {...loginSignupArgs} />
         </div>

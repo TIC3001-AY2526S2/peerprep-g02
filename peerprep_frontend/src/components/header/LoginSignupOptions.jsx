@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from '../../assets/images/logo.jpg';
 import { useUser } from "../../context/UserContext";
 
@@ -23,7 +23,7 @@ function LoginSignupOptions({ isLoggedIn, setShowLogin, setShowSignup }) {
             </>}
             {user && <>
                 <div className='button' onClick={logout}>Log out</div>
-                <p>{user}</p>
+                <p>{user.username}</p>
                 <img src={logo} alt="Logo" className="profile-image" />
             </>
             }

@@ -9,7 +9,7 @@ app = FastAPI()
 USER_SERVICE = "http://user-service:8000"
 QUESTION_SERVICE = "http://question-service:8000"
 
-SECRET_KEY = "secret"
+SECRET_KEY = "CHANGE_ME_TO_ENV_VAR"
 ALGORITHM = "HS256"
 
 app.add_middleware(
@@ -26,6 +26,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        print("Decoded token payload:", payload)
         return payload
     except JWTError:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
@@ -52,10 +53,9 @@ async def forward_request(request: Request, target_url: str, extra_headers: dict
     )
 
 @app.api_route("/questions/{path:path}", methods=["GET"])
-async def question_read_proxy(path: str, request: Request, user: dict = Depends(verify_token)):
-    extra_headers = {"X-User-Role": user.get("role"), "X-Username": user.get("sub")}
+async def question_read_proxy(path: str, request: Request):
     target_url = f"{QUESTION_SERVICE}/{path}"
-    return await forward_request(request, target_url, extra_headers)
+    return await forward_request(request, target_url)
 
 @app.api_route("/questions/{path:path}", methods=["POST", "PUT", "DELETE"])
 async def question_write_proxy(path: str, request: Request, user: dict = Depends(admin_required)):

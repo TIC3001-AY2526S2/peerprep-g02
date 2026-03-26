@@ -1,9 +1,11 @@
 import './Questions.css';
 import { getQuestions, deleteQuestion } from '../../api/QuestionApi';
 import { useEffect, useState } from 'react';
+import { useUser } from '../../context/UserContext';
 
 function Questions({ ...questionArgs }) {
     const { showQuestionForm, setShowQuestionForm, setSelectedQuestion, setQuestions, questions, setUpdate } = questionArgs;
+    const { user } = useUser();
 
     const get_questions = async () => {
         const availableQuestions = await getQuestions();
@@ -34,35 +36,42 @@ function Questions({ ...questionArgs }) {
 
     useEffect(() => {
         get_questions();
+        console.log(user);
     }, []);
 
     return (
         <div className='question-container'>
-            <div className='button-group'>
+            {user?.role == "admin"?
+            <div className='question-button-group'>
+                
                 <div className='button' onClick={handleShowQuestionForm}>Add Question</div>
-            </div>
+            </div>:<></>}
             <table className="question-table">
                 <thead>
                     <tr>
-                        <th>Status</th>
+                        {user?.role == "user"?
+                            <th>Status</th> : <></>}
                         <th>#</th>
                         <th>Question</th>
                         <th>Topic</th>
                         <th>Difficulty</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        {user?.role == "admin"?
+                            <>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </> : <></>}
                     </tr>
                 </thead>
                 <tbody>
                     {questions?.map((q, index) => (
                         <tr key={q?._id}>
-                            <td className="status-cell">
+                            {user?.role == "user"? (<td className="status-cell">
                                 {q.attempted ? (
                                     <span className="tick">✓</span>
                                 ) : (
                                     <span className="no-tick">—</span>
                                 )}
-                            </td>
+                            </td>) : <></>}
                             <td>{index + 1}</td>
                             <td className="question-name">{q?.title}</td>
                             <td>{q?.categories.join(', ')}</td>
@@ -71,8 +80,9 @@ function Questions({ ...questionArgs }) {
                                     {q?.complexity}
                                 </span>
                             </td>
-                            <td><button onClick={() => { setShowQuestionForm(true); setSelectedQuestion(q); setUpdate(true) }}>Edit</button></td>
-                            <td><button onClick={() => handleDeleteQuestion(q._id)}>Delete</button></td>
+                            {user?.role == "admin"?
+                                <><td><div className='button' onClick={() => { setShowQuestionForm(true); setSelectedQuestion(q); setUpdate(true) }}>Edit</div></td>
+                                    <td><div className='button' onClick={() => handleDeleteQuestion(q._id)}>Delete</div></td></> : <></>}
                         </tr>
                     ))}
                 </tbody>

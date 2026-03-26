@@ -10,9 +10,9 @@ function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLogge
     const login_user = async (e) => {
         e.preventDefault();
         const user = await loginUser(email, password);
-        if (user.username){
+        if (user){
             setLoggedIn(true);
-            login(user.username, user.token);
+            login(user.user, user.token);
             setShowLogin(false);
         }
     }
@@ -28,7 +28,7 @@ function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLogge
             <p>Enter your email and password to log in</p>
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <p onClick={handleForgotPassword}><u>Forgot your password?</u></p>
+            <a href="#" onClick={handleForgotPassword}>Forgot your password?</a>
             <button type="submit">Log in to my PeerPrep Account!</button>
             <button type="button" onClick={handleCancel}>Cancel</button>
         </form>

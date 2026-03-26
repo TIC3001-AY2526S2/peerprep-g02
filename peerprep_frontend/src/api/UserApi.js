@@ -2,12 +2,12 @@ import axios from "axios";
 
 const USER_GATEWAY = "http://localhost:5000/users";
 
-export const loginUser = async (email, password, setLoggedIn) => {
+export const loginUser = async (email, password) => {
     const data = { email, password };
 
     try {
         const response = await axios.post(`${USER_GATEWAY}/login`, data);
-        const user = {"token": response.data.token, "username": response.data.username};
+        const user = {"token": response.data.token, "user": response.data.user};
         return user;
 
     } catch (error) {
@@ -22,7 +22,6 @@ export const loginUser = async (email, password, setLoggedIn) => {
         } else {
             alert("Server not reachable.");
         }
-        setLoggedIn(false);
         return false;
     }
 };
