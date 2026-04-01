@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const USER_GATEWAY = "http://localhost:5000/users";
+const USER_GATEWAY = "http://localhost:8000/users";
 
 export const loginUser = async (email, password) => {
     const data = { email, password };

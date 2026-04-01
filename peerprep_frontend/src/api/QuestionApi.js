@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const QUESTION_GATEWAY = "http://localhost:5000/questions"
+const QUESTION_GATEWAY = "http://localhost:8000/questions"
 
 export const getTopics = async () => {
     try {

@@ -1,13 +1,16 @@
-from fastapi import FastAPI, Request, Response, Depends, HTTPException
+from fastapi import FastAPI, Request, Response, Depends, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 import httpx
+import websockets
+import asyncio
 
 app = FastAPI()
 
 USER_SERVICE = "http://user-service:8000"
 QUESTION_SERVICE = "http://question-service:8000"
+QUEUEING_SERVICE = "ws://queueing-service:8000"
 
 SECRET_KEY = "CHANGE_ME_TO_ENV_VAR"
 ALGORITHM = "HS256"
@@ -68,3 +71,41 @@ async def question_write_proxy(path: str, request: Request, user: dict = Depends
 async def user_proxy(path: str, request: Request):
     target_url = f"{USER_SERVICE}/{path}"
     return await forward_request(request, target_url)
+
+@app.websocket("/matching/")
+async def websocket_proxy(websocket: WebSocket):
+    await websocket.accept()
+
+    token = websocket.query_params.get("token")
+    if not token:
+        await websocket.close(code=4001)
+        return
+
+    try:
+        async with websockets.connect(
+            f"{QUEUEING_SERVICE}/ws/matching/?token={token}"
+        ) as matching_ws:
+
+            async def client_to_service():
+                try:
+                    while True:
+                        data = await websocket.receive_text()
+                        await matching_ws.send(data)
+                except WebSocketDisconnect:
+                    await matching_ws.close()
+                except Exception:
+                    await matching_ws.close()
+
+            async def service_to_client():
+                try:
+                    while True:
+                        data = await matching_ws.recv()
+                        await websocket.send_text(data)
+                except Exception:
+                    await websocket.close()
+
+            await asyncio.gather(client_to_service(), service_to_client())
+
+    except Exception as e:
+        print("WebSocket connection failed:", e)
+        await websocket.close()

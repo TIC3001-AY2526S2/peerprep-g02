@@ -12,14 +12,14 @@ services:
       - user-service
       - question-service
     ports:
-      - "5000:8000"
+      - "8000:8000"
   user-service:
     build: ./peerprep_backend/user_service
     container_name: user-service
     environment:
       - MONGO_URI=mongodb://mongo:27017
     ports:
-      - "5001:8000"
+      - "8001:8000"
 
   question-service:
     build: ./peerprep_backend/question_service
@@ -27,4 +27,38 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017
     ports:
-      - "5002:8000"
+      - "8002:8000"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"      # AMQP
+      - "15672:15672"    # Web UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  matching-service:
+    build:
+      context: ./peerprep_backend/matching_service
+    container_name: matching-service
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8003:8000"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+
+  queueing-service:
+    build:
+      context: ./peerprep_backend/queueing_service
+    container_name: queueing-service
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8004:8000"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
