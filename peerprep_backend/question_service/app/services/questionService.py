@@ -92,3 +92,29 @@ class QuestionService:
             raise Exception
         except Exception as e:
             return {"deleted": False, "error": str(e)}
+        
+    def get_random_question(self, topic: str, complexity: str):
+        try:
+            if not topic or not complexity:
+                return {"fetched": False, "message": "Missing topics or complexity"}
+
+            pipeline = [
+                {"$match": {
+                    "categories": {"$in": [topic]},
+                    "complexity": complexity
+                }},
+                {"$sample": {"size": 1}}  # pick one random document
+            ]
+
+            result = list(self.collection.aggregate(pipeline))
+            print(result)
+
+            if not result:
+                return {"fetched": False, "message": "No question found matching criteria"}
+
+            question = result[0]
+            question["_id"] = str(question["_id"])
+            return {"fetched": True, "question": question}
+
+        except Exception as e:
+            return {"fetched": False, "message": str(e)}

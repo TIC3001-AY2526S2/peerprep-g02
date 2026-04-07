@@ -2,7 +2,7 @@ from pydantic import BaseModel, ConfigDict
 from typing import List, Literal
 
 class Question(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
 
     title: str
     description: str
