@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import DropdownContainer from "./DropdownContainer";
 
-function FindMatch({topicOptions}) {
+function FindMatch({ topicOptions, setShowMatching, isLoggedIn }) {
     //dropdown stuff
     const [selectedDifficulty, setSelectedDifficulty] = useState();
     const [selectedTopic, setSelectedTopic] = useState();
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
-    
-    
+
+
 
     const start = (e) => {
         e.preventDefault();
-        console.log("start")
+        if (isLoggedIn) {
+            setShowMatching(true);
+            console.log("start")
+        }
     }
 
     return (

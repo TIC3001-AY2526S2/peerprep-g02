@@ -8,7 +8,7 @@ import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "./popups/QuestionForm";
 
 function Hero({ ...heroArgs }) {
-    const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword, setLoggedIn, showQuestionForm, setShowQuestionForm } = heroArgs;
+    const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword, setLoggedIn, showQuestionForm, setShowQuestionForm, setShowMatching, isLoggedIn } = heroArgs;
     const [topicOptions, setTopicOptions] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [selectedQuestion, setSelectedQuestion] = useState()
@@ -55,7 +55,7 @@ function Hero({ ...heroArgs }) {
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {!showAboutUs && !showHowToPlay && !showQuestions && <FindMatch topicOptions={topicOptions}/>}
+            {!showAboutUs && !showHowToPlay && !showQuestions && <FindMatch topicOptions={topicOptions} setShowMatching={setShowMatching} isLoggedIn={isLoggedIn}/>}
             {(showLogin || showSignup || showForgotPassword) && <LoginSignup {...loginSignupArgs} />}
             {showQuestionForm && <QuestionForm handleCancelQuestion={handleCancelQuestion} question={selectedQuestion} topics={topicOptions} setQuestions={setQuestions} questions={questions} update={update}/>}
         </div>

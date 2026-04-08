@@ -3,7 +3,7 @@ import logo from '../../assets/images/logo.jpg';
 import { useUser } from "../../context/UserContext";
 
 
-function LoginSignupOptions({ isLoggedIn, setShowLogin, setShowSignup }) {
+function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn }) {
     const { user, logout } = useUser()
     const handleShowLogin = () => {
         setShowLogin((prev) => !prev);
@@ -22,7 +22,7 @@ function LoginSignupOptions({ isLoggedIn, setShowLogin, setShowSignup }) {
                 <div className='button' onClick={handleShowSignup}>Sign Up</div>
             </>}
             {user && <>
-                <div className='button' onClick={logout}>Log out</div>
+                <div className='button' onClick={()=>{setLoggedIn(false);logout();}}>Log out</div>
                 <p>{user.username}</p>
                 <img src={logo} alt="Logo" className="profile-image" />
             </>

@@ -4,7 +4,7 @@ import './header.css';
 
 
 function Header({...headerArgs}) {
-    const { isLoggedIn, setShowAboutUs, setShowHowToPlay, setShowQuestions, setShowLogin, setShowSignup } = headerArgs;
+    const { isLoggedIn, setShowAboutUs, setShowHowToPlay, setShowQuestions, setShowLogin, setShowSignup, setLoggedIn } = headerArgs;
 
     const menuTabArgs = {
         setShowAboutUs: setShowAboutUs,
@@ -15,7 +15,8 @@ function Header({...headerArgs}) {
     const loginSignupArgs = {
         isLoggedIn: isLoggedIn,
         setShowLogin: setShowLogin,
-        setShowSignup: setShowSignup
+        setShowSignup: setShowSignup,
+        setLoggedIn:setLoggedIn
     }
 
     const reset = () =>{

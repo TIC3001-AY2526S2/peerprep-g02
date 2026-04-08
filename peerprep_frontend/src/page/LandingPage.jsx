@@ -16,7 +16,7 @@ function LandingPage() {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const [showMatching, setShowMatching] = useState(true)
+    const [showMatching, setShowMatching] = useState(false)
     const { login, logout, isTokenExpired } = useUser();
 
     useEffect(() => {
@@ -29,6 +29,7 @@ function LandingPage() {
     }, []);
     const headerArgs = {
         isLoggedIn: isLoggedIn,
+        setLoggedIn:setLoggedIn,
         setShowAboutUs: setShowAboutUs,
         setShowHowToPlay: setShowHowToPlay,
         setShowQuestions: setShowQuestions,
@@ -49,24 +50,25 @@ function LandingPage() {
         setShowSignup: setShowSignup,
         setShowForgotPassword: setShowForgotPassword,
         setLoggedIn: setLoggedIn,
-        setShowQuestionForm: setShowQuestionForm
+        setShowQuestionForm: setShowQuestionForm,
+        setShowMatching: setShowMatching,
+        isLoggedIn:isLoggedIn
     }
 
     return (
         <>
             <div className='background-container'>
                 <Header {...headerArgs} />
+                <Hero {...heroArgs} />
 
-                {!showMatching &&
+                {/* {!showMatching &&
                     <>
-
-                        <Hero {...heroArgs} />
                     </>
-                }
+                } */}
                 {
-                    showMatching &&
+                    isLoggedIn && showMatching &&
 
-                    <MatchingService></MatchingService>
+                    <MatchingService setShowMatching={setShowMatching}/>
                 }
                 <Footer />
             </div>

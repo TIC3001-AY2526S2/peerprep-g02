@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import logo from '../../../assets/images/logo.jpg';
 import './matchingService.css';
 
-function MatchingService() {
+function MatchingService({setShowMatching}) {
+
+    const findMatch = (e) =>{
+        setShowMatching(false);
+    }
 
     return (
         <div className='page-container'>
@@ -19,7 +23,7 @@ function MatchingService() {
                     <img src={logo} alt="Logo" className="matching-profile-image" />
                 </div>
                 <div className="lets-go-wrapper">
-                    <div className='letsgo-button'>Cancel</div>
+                    <div className='letsgo-button' onClick={(e)=>findMatch(e)}>Cancel</div>
                 </div>
             </div>
         </div>
