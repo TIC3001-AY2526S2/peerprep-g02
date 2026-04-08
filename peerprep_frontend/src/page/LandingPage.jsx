@@ -3,11 +3,12 @@ import './LandingPage.css';
 import Header from '../components/header/Header'
 import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
-import {useUser} from "../context/UserContext"
+import MatchingService from "../components/hero/popups/MatchingService";
+import { useUser } from "../context/UserContext"
 
 function LandingPage() {
-    const[isLoggedIn, setLoggedIn] = useState(false);
-    const[showAboutUs, setShowAboutUs] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [showAboutUs, setShowAboutUs] = useState(false);
     const [showHowToPlay, setShowHowToPlay] = useState(false);
     const [showQuestions, setShowQuestions] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
@@ -15,17 +16,17 @@ function LandingPage() {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user"));
+    const [showMatching, setShowMatching] = useState(true)
+    const { login, logout, isTokenExpired } = useUser();
 
-    const {login, logout, isTokenExpired} = useUser();
-
-    useEffect(()=>{
+    useEffect(() => {
         const token = sessionStorage.getItem("token");
-        if (token && !isTokenExpired(token) && user){
+        if (token && !isTokenExpired(token) && user) {
             login(user, token);
-        }else{
+        } else {
             logout();
         }
-    },[]);
+    }, []);
     const headerArgs = {
         isLoggedIn: isLoggedIn,
         setShowAboutUs: setShowAboutUs,
@@ -47,21 +48,29 @@ function LandingPage() {
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         setShowForgotPassword: setShowForgotPassword,
-        setLoggedIn:setLoggedIn,
+        setLoggedIn: setLoggedIn,
         setShowQuestionForm: setShowQuestionForm
     }
 
     return (
         <>
-        <div className='background-container'>
-            
-            <Header {...headerArgs}/>
+            <div className='background-container'>
+                <Header {...headerArgs} />
 
-            <Hero {...heroArgs}/>
+                {!showMatching &&
+                    <>
 
-            <Footer />
-        </div>
-</>
+                        <Hero {...heroArgs} />
+                    </>
+                }
+                {
+                    showMatching &&
+
+                    <MatchingService></MatchingService>
+                }
+                <Footer />
+            </div>
+        </>
     );
 }
 

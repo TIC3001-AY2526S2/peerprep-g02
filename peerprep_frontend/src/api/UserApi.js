@@ -7,7 +7,7 @@ export const loginUser = async (email, password) => {
 
     try {
         const response = await axios.post(`${USER_GATEWAY}/login`, data);
-        const user = {"token": response.data.token, "user": response.data.user};
+        const user = { "token": response.data.token, "user": response.data.user };
         return user;
 
     } catch (error) {
@@ -27,10 +27,11 @@ export const loginUser = async (email, password) => {
 };
 
 export const signup = async (email, password, username) => {
-    const data = { 
+    const data = {
         "email": email,
         "password": password,
-        "username": username };
+        "username": username
+    };
 
     try {
         await axios.post(`${USER_GATEWAY}/register`, data);

@@ -15,10 +15,10 @@ function LoginSignup({ ...loginSignupArgs }) {
     return (
         <div className='login-signup-container'>
             {showSignup && (
-                <SignupForm handleCancel={handleCancel} setShowLogin={setShowLogin}/>
+                <SignupForm handleCancel={handleCancel} setShowLogin={setShowLogin} />
             )}
             {showLogin && (
-                <LoginForm handleCancel={handleCancel} setShowForgotPassword={setShowForgotPassword} setShowLogin={setShowLogin} setLoggedIn={setLoggedIn}/>
+                <LoginForm handleCancel={handleCancel} setShowForgotPassword={setShowForgotPassword} setShowLogin={setShowLogin} setLoggedIn={setLoggedIn} />
             )}
             {showForgotPassword && (
                 <ForgotPassword handleCancel={handleCancel} />
@@ -26,5 +26,4 @@ function LoginSignup({ ...loginSignupArgs }) {
         </div>
     )
 }
-
 export default LoginSignup;
