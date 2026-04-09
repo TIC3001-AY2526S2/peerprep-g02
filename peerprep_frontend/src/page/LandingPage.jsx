@@ -3,7 +3,6 @@ import './LandingPage.css';
 import Header from '../components/header/Header'
 import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
-import MatchingService from "../components/hero/popups/MatchingService";
 import { useUser } from "../context/UserContext"
 
 function LandingPage() {
@@ -15,8 +14,9 @@ function LandingPage() {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
+    const [showMatching, setShowMatching] = useState(false); //toggle matching service
+    const [showCollaboration, setShowCollaboration] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user"));
-    const [showMatching, setShowMatching] = useState(true)
     const { login, logout, isTokenExpired } = useUser();
 
     useEffect(() => {
@@ -45,29 +45,24 @@ function LandingPage() {
         showSignup: showSignup,
         showForgotPassword: showForgotPassword,
         showQuestionForm: showQuestionForm,
+        showMatching: showMatching,
+        showCollaboration: showCollaboration,
+        setShowMatching: setShowMatching,
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         setShowForgotPassword: setShowForgotPassword,
         setLoggedIn: setLoggedIn,
-        setShowQuestionForm: setShowQuestionForm
+        setShowQuestionForm: setShowQuestionForm,
+        setShowCollaboration: setShowCollaboration,
     }
 
     return (
         <>
             <div className='background-container'>
-                <Header {...headerArgs} />
-
-                {!showMatching &&
-                    <>
-
-                        <Hero {...heroArgs} />
-                    </>
-                }
-                {
-                    showMatching &&
-
-                    <MatchingService></MatchingService>
-                }
+                <Header isDisabled={showMatching || showCollaboration} {...headerArgs} />
+                <>
+                    <Hero {...heroArgs} />
+                </>
                 <Footer />
             </div>
         </>

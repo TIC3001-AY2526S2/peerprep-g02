@@ -1,0 +1,62 @@
+.collaboration-main-container {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.collab-containers {
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    padding: 1rem;
+}
+
+.collab-containers.question {
+    background-color: aquamarine;
+    width: 25%;
+}
+
+.collab-containers.code {
+    background-color: chocolate;
+    width: 50%;
+}
+
+.collab-containers.chat {
+    background-color: brown;
+    width: 25%;
+}
+
+
+.collabBox {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: left;
+    padding: 1rem;
+    background-color: #F5F5F5;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+    overflow: auto;
+}
+
+.collabBox.question {
+    height: 70%;
+    width: 100%;
+}
+
+.collabBox.code {}
+
+.collabBox.chat {}
+
+.collabBox.terminal {
+    height: 20vh;
+    width: 20%;
+}
+
+.collab-header-font {
+    font-weight: 700;
+    font-size: 25px;
+}
