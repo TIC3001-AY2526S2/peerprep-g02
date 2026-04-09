@@ -11,8 +11,8 @@ Launch Notes:
 
 1. Download MongoDB from https://www.mongodb.com/try/download/community ; how this is achieved is up to the user.
 2. Start the MongoDB server either by running 'mongod.exe' or otherwise
-3. Open a terminal window tab for back-end services ; navigate to 'peerprep_backend' directory / 'cd peerprep_backend' from project root
 4. Run 'python -m venv env' to create virtual environment
+3. Open a terminal window tab for back-end services ; navigate to 'peerprep_backend' directory / 'cd peerprep_backend' from project root
 5. Run '.\env\Scripts\Activate' to activate virtual environment
 6. Run 'pip install -r requirements.txt' to install required packages and dependencies
 7. Run 'python launch.py' to launch backend server

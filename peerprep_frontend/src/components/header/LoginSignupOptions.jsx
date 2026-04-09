@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import logo from '../../assets/images/logo.jpg';
 import { useUser } from "../../context/UserContext";
 

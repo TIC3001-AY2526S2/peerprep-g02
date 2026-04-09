@@ -1,10 +1,10 @@
 import './Questions.css';
 import { getQuestions, deleteQuestion } from '../../api/QuestionApi';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useUser } from '../../context/UserContext';
 
 function Questions({ ...questionArgs }) {
-    const { showQuestionForm, setShowQuestionForm, setSelectedQuestion, setQuestions, questions, setUpdate } = questionArgs;
+    const { setShowQuestionForm, setSelectedQuestion, setQuestions, questions, setUpdate } = questionArgs;
     const { user } = useUser();
 
     const get_questions = async () => {

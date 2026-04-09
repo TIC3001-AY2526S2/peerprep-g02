@@ -1,53 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import About from "./About";
 import HowToPlay from "./HowToPlay";
 import Questions from "./Questions";
 import FindMatch from "./FindMatch";
-import CollaborationPage from "./CollaborationPage";
 import LoginSignup from "./popups/LoginSignup";
-import MatchingService from "./popups/MatchingService";
 import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "./popups/QuestionForm";
 
 function Hero({ ...heroArgs }) {
-    const {
-        showAboutUs,
-        showHowToPlay,
-        showQuestions,
-        showLogin,
-        showSignup,
-        setShowLogin,
-        setShowSignup,
-        showForgotPassword,
-        setShowForgotPassword,
-        setLoggedIn,
-        showQuestionForm,
-        setShowQuestionForm,
-        showMatching,
-        setShowMatching,
-        showCollaboration,
-        setShowCollaboration,
-        isLoggedIn
-    } = heroArgs;
-
+    const { showAboutUs, showHowToPlay, showQuestions, showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword, setLoggedIn, showQuestionForm, setShowQuestionForm, setShowMatching, isLoggedIn } = heroArgs;
     const [topicOptions, setTopicOptions] = useState([]);
     const [questions, setQuestions] = useState([]);
-    const [selectedQuestion, setSelectedQuestion] = useState();
+    const [selectedQuestion, setSelectedQuestion] = useState()
     const [update, setUpdate] = useState(false);
-
+    
     useEffect(() => {
-        get_topics();
+        get_topics(setTopicOptions);
     }, []);
 
-
-    const get_topics = async () => {
+    const get_topics = async (setTopicOptions)=>{
         const topics = await getTopics();
-        setTopicOptions(topics);
-    };
+        setTopicOptions(topics)
+    }
 
     const handleCancelQuestion = () => {
         setShowQuestionForm(false);
-    };
+    }
 
     const loginSignupArgs = {
         showLogin: showLogin,
@@ -56,64 +34,29 @@ function Hero({ ...heroArgs }) {
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         setShowForgotPassword: setShowForgotPassword,
-        setLoggedIn: setLoggedIn,
-        showCollaboration: showCollaboration
-    };
+        setLoggedIn: setLoggedIn
+    }
 
     const questionArgs = {
         showQuestionForm: showQuestionForm,
         setShowQuestionForm: setShowQuestionForm,
         handleCancelQuestion: handleCancelQuestion,
         setSelectedQuestion: setSelectedQuestion,
-        questions: questions,
-        setQuestions: setQuestions,
-        setUpdate: setUpdate
-    };
+        questions:questions,
+        setQuestions,
+        setUpdate:setUpdate
+    }
+
+
 
     return (
         <div className="hero-section-wrapper">
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {showMatching && (
-                <MatchingService
-                    onClose={() => setShowMatching(false)}
-                    onConfirm={() => {
-                        setShowMatching(false);
-                        setShowCollaboration(true);
-                    }}
-                />
-            )}
-
-            {showCollaboration && <CollaborationPage />}
-
-            {!showAboutUs &&
-                !showHowToPlay &&
-                !showQuestions &&
-                !showCollaboration &&
-                !showMatching && (
-                    <FindMatch
-                        topicOptions={topicOptions}
-                        showMatching={showMatching}
-                        setShowMatching={setShowMatching}
-                        isLoggedIn={isLoggedIn}
-                    />
-                )}
-
-            {(showLogin || showSignup || showForgotPassword) && (
-                <LoginSignup {...loginSignupArgs} />
-            )}
-
-            {showQuestionForm && (
-                <QuestionForm
-                    handleCancelQuestion={handleCancelQuestion}
-                    question={selectedQuestion}
-                    topics={topicOptions}
-                    setQuestions={setQuestions}
-                    questions={questions}
-                    update={update}
-                />
-            )}
+            {!showAboutUs && !showHowToPlay && !showQuestions && <FindMatch topicOptions={topicOptions} setShowMatching={setShowMatching} isLoggedIn={isLoggedIn}/>}
+            {(showLogin || showSignup || showForgotPassword) && <LoginSignup {...loginSignupArgs} />}
+            {showQuestionForm && <QuestionForm handleCancelQuestion={handleCancelQuestion} question={selectedQuestion} topics={topicOptions} setQuestions={setQuestions} questions={questions} update={update}/>}
         </div>
     );
 }

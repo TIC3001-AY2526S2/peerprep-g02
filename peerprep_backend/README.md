@@ -27,5 +27,7 @@ pip install -r requirements.txt
 ### Start Backend
 
 ```bash
+cd peerprep_backend
+
 python launch.py
 ```

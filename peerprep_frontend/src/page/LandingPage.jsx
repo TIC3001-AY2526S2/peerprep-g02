@@ -15,8 +15,6 @@ function LandingPage() {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
-    const [showMatching, setShowMatching] = useState(false); //toggle matching service
-    const [showCollaboration, setShowCollaboration] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user"));
     const [showMatching, setShowMatching] = useState(false)
     const { login, logout, isTokenExpired } = useUser();
@@ -48,25 +46,30 @@ function LandingPage() {
         showSignup: showSignup,
         showForgotPassword: showForgotPassword,
         showQuestionForm: showQuestionForm,
-        showMatching: showMatching,
-        showCollaboration: showCollaboration,
-        setShowMatching: setShowMatching,
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         setShowForgotPassword: setShowForgotPassword,
         setLoggedIn: setLoggedIn,
         setShowQuestionForm: setShowQuestionForm,
-        isLoggedIn:isLoggedIn,
-        setShowCollaboration: setShowCollaboration,
+        setShowMatching: setShowMatching,
+        isLoggedIn:isLoggedIn
     }
 
     return (
         <>
             <div className='background-container'>
-                <Header isDisabled={showMatching || showCollaboration} {...headerArgs} />
-                <>
-                    <Hero {...heroArgs} />
-                </>
+                <Header {...headerArgs} />
+                <Hero {...heroArgs} />
+
+                {/* {!showMatching &&
+                    <>
+                    </>
+                } */}
+                {
+                    isLoggedIn && showMatching &&
+
+                    <MatchingService setShowMatching={setShowMatching}/>
+                }
                 <Footer />
             </div>
         </>

@@ -5,6 +5,7 @@ from jose import jwt, JWTError
 import httpx
 import websockets
 import asyncio
+import os
 
 app = FastAPI()
 
@@ -12,7 +13,7 @@ USER_SERVICE = "http://user-service:8000"
 QUESTION_SERVICE = "http://question-service:8000"
 QUEUEING_SERVICE = "ws://queueing-service:8000"
 
-SECRET_KEY = "CHANGE_ME_TO_ENV_VAR"
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 
 app.add_middleware(
@@ -40,21 +41,45 @@ def admin_required(user: dict = Depends(verify_token)):
     return user
 
 async def forward_request(request: Request, target_url: str, extra_headers: dict = {}):
-    async with httpx.AsyncClient() as client:
-        response = await client.request(
-            method=request.method,
-            url=target_url,
-            headers={**dict(request.headers), **extra_headers},
-            content=await request.body(),
-            params=request.query_params,
+    try:
+        # merged filtered headers and extra_headers
+        merged_headers = {
+            k: v for k, v in request.headers.items()
+            if k.lower() not in ("host", "content-length")
+        }
+        merged_headers.update(extra_headers)
+
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.request(
+                method=request.method,
+                url=target_url,
+                headers=merged_headers,
+                content=await request.body(),
+                params=request.query_params,
+            )
+        return Response(
+            content=response.content,
+            status_code=response.status_code,
+            headers=dict(response.headers)
+        )
+    except httpx.ConnectError as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Downstream service unreachable at {target_url}. "
+                   f"Check that the service is running and on the same Docker network. Error: {str(e)}"
+        )
+    except httpx.TimeoutException as e:
+        raise HTTPException(
+            status_code=504,
+            detail=f"Downstream service timed out at {target_url}: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Gateway error when forwarding to {target_url}: {str(e)}"
         )
 
-    return Response(
-        content=response.content,
-        status_code=response.status_code,
-        headers=dict(response.headers)
-    )
-
+# stripped prefix for downstream services
 @app.api_route("/questions/{path:path}", methods=["GET"])
 async def question_read_proxy(path: str, request: Request):
     target_url = f"{QUESTION_SERVICE}/{path}"

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import DropdownContainer from "./DropdownContainer";
-import MatchingService from "./popups/MatchingService";
 
-function FindMatch({ topicOptions, showMatching, setShowMatching }) {
-    const [selectedDifficulty, setSelectedDifficulty] = useState("");
-    const [selectedTopic, setSelectedTopic] = useState("");
+function FindMatch({ topicOptions, setShowMatching, isLoggedIn }) {
+    //dropdown stuff
+    const [selectedDifficulty, setSelectedDifficulty] = useState();
+    const [selectedTopic, setSelectedTopic] = useState();
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
-    
-    
+
+
 
     const start = (e) => {
         e.preventDefault();
@@ -17,40 +17,16 @@ function FindMatch({ topicOptions, showMatching, setShowMatching }) {
         }
     }
 
-    if (showMatching) {
-        return (
-            <MatchingService
-                selectedTopic={selectedTopic}
-                selectedDifficulty={selectedDifficulty}
-                onClose={closeMatchingService}
-            />
-        );
-    }
-
-    const closeMatchingService = () => {
-        setShowMatching(false);
-    };
-
     return (
         <div className="findmatch-container">
             <div className="findamatch-fontstyle">Find a Match!</div>
-
             <div className="topic-difficulty-container">
-                <DropdownContainer
-                    label="Topic"
-                    options={topicOptions}
-                    selected={selectedTopic}
-                    setSelected={setSelectedTopic}
-                />
 
-                <DropdownContainer
-                    label="Difficulty"
-                    options={difficultyOptions}
-                    selected={selectedDifficulty}
-                    setSelected={setSelectedDifficulty}
-                />
+                <DropdownContainer label={"Topic"} options={topicOptions} selected={selectedTopic} setSelected={setSelectedTopic} />
+
+                <DropdownContainer label={"Difficulty"} options={difficultyOptions} selected={selectedDifficulty} setSelected={setSelectedDifficulty} />
+
             </div>
-
             <div className="lets-go-wrapper">
                 <div className='letsgo-button' onClick={(e) => start(e)}>Let's Go</div>
             </div>
