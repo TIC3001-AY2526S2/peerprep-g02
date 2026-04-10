@@ -11,6 +11,7 @@ app = FastAPI()
 USER_SERVICE = "http://user-service:8000"
 QUESTION_SERVICE = "http://question-service:8000"
 QUEUEING_SERVICE = "ws://queueing-service:8000"
+RUN_CODE_SERVICE = "http://run-code-service:8000"
 
 SECRET_KEY = "CHANGE_ME_TO_ENV_VAR"
 ALGORITHM = "HS256"
@@ -70,6 +71,11 @@ async def question_write_proxy(path: str, request: Request, user: dict = Depends
 @app.api_route("/users/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
 async def user_proxy(path: str, request: Request):
     target_url = f"{USER_SERVICE}/{path}"
+    return await forward_request(request, target_url)
+
+@app.api_route("/runCode/{path:path}",methods=["POST"])
+async def runCode_proxy(path: str, request: Request):
+    target_url = f"{RUN_CODE_SERVICE}/{path}"
     return await forward_request(request, target_url)
 
 @app.websocket("/matching/")

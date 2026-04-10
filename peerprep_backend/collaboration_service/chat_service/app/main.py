@@ -1,9 +1,10 @@
 from fastapi import FastAPI
+import socketio
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers.runCode import runCodeRouter
+from .routers.chat import sio
 
-app = FastAPI(title="PeerPrep Collaboration Service")
+app = FastAPI(title="PeerPrep Chat Service")
 
 app.add_middleware(
     CORSMiddleware,
@@ -13,4 +14,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(runCodeRouter)
+socket_app = socketio.ASGIApp(sio, app)

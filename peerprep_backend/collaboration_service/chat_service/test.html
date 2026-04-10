@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Chat Test</title>
+</head>
+<body>
+
+<h2>Chat Test</h2>
+
+<input id="room" placeholder="Room ID" />
+<input id="user" placeholder="User ID" />
+<button onclick="connectSocket()">Connect + Join</button>
+
+<br><br>
+
+<input id="msg" placeholder="Message" />
+<button onclick="sendMessage()">Send</button>
+
+<hr>
+
+<ul id="chat"></ul>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<script>
+let socket;
+let roomId;
+let userId;
+
+function connectSocket() {
+  roomId = document.getElementById("room").value;
+  userId = document.getElementById("user").value;
+
+  socket = io("http://localhost:8005"); // your backend
+
+  socket.on("connect", () => {
+    console.log("connected:", socket.id);
+
+    socket.emit("join_room", {
+      roomId,
+      userId
+    });
+  });
+
+  socket.on("receive_message", (data) => {
+    const li = document.createElement("li");
+    li.textContent = `${data.userId}: ${data.message}`;
+    document.getElementById("chat").appendChild(li);
+  });
+
+  socket.on("system", (msg) => {
+    console.log("SYSTEM:", msg);
+  });
+}
+
+function sendMessage() {
+  const msg = document.getElementById("msg").value;
+
+  socket.emit("send_message", {
+    roomId,
+    userId,
+    message: msg
+  });
+}
+</script>
+
+</body>
+</html>
