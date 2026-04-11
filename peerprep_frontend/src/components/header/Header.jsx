@@ -3,7 +3,7 @@ import MenuTab from "./MenuTab";
 import './header.css';
 
 
-function Header({...headerArgs}) {
+function Header( {...headerArgs} ) {
     const { isLoggedIn, setShowAboutUs, setShowHowToPlay, setShowQuestions, setShowLogin, setShowSignup, setLoggedIn } = headerArgs;
 
     const menuTabArgs = {
@@ -19,7 +19,7 @@ function Header({...headerArgs}) {
         setLoggedIn:setLoggedIn
     }
 
-    const reset = () =>{
+    const reset = () => {
         setShowAboutUs(false);
         setShowHowToPlay(false);
         setShowLogin(false);
@@ -28,10 +28,12 @@ function Header({...headerArgs}) {
     }
 
     return (
-        <div className='header-container'>
-            <div className='logo' onClick={reset}>PeerPrep</div>
-            <MenuTab {...menuTabArgs} />
-            <LoginSignupOptions {...loginSignupArgs} />
+        <div className={`header ${isDisabled ? "header-disabled" : ""}`}>
+            <div className='header-container'>
+                <div className='logo' onClick={reset}>PeerPrep</div>
+                <MenuTab {...menuTabArgs} />
+                <LoginSignupOptions {...loginSignupArgs} />
+            </div>
         </div>
     );
 }
