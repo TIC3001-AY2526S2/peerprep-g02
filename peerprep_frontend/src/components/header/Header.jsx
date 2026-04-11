@@ -2,9 +2,17 @@ import LoginSignupOptions from "./LoginSignupOptions";
 import MenuTab from "./MenuTab";
 import './header.css';
 
-
 function Header( {...headerArgs} ) {
-    const { isLoggedIn, setShowAboutUs, setShowHowToPlay, setShowQuestions, setShowLogin, setShowSignup, setLoggedIn } = headerArgs;
+    const {
+        isLoggedIn,
+        setShowAboutUs,
+        setShowHowToPlay,
+        setShowQuestions,
+        setShowLogin,
+        setShowSignup,
+        setLoggedIn,
+        isDisabled // get from props instead of mistakenly importing from testing library
+    } = headerArgs;
 
     const menuTabArgs = {
         setShowAboutUs: setShowAboutUs,

@@ -70,42 +70,15 @@ function Hero({ ...heroArgs }) {
         setUpdate: setUpdate
     };
 
-    return (
+    return ( // fixed landing page element duplication issue, missing showCollaboration and showMatching guards and LoginSignup and QuestionForm being doubled during merging
         <div className="hero-section-wrapper">
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {!showAboutUs && !showHowToPlay && !showQuestions && <FindMatch topicOptions={topicOptions} setShowMatching={setShowMatching} isLoggedIn={isLoggedIn}/>}
+            {!showAboutUs && !showHowToPlay && !showQuestions && !showCollaboration && !showMatching && (
+                <FindMatch topicOptions={topicOptions} setShowMatching={setShowMatching} isLoggedIn={isLoggedIn} />
+            )}
             {(showLogin || showSignup || showForgotPassword) && <LoginSignup {...loginSignupArgs} />}
-            {showQuestionForm && <QuestionForm handleCancelQuestion={handleCancelQuestion} question={selectedQuestion} topics={topicOptions} setQuestions={setQuestions} questions={questions} update={update}/>}
-            {showMatching && (
-                <MatchingService
-                    onClose={() => setShowMatching(false)}
-                    onConfirm={() => {
-                        setShowMatching(false);
-                        setShowCollaboration(true);
-                    }}
-                />
-            )}
-
-            {showCollaboration && <CollaborationPage />}
-
-            {!showAboutUs &&
-                !showHowToPlay &&
-                !showQuestions &&
-                !showCollaboration &&
-                !showMatching && (
-                    <FindMatch
-                        topicOptions={topicOptions}
-                        showMatching={showMatching}
-                        setShowMatching={setShowMatching}
-                    />
-                )}
-
-            {(showLogin || showSignup || showForgotPassword) && (
-                <LoginSignup {...loginSignupArgs} />
-            )}
-
             {showQuestionForm && (
                 <QuestionForm
                     handleCancelQuestion={handleCancelQuestion}
@@ -116,6 +89,16 @@ function Hero({ ...heroArgs }) {
                     update={update}
                 />
             )}
+            {showMatching && (
+                <MatchingService
+                    onClose={() => setShowMatching(false)}
+                    onConfirm={() => {
+                        setShowMatching(false);
+                        setShowCollaboration(true);
+                    }}
+                />
+            )}
+            {showCollaboration && <CollaborationPage />}
         </div>
     );
 }

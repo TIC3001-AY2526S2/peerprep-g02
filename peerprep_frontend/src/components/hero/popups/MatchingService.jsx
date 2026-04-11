@@ -56,7 +56,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         }
     };
 
-    return (
+    return ( // fixed cancel button duplication during merging
         <div className="page-container">
             <div className="matching-service-container">
                 <div className="topic-difficulty-font">
@@ -78,7 +78,6 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                 </div>
 
                 <div className="lets-go-wrapper">
-                    <div className='letsgo-button' onClick={(e)=>findMatch(e)}>Cancel</div>
                     <div className="letsgo-button" onClick={handleButtonClick}>
                         {peerFound ? "Confirm" : "Cancel"}
                     </div>

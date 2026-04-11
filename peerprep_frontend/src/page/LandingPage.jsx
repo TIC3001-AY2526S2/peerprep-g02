@@ -59,25 +59,17 @@ function LandingPage() {
         setShowCollaboration: setShowCollaboration,
     }
 
-    return (
+    return ( // fixed element duplication on landing page
         <>
             <div className='background-container'>
-                <Header {...headerArgs} />
+                <Header
+                    isDisabled={showMatching || showCollaboration}
+                    {...headerArgs}
+                />
                 <Hero {...heroArgs} />
-
-                {/* {!showMatching &&
-                    <>
-                    </>
-                } */}
-                {
-                    isLoggedIn && showMatching &&
-
-                    <MatchingService setShowMatching={setShowMatching}/>
-                }
-                <Header isDisabled={showMatching || showCollaboration} {...headerArgs} />
-                <>
-                    <Hero {...heroArgs} />
-                </>
+                {isLoggedIn && showMatching && (
+                    <MatchingService setShowMatching={setShowMatching} />
+                )}
                 <Footer />
             </div>
         </>
