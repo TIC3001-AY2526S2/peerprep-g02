@@ -1,16 +1,14 @@
 /* Header Section */
 .header-container {
-    height: fit-content;
+    height: 8vh;
+    box-sizing: border-box;
     position: sticky;
-    top: 0;
-    /* colours */
     background-color: #F5F5F5;
     outline: 3px solid #1E1E1E;
-    /* alignment */
-    align-content: center;
     display: flex;
-    padding: 1rem;
+    align-items: center;
     justify-content: space-between;
+    padding: 0 1rem;
 }
 
 .logo {
@@ -25,4 +23,11 @@
 .header-disabled {
     pointer-events: none;
     opacity: 0.6;
+}
+
+.profile-container {
+    display: flex;
+    align-content: flex-end;
+    align-items: center;
+    gap: 1rem;
 }

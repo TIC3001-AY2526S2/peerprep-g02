@@ -94,10 +94,10 @@ function Hero({ ...heroArgs }) {
                 !showCollaboration &&
                 !showMatching && (
                     <FindMatch
-                    selectedDifficulty={selectedDifficulty}
-                    setSelectedDifficulty={setSelectedDifficulty}
-                    selectedTopic={selectedTopic}
-                    setSelectedTopic={setSelectedTopic}
+                        selectedDifficulty={selectedDifficulty}
+                        setSelectedDifficulty={setSelectedDifficulty}
+                        selectedTopic={selectedTopic}
+                        setSelectedTopic={setSelectedTopic}
                         topicOptions={topicOptions}
                         isLoggedIn={isLoggedIn}
                         showMatching={showMatching}

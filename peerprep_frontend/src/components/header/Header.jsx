@@ -2,7 +2,7 @@ import LoginSignupOptions from "./LoginSignupOptions";
 import MenuTab from "./MenuTab";
 import './header.css';
 
-function Header( {...headerArgs} ) {
+function Header({ ...headerArgs }) {
     const {
         isLoggedIn,
         setShowAboutUs,
@@ -11,7 +11,7 @@ function Header( {...headerArgs} ) {
         setShowLogin,
         setShowSignup,
         setLoggedIn,
-        isDisabled // get from props instead of mistakenly importing from testing library
+        isHeaderDisabled
     } = headerArgs;
 
     const menuTabArgs = {
@@ -24,7 +24,7 @@ function Header( {...headerArgs} ) {
         isLoggedIn: isLoggedIn,
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
-        setLoggedIn:setLoggedIn
+        setLoggedIn: setLoggedIn
     }
 
     const reset = () => {
@@ -36,7 +36,7 @@ function Header( {...headerArgs} ) {
     }
 
     return (
-        <div className={`header ${isDisabled ? "header-disabled" : ""}`}>
+        <div className={`header ${isHeaderDisabled ? "header-disabled" : ""}`}>
             <div className='header-container'>
                 <div className='logo' onClick={reset}>PeerPrep</div>
                 <MenuTab {...menuTabArgs} />

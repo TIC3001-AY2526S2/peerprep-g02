@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import './LandingPage.css';
 import Header from '../components/header/Header'
+import CollaborationHeader from '../components/header/CollaborationHeader'
 import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
 import MatchingService from "../components/hero/popups/MatchingService";
@@ -74,34 +75,45 @@ function LandingPage() {
         setShowMatching(false);
     };
 
+    const handleExit = () => {
+        setShowCollaboration(false);
+        setShowMatching(false);
+        setSelectedTopic("");
+        setSelectedDifficulty("");
+    };
+
     return (
-        <>
-            {showCollaboration &&
-                <CollaborationPage />
-            }
-            {!showCollaboration &&
+        <div className="background-container">
+            {showCollaboration ? (
+                <CollaborationHeader />
+            ) : (
+                <Header
+                    isHeaderDisabled={showMatching}
+                    {...headerArgs}
+                />
+            )}
+            {showCollaboration ? (
+                <CollaborationPage onExitCollab={handleExit} />
+            ) : (
                 <>
-                    <div className='background-container'>
-                        <Header
-                            isDisabled={showMatching || showCollaboration}
-                            {...headerArgs}
+                    <Hero {...heroArgs} />
+
+                    {isLoggedIn && showMatching && (
+                        <MatchingService
+                            selectedTopic={selectedTopic}
+                            selectedDifficulty={selectedDifficulty}
+                            onClose={closeMatchingService}
+                            onConfirm={() => {
+                                setShowMatching(false);
+                                setShowCollaboration(true);
+                            }}
                         />
-                        <Hero {...heroArgs} />
-                        {isLoggedIn && showMatching && (
-                            <MatchingService
-                                selectedTopic={selectedTopic}
-                                selectedDifficulty={selectedDifficulty}
-                                onClose={closeMatchingService}
-                                onConfirm={() => {
-                                    setShowMatching(false);
-                                    setShowCollaboration(true);
-                                }} />
-                        )}
-                        <Footer />
-                    </div>
+                    )}
+
+                    <Footer />
                 </>
-            }
-        </>
+            )}
+        </div>
     );
 }
 
