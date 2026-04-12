@@ -27,13 +27,13 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         };
         socketRef.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log(data);
-            if (data.status === "MATCH_SUCCESS") {
+
+            if (data.status === "Match Found") {
                 peerFoundRef.current = true;
                 setPeerFound(true);
                 setTimeLeft(30);
                 setMatchFailed(false);
-            } else if (data.type === "MATCH_FAIL") {
+            } else if (data.status === "timeout") {
                 setMatchFailed(true);
             }
         };

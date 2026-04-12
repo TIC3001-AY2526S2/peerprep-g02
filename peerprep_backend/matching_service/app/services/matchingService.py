@@ -51,7 +51,6 @@ class MatchingService:
         
     def find_match(self, user): 
         for i, other in enumerate(self.waiting_users): 
-            print(self.waiting_users)
             if ( other["topic"] == user["topic"] and 
                 other["complexity"] == user["complexity"] and 
                 other["user_id"] != user["user_id"] ): 

@@ -5,6 +5,7 @@ import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
 import MatchingService from "../components/hero/popups/MatchingService";
 import { useUser } from "../context/UserContext"
+import CollaborationPage from "../components/hero/CollaborationPage";
 
 function LandingPage() {
     const [isLoggedIn, setLoggedIn] = useState(true);
@@ -75,24 +76,31 @@ function LandingPage() {
 
     return (
         <>
-            <div className='background-container'>
-                <Header
-                    isDisabled={showMatching || showCollaboration}
-                    {...headerArgs}
-                />
-                <Hero {...heroArgs} />
-                {isLoggedIn && showMatching && (
-                    <MatchingService
-                        selectedTopic={selectedTopic}
-                        selectedDifficulty={selectedDifficulty}
-                        onClose={closeMatchingService}
-                        onConfirm={() => {
-                            setShowMatching(false);
-                            setShowCollaboration(true);
-                        }} />
-                )}
-                <Footer />
-            </div>
+            {showCollaboration &&
+                <CollaborationPage />
+            }
+            {!showCollaboration &&
+                <>
+                    <div className='background-container'>
+                        <Header
+                            isDisabled={showMatching || showCollaboration}
+                            {...headerArgs}
+                        />
+                        <Hero {...heroArgs} />
+                        {isLoggedIn && showMatching && (
+                            <MatchingService
+                                selectedTopic={selectedTopic}
+                                selectedDifficulty={selectedDifficulty}
+                                onClose={closeMatchingService}
+                                onConfirm={() => {
+                                    setShowMatching(false);
+                                    setShowCollaboration(true);
+                                }} />
+                        )}
+                        <Footer />
+                    </div>
+                </>
+            }
         </>
     );
 }
