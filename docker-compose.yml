@@ -21,11 +21,13 @@ services:
       - USER_SERVICE_URL=http://user-service:8000
       - QUESTION_SERVICE_URL=http://question-service:8000
       - MATCHING_SERVICE_URL=http://matching-service:8000
+      - QUEUEING_SERVICE_URL=ws://queueing-service:8000  # ← add this
     build: ./peerprep_backend/api_gateway
     container_name: api-gateway
     depends_on:
       - user-service
       - question-service
+      - queueing-service   # ← add this
     ports:
       - "8000:8000"
   user-service:

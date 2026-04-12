@@ -5,7 +5,6 @@ import Questions from "./Questions";
 import FindMatch from "./FindMatch";
 import CollaborationPage from "./CollaborationPage";
 import LoginSignup from "./popups/LoginSignup";
-import MatchingService from "./popups/MatchingService";
 import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "./popups/QuestionForm";
 
@@ -23,8 +22,6 @@ function Hero({ ...heroArgs }) {
         setLoggedIn,
         showQuestionForm,
         setShowQuestionForm,
-        showMatching,
-        setShowMatching,
         showCollaboration,
         setShowCollaboration,
         isLoggedIn
@@ -39,7 +36,6 @@ function Hero({ ...heroArgs }) {
         get_topics();
     }, []);
 
-
     const get_topics = async () => {
         const topics = await getTopics();
         setTopicOptions(topics);
@@ -50,35 +46,41 @@ function Hero({ ...heroArgs }) {
     };
 
     const loginSignupArgs = {
-        showLogin: showLogin,
-        showSignup: showSignup,
-        showForgotPassword: showForgotPassword,
-        setShowLogin: setShowLogin,
-        setShowSignup: setShowSignup,
-        setShowForgotPassword: setShowForgotPassword,
-        setLoggedIn: setLoggedIn,
-        showCollaboration: showCollaboration
+        showLogin,
+        showSignup,
+        showForgotPassword,
+        setShowLogin,
+        setShowSignup,
+        setShowForgotPassword,
+        setLoggedIn,
+        showCollaboration
     };
 
     const questionArgs = {
-        showQuestionForm: showQuestionForm,
-        setShowQuestionForm: setShowQuestionForm,
-        handleCancelQuestion: handleCancelQuestion,
-        setSelectedQuestion: setSelectedQuestion,
-        questions: questions,
-        setQuestions: setQuestions,
-        setUpdate: setUpdate
+        showQuestionForm,
+        setShowQuestionForm,
+        handleCancelQuestion,
+        setSelectedQuestion,
+        questions,
+        setQuestions,
+        setUpdate
     };
 
-    return ( // fixed landing page element duplication issue, missing showCollaboration and showMatching guards and LoginSignup and QuestionForm being doubled during merging
+    return (
         <div className="hero-section-wrapper">
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {!showAboutUs && !showHowToPlay && !showQuestions && !showCollaboration && !showMatching && (
-                <FindMatch topicOptions={topicOptions} setShowMatching={setShowMatching} isLoggedIn={isLoggedIn} />
+            {!showAboutUs && !showHowToPlay && !showQuestions && !showCollaboration && (
+                <FindMatch
+                    topicOptions={topicOptions}
+                    isLoggedIn={isLoggedIn}
+                    setShowCollaboration={setShowCollaboration}
+                />
             )}
-            {(showLogin || showSignup || showForgotPassword) && <LoginSignup {...loginSignupArgs} />}
+            {(showLogin || showSignup || showForgotPassword) && (
+                <LoginSignup {...loginSignupArgs} />
+            )}
             {showQuestionForm && (
                 <QuestionForm
                     handleCancelQuestion={handleCancelQuestion}
@@ -87,15 +89,6 @@ function Hero({ ...heroArgs }) {
                     setQuestions={setQuestions}
                     questions={questions}
                     update={update}
-                />
-            )}
-            {showMatching && (
-                <MatchingService
-                    onClose={() => setShowMatching(false)}
-                    onConfirm={() => {
-                        setShowMatching(false);
-                        setShowCollaboration(true);
-                    }}
                 />
             )}
             {showCollaboration && <CollaborationPage />}

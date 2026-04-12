@@ -2,29 +2,29 @@ import React, { useState } from "react";
 import DropdownContainer from "./DropdownContainer";
 import MatchingService from "./popups/MatchingService";
 
-function FindMatch({ topicOptions, showMatching, setShowMatching, isLoggedIn }) {
+function FindMatch({ topicOptions, isLoggedIn, setShowCollaboration }) {
     const [selectedDifficulty, setSelectedDifficulty] = useState("");
     const [selectedTopic, setSelectedTopic] = useState("");
+    const [showMatching, setShowMatching] = useState(false);
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
-
-    const closeMatchingService = () => {
-        setShowMatching(false);
-    };
 
     const start = (e) => {
         e.preventDefault();
-        if (isLoggedIn) {
+        if (isLoggedIn && selectedTopic && selectedDifficulty) {
             setShowMatching(true);
-            console.log("start")
         }
-    }
+    };
 
-        if (showMatching) {
+    if (showMatching) {
         return (
             <MatchingService
                 selectedTopic={selectedTopic}
                 selectedDifficulty={selectedDifficulty}
-                onClose={closeMatchingService}
+                onClose={() => setShowMatching(false)}
+                onConfirm={() => {
+                    setShowMatching(false);
+                    setShowCollaboration(true);
+                }}
             />
         );
     }
@@ -32,7 +32,6 @@ function FindMatch({ topicOptions, showMatching, setShowMatching, isLoggedIn }) 
     return (
         <div className="findmatch-container">
             <div className="findamatch-fontstyle">Find a Match!</div>
-
             <div className="topic-difficulty-container">
                 <DropdownContainer
                     label="Topic"
@@ -40,7 +39,6 @@ function FindMatch({ topicOptions, showMatching, setShowMatching, isLoggedIn }) 
                     selected={selectedTopic}
                     setSelected={setSelectedTopic}
                 />
-
                 <DropdownContainer
                     label="Difficulty"
                     options={difficultyOptions}
@@ -48,7 +46,6 @@ function FindMatch({ topicOptions, showMatching, setShowMatching, isLoggedIn }) 
                     setSelected={setSelectedDifficulty}
                 />
             </div>
-
             <div className="lets-go-wrapper">
                 <div className="letsgo-button" onClick={start}>
                     Let's Go

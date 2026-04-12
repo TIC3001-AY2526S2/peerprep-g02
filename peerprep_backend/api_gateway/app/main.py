@@ -11,7 +11,7 @@ app = FastAPI()
 
 USER_SERVICE = "http://user-service:8000"
 QUESTION_SERVICE = "http://question-service:8000"
-QUEUEING_SERVICE = "ws://queueing-service:8000"
+QUEUEING_SERVICE = os.getenv("QUEUEING_SERVICE_URL", "ws://queueing-service:8000")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
@@ -97,6 +97,7 @@ async def user_proxy(path: str, request: Request):
     target_url = f"{USER_SERVICE}/{path}"
     return await forward_request(request, target_url)
 
+
 @app.websocket("/matching/")
 async def websocket_proxy(websocket: WebSocket):
     await websocket.accept()
@@ -108,7 +109,7 @@ async def websocket_proxy(websocket: WebSocket):
 
     try:
         async with websockets.connect(
-            f"{QUEUEING_SERVICE}/ws/matching/?token={token}"
+                f"{QUEUEING_SERVICE}/ws/matching/?token={token}"
         ) as matching_ws:
 
             async def client_to_service():
@@ -116,9 +117,7 @@ async def websocket_proxy(websocket: WebSocket):
                     while True:
                         data = await websocket.receive_text()
                         await matching_ws.send(data)
-                except WebSocketDisconnect:
-                    await matching_ws.close()
-                except Exception:
+                except (WebSocketDisconnect, Exception):
                     await matching_ws.close()
 
             async def service_to_client():
@@ -127,10 +126,15 @@ async def websocket_proxy(websocket: WebSocket):
                         data = await matching_ws.recv()
                         await websocket.send_text(data)
                 except Exception:
-                    await websocket.close()
+                    pass  # don't close
 
             await asyncio.gather(client_to_service(), service_to_client())
 
     except Exception as e:
         print("WebSocket connection failed:", e)
-        await websocket.close()
+
+    finally:
+        try:
+            await websocket.close()  # close once
+        except Exception:
+            pass  # closed, ignore

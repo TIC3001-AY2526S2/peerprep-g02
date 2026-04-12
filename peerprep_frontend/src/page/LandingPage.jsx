@@ -7,7 +7,7 @@ import MatchingService from "../components/hero/popups/MatchingService";
 import { useUser } from "../context/UserContext"
 
 function LandingPage() {
-    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [isLoggedIn, setLoggedIn] = useState(true);
     const [showAboutUs, setShowAboutUs] = useState(false);
     const [showHowToPlay, setShowHowToPlay] = useState(false);
     const [showQuestions, setShowQuestions] = useState(false);
