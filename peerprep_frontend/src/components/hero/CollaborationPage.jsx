@@ -25,12 +25,30 @@ function CollaborationPage() {
                     <div className="collab-header-font">9. Add Binary</div>
                     <pre>{questionText}</pre>
                 </div>
+                <div className="collabBox timer">
+                    <div className="collab-header-font">Timer:<br></br>03 Mins 40 Sec</div>
+                    <div className="collab-buttons" >
+                        Submit
+                    </div>
+                </div>
             </div>
 
             <div className="collab-containers code">
-                {/* <div className="collabBox code">
+                <div className="collabBox code">
                     <pre>{codeText}</pre>
-                </div> */}
+                </div>
+                <div className="collabBox terminal">
+                    <div className="terminal-text">
+                        Expected Output: XYZ
+                        <br></br>
+                        Your Output: XYZ
+                    </div>
+                    <div className="button-wrapper">
+                        <div className="collab-buttons" >
+                            Lock & Run
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="collab-containers chat">

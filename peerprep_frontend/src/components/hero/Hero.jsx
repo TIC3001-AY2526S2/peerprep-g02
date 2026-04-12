@@ -5,6 +5,7 @@ import Questions from "./Questions";
 import FindMatch from "./FindMatch";
 import CollaborationPage from "./CollaborationPage";
 import LoginSignup from "./popups/LoginSignup";
+import MatchingService from "./popups/MatchingService";
 import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "./popups/QuestionForm";
 
@@ -22,6 +23,8 @@ function Hero({ ...heroArgs }) {
         setLoggedIn,
         showQuestionForm,
         setShowQuestionForm,
+        showMatching,
+        setShowMatching,
         showCollaboration,
         setShowCollaboration,
         isLoggedIn
@@ -71,13 +74,29 @@ function Hero({ ...heroArgs }) {
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {!showAboutUs && !showHowToPlay && !showQuestions && !showCollaboration && (
-                <FindMatch
-                    topicOptions={topicOptions}
-                    isLoggedIn={isLoggedIn}
-                    setShowCollaboration={setShowCollaboration}
+            {showMatching && (
+                <MatchingService
+                    onClose={() => setShowMatching(false)}
+                    onConfirm={() => {
+                        setShowMatching(false);
+                        setShowCollaboration(true);
+                    }}
                 />
             )}
+            {showCollaboration && <CollaborationPage />}
+            {!showAboutUs &&
+                !showHowToPlay &&
+                !showQuestions &&
+                !showCollaboration &&
+                !showMatching && (
+                    <FindMatch
+                        topicOptions={topicOptions}
+                        isLoggedIn={isLoggedIn}
+                        showMatching={showMatching}
+                        setShowMatching={setShowMatching}
+                        setShowCollaboration={setShowCollaboration}
+                    />
+                )}
             {(showLogin || showSignup || showForgotPassword) && (
                 <LoginSignup {...loginSignupArgs} />
             )}
@@ -91,7 +110,6 @@ function Hero({ ...heroArgs }) {
                     update={update}
                 />
             )}
-            {showCollaboration && <CollaborationPage />}
         </div>
     );
 }

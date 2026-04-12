@@ -15,7 +15,7 @@ function LandingPage() {
     const [showSignup, setShowSignup] = useState(false);
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [showQuestionForm, setShowQuestionForm] = useState(false);
-    const [showMatching, setShowMatching] = useState(false); //toggle matching service
+    const [showMatching, setShowMatching] = useState(false);
     const [showCollaboration, setShowCollaboration] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user"));
     const { login, logout, isTokenExpired } = useUser();
@@ -24,13 +24,16 @@ function LandingPage() {
         const token = sessionStorage.getItem("token");
         if (token && !isTokenExpired(token) && user) {
             login(user, token);
+            setLoggedIn(true);
         } else {
             logout();
+            setLoggedIn(false);
         }
     }, []);
+
     const headerArgs = {
         isLoggedIn: isLoggedIn,
-        setLoggedIn:setLoggedIn,
+        setLoggedIn: setLoggedIn,
         setShowAboutUs: setShowAboutUs,
         setShowHowToPlay: setShowHowToPlay,
         setShowQuestions: setShowQuestions,
@@ -55,11 +58,11 @@ function LandingPage() {
         setLoggedIn: setLoggedIn,
         setShowQuestionForm: setShowQuestionForm,
         setShowMatching: setShowMatching,
-        isLoggedIn:isLoggedIn,
+        isLoggedIn: isLoggedIn,
         setShowCollaboration: setShowCollaboration,
     }
 
-    return ( // fixed element duplication on landing page
+    return (
         <>
             <div className='background-container'>
                 <Header

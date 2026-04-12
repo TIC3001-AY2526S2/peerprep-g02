@@ -13,7 +13,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     // Socket connection
     useEffect(() => {
         console.log("WebSocket mounting, topic:", selectedTopic, "difficulty:", selectedDifficulty);
-        if (socketRef.current) return; // prevent double
+        if (socketRef.current) return;
 
         const token = sessionStorage.getItem("token");
         const wsUrl = `ws://localhost:8000/matching/?topic=${selectedTopic}&difficulty=${selectedDifficulty}&token=${token}`;
@@ -39,21 +39,21 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         return () => socketRef.current?.close();
     }, [selectedTopic, selectedDifficulty]);
 
-    // Elapsed time during search
+    // Elapsed time search
     useEffect(() => {
         if (peerFound || matchFailed) return;
         const interval = setInterval(() => setElapsedTime(prev => prev + 1), 1000);
         return () => clearInterval(interval);
     }, [peerFound, matchFailed]);
 
-    // Countdown after peer found
+    // Countdown after found
     useEffect(() => {
         if (!peerFound || timeLeft <= 0) return;
         const timer = setTimeout(() => setTimeLeft(prev => prev - 1), 1000);
         return () => clearTimeout(timer);
     }, [peerFound, timeLeft]);
 
-    // Auto-close if countdown hits 0
+    // Auto-close
     useEffect(() => {
         if (peerFound && timeLeft <= 0) onClose();
     }, [peerFound, timeLeft, onClose]);
@@ -62,6 +62,14 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    };
+
+    const handleButtonClick = () => {
+        if (peerFound) {
+            onConfirm();
+        } else {
+            onClose();
+        }
     };
 
     return (
@@ -95,7 +103,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                             Close
                         </div>
                     ) : (
-                        <div className="letsgo-button" onClick={peerFound ? onConfirm : onClose}>
+                        <div className="letsgo-button" onClick={handleButtonClick}>
                             {peerFound ? "Confirm" : "Cancel"}
                         </div>
                     )}
