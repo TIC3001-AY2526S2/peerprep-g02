@@ -5,7 +5,7 @@ import "./matchingService.css";
 function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm }) {
     const [peerFound, setPeerFound] = useState(false);
     const [matchFailed, setMatchFailed] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [timeLeft, setTimeLeft] = useState(5);
     const [elapsedTime, setElapsedTime] = useState(0);
     const socketRef = useRef(null);
     const peerFoundRef = useRef(false);
@@ -31,7 +31,6 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
             if (data.status === "Match Found") {
                 peerFoundRef.current = true;
                 setPeerFound(true);
-                setTimeLeft(30);
                 setMatchFailed(false);
             } else if (data.status === "timeout") {
                 setMatchFailed(true);
@@ -58,26 +57,19 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     useEffect(() => {
         if (!peerFound || timeLeft <= 0) return;
         const timer = setTimeout(() => setTimeLeft(prev => prev - 1), 1000);
+
         return () => clearTimeout(timer);
     }, [peerFound, timeLeft]);
 
     // Auto-close
     useEffect(() => {
-        if (peerFound && timeLeft <= 0) onClose();
-    }, [peerFound, timeLeft, onClose]);
+        if (peerFound && timeLeft <= 0) onConfirm();
+    }, [peerFound, timeLeft, onConfirm]);
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-    };
-
-    const handleButtonClick = () => {
-        if (peerFound) {
-            onConfirm();
-        } else {
-            onClose();
-        }
     };
 
     return (
@@ -93,7 +85,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                         {matchFailed
                             ? "No Match Found"
                             : peerFound
-                                ? "Peer Found!"
+                                ? "Peer Found!\nMatch Starting In"
                                 : "Finding a Peer..."}
                         <br />
                         {matchFailed
@@ -106,15 +98,12 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                 </div>
 
                 <div className="lets-go-wrapper">
-                    {matchFailed ? (
+                    {matchFailed && (
                         <div className="letsgo-button" onClick={onClose}>
                             Close
                         </div>
-                    ) : (
-                        <div className="letsgo-button" onClick={handleButtonClick}>
-                            {peerFound ? "Confirm" : "Cancel"}
-                        </div>
-                    )}
+                    )
+                    }
                 </div>
             </div>
         </div>
