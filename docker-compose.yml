@@ -1,11 +1,11 @@
 services:
-  frontend:
-    build: ./peerprep_frontend
-    container_name: frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - api-gateway
+  # frontend:
+  #   build: ./peerprep_frontend
+  #   container_name: frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - api-gateway
   mongo:
     healthcheck:
       test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]

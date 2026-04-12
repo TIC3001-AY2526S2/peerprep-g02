@@ -16,15 +16,23 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         if (socketRef.current) return;
 
         const token = sessionStorage.getItem("token");
-        const wsUrl = `ws://localhost:8000/matching/?topic=${selectedTopic}&difficulty=${selectedDifficulty}&token=${token}`;
+        const wsUrl = `ws://localhost:8000/matching/?token=${token}`;
         socketRef.current = new WebSocket(wsUrl);
 
+        socketRef.current.onopen = () => {
+            socketRef.current.send(JSON.stringify({
+                topic: selectedTopic,
+                complexity: selectedDifficulty
+            }))
+        };
         socketRef.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (data.type === "MATCH_SUCCESS") {
+            console.log(data);
+            if (data.status === "MATCH_SUCCESS") {
                 peerFoundRef.current = true;
                 setPeerFound(true);
                 setTimeLeft(30);
+                setMatchFailed(false);
             } else if (data.type === "MATCH_FAIL") {
                 setMatchFailed(true);
             }
@@ -85,14 +93,14 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                         {matchFailed
                             ? "No Match Found"
                             : peerFound
-                            ? "Peer Found!"
-                            : "Finding a Peer..."}
+                                ? "Peer Found!"
+                                : "Finding a Peer..."}
                         <br />
                         {matchFailed
                             ? "Try again later"
                             : peerFound
-                            ? formatTime(timeLeft)
-                            : formatTime(elapsedTime)}
+                                ? formatTime(timeLeft)
+                                : formatTime(elapsedTime)}
                     </div>
                     <img src={logo} alt="Logo" className="matching-profile-image" />
                 </div>

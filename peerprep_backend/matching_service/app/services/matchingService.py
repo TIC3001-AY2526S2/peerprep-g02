@@ -51,6 +51,7 @@ class MatchingService:
         
     def find_match(self, user): 
         for i, other in enumerate(self.waiting_users): 
+            print(self.waiting_users)
             if ( other["topic"] == user["topic"] and 
                 other["complexity"] == user["complexity"] and 
                 other["user_id"] != user["user_id"] ): 
@@ -69,9 +70,9 @@ class MatchingService:
             if user["user_id"] == waiting_user["user_id"]: 
                 self.waiting_users.pop(i) 
                 
-        def publish(self, queue, message): 
-            connection = pika.BlockingConnection(pika.ConnectionParameters(self.host)) 
-            channel = connection.channel() 
-            channel.queue_declare(queue=queue, durable=True) 
-            channel.basic_publish( exchange="", routing_key=queue, body=json.dumps(message), properties=pika.BasicProperties(delivery_mode=2), ) 
-            connection.close()
+    def publish(self, queue, message): 
+        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host)) 
+        channel = connection.channel() 
+        channel.queue_declare(queue=queue, durable=True) 
+        channel.basic_publish( exchange="", routing_key=queue, body=json.dumps(message), properties=pika.BasicProperties(delivery_mode=2), ) 
+        connection.close()

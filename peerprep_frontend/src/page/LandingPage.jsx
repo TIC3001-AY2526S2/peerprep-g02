@@ -20,6 +20,9 @@ function LandingPage() {
     const user = JSON.parse(sessionStorage.getItem("user"));
     const { login, logout, isTokenExpired } = useUser();
 
+    const [selectedDifficulty, setSelectedDifficulty] = useState("");
+    const [selectedTopic, setSelectedTopic] = useState("");
+
     useEffect(() => {
         const token = sessionStorage.getItem("token");
         if (token && !isTokenExpired(token) && user) {
@@ -60,7 +63,15 @@ function LandingPage() {
         setShowMatching: setShowMatching,
         isLoggedIn: isLoggedIn,
         setShowCollaboration: setShowCollaboration,
+        setSelectedTopic: setSelectedTopic,
+        setSelectedDifficulty: setSelectedDifficulty,
+        selectedTopic: selectedTopic,
+        selectedDifficulty: selectedDifficulty
     }
+
+    const closeMatchingService = () => {
+        setShowMatching(false);
+    };
 
     return (
         <>
@@ -71,7 +82,14 @@ function LandingPage() {
                 />
                 <Hero {...heroArgs} />
                 {isLoggedIn && showMatching && (
-                    <MatchingService setShowMatching={setShowMatching} />
+                    <MatchingService
+                        selectedTopic={selectedTopic}
+                        selectedDifficulty={selectedDifficulty}
+                        onClose={closeMatchingService}
+                        onConfirm={() => {
+                            setShowMatching(false);
+                            setShowCollaboration(true);
+                        }} />
                 )}
                 <Footer />
             </div>

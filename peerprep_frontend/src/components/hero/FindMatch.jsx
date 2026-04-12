@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropdownContainer from "./DropdownContainer";
 import MatchingService from "./popups/MatchingService";
 
-function FindMatch({ topicOptions, isLoggedIn, setShowCollaboration, showMatching, setShowMatching }) {
-    const [selectedDifficulty, setSelectedDifficulty] = useState("");
-    const [selectedTopic, setSelectedTopic] = useState("");
+function FindMatch({ selectedDifficulty, selectedTopic, setSelectedDifficulty, setSelectedTopic, topicOptions, isLoggedIn, setShowCollaboration, showMatching, setShowMatching }) {
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
 
     const start = (e) => {
@@ -14,23 +12,24 @@ function FindMatch({ topicOptions, isLoggedIn, setShowCollaboration, showMatchin
         }
     };
 
-    const closeMatchingService = () => {
-        setShowMatching(false);
-    };
+    // useEffect(() => {
+    //     if (showMatching && selectedDifficulty && selectedTopic) {
+    //         console.log("a: ",selectedDifficulty);
+    //         console.log("findMatch: ", selectedTopic);
+    //         return (
+    //             <MatchingService
+    //                 selectedTopic={selectedTopic}
+    //                 selectedDifficulty={selectedDifficulty}
+    //                 onClose={closeMatchingService}
+    //                 onConfirm={() => {
+    //                     setShowMatching(false);
+    //                     setShowCollaboration(true);
+    //                 }}
+    //             />
+    //         );
+    //     }
+    // },[showMatching, selectedTopic, selectedDifficulty]);
 
-    if (showMatching) {
-        return (
-            <MatchingService
-                selectedTopic={selectedTopic}
-                selectedDifficulty={selectedDifficulty}
-                onClose={closeMatchingService}
-                onConfirm={() => {
-                    setShowMatching(false);
-                    setShowCollaboration(true);
-                }}
-            />
-        );
-    }
 
     return (
         <div className="findmatch-container">

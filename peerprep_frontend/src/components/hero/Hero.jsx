@@ -27,7 +27,11 @@ function Hero({ ...heroArgs }) {
         setShowMatching,
         showCollaboration,
         setShowCollaboration,
-        isLoggedIn
+        isLoggedIn,
+        setSelectedTopic,
+        setSelectedDifficulty,
+        selectedTopic,
+        selectedDifficulty
     } = heroArgs;
 
     const [topicOptions, setTopicOptions] = useState([]);
@@ -74,7 +78,7 @@ function Hero({ ...heroArgs }) {
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {showMatching && (
+            {/* {showMatching && (
                 <MatchingService
                     onClose={() => setShowMatching(false)}
                     onConfirm={() => {
@@ -82,14 +86,18 @@ function Hero({ ...heroArgs }) {
                         setShowCollaboration(true);
                     }}
                 />
-            )}
-            {showCollaboration && <CollaborationPage />}
+            )} */}
+            {/* {showCollaboration && <CollaborationPage />} */}
             {!showAboutUs &&
                 !showHowToPlay &&
                 !showQuestions &&
                 !showCollaboration &&
                 !showMatching && (
                     <FindMatch
+                    selectedDifficulty={selectedDifficulty}
+                    setSelectedDifficulty={setSelectedDifficulty}
+                    selectedTopic={selectedTopic}
+                    setSelectedTopic={setSelectedTopic}
                         topicOptions={topicOptions}
                         isLoggedIn={isLoggedIn}
                         showMatching={showMatching}
