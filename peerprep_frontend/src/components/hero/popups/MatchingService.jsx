@@ -9,42 +9,47 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     const [elapsedTime, setElapsedTime] = useState(0);
     const socketRef = useRef(null);
     const peerFoundRef = useRef(false);
+    const matchDataRef = useRef(null); // Server response
 
     // Socket connection
-    useEffect(() => {
-        console.log("WebSocket mounting, topic:", selectedTopic, "difficulty:", selectedDifficulty);
-        if (socketRef.current) return;
+useEffect(() => {
+    console.log("WebSocket mounting, topic:", selectedTopic, "difficulty:", selectedDifficulty);
+    if (socketRef.current) return;
 
-        const token = sessionStorage.getItem("token");
-        const wsUrl = `ws://localhost:8000/matching/?token=${token}`;
-        socketRef.current = new WebSocket(wsUrl);
+    const token = sessionStorage.getItem("token");
+    const wsUrl = `ws://localhost:8000/matching/?token=${token}`;
+    socketRef.current = new WebSocket(wsUrl);
 
-        socketRef.current.onopen = () => {
-            socketRef.current.send(JSON.stringify({
-                topic: selectedTopic,
-                complexity: selectedDifficulty
-            }))
-        };
-        socketRef.current.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+    socketRef.current.onopen = () => {
+        socketRef.current.send(JSON.stringify({
+            topic: selectedTopic,
+            complexity: selectedDifficulty
+        }));
+    };
 
-            if (data.status === "Match Found") {
-                peerFoundRef.current = true;
-                setPeerFound(true);
-                setMatchFailed(false);
-            } else if (data.status === "timeout") {
-                setMatchFailed(true);
-            }
-        };
+    socketRef.current.onmessage = (msg) => {
+        const data = JSON.parse(msg.data);
+        console.log("PARSED:", data);
 
-        socketRef.current.onerror = () => setMatchFailed(true);
+        if (data.status === "Match Found") {
+            matchDataRef.current = data;
+            peerFoundRef.current = true;
+            setPeerFound(true);
+            setMatchFailed(false);
+        } else if (data.status === "timeout") {
+            setMatchFailed(true);
+        }
+    };
 
-        socketRef.current.onclose = () => {
-            if (!peerFoundRef.current) setMatchFailed(true);
-        };
+    socketRef.current.onerror = () => setMatchFailed(true);
 
-        return () => socketRef.current?.close();
-    }, [selectedTopic, selectedDifficulty]);
+    socketRef.current.onclose = (msg) => {
+        console.log("CLOSED — code:", msg.code, "reason:", msg.reason);
+        if (!peerFoundRef.current) setMatchFailed(true);
+    };
+
+    return () => socketRef.current?.close();
+}, []); // connect once, never reconnect
 
     // Elapsed time search
     useEffect(() => {
@@ -57,13 +62,14 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     useEffect(() => {
         if (!peerFound || timeLeft <= 0) return;
         const timer = setTimeout(() => setTimeLeft(prev => prev - 1), 1000);
-
         return () => clearTimeout(timer);
     }, [peerFound, timeLeft]);
 
-    // Auto-close
+    // SessionId from match
     useEffect(() => {
-        if (peerFound && timeLeft <= 0) onConfirm();
+        if (peerFound && timeLeft <= 0) {
+            onConfirm(matchDataRef.current?.match?.roomId ?? null);
+        }
     }, [peerFound, timeLeft, onConfirm]);
 
     const formatTime = (time) => {
@@ -98,12 +104,17 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                 </div>
 
                 <div className="lets-go-wrapper">
+                    {!peerFound && !matchFailed && (
+                        <div className="letsgo-button" onClick={onClose}>
+                            Cancel
+                        </div>
+                    )}
+
                     {matchFailed && (
                         <div className="letsgo-button" onClick={onClose}>
                             Close
                         </div>
-                    )
-                    }
+                    )}
                 </div>
             </div>
         </div>

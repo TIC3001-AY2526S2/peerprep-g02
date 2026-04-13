@@ -177,3 +177,29 @@ td {
     font-size: 14px;
     outline: 2px solid #1E1E1E;
 }
+
+.partner-status-bar {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    z-index: 10;
+}
+
+.partner-status {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 2px solid #1E1E1E;
+}
+
+.partner-status.online  { background: #d4f5e2; color: #0f6e56; }
+.partner-status.offline { background: #F1EFE8; color: #888780; }
+
+/* Yjs remote cursor label */
+.cm-ySelectionInfo {
+    font-size: 11px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    opacity: 0.85;
+}
