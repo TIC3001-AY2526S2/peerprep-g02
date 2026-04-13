@@ -1,66 +1,55 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import './CollaborationPage.css';
 import { useUser } from "../../context/UserContext";
+import { io } from "socket.io-client";
 
-function Chat({ sessionId }) {
-    const { user } = useUser();
+const socket = io("http://localhost:8000");
+
+function Chat() {
+
+    const { user } = useUser()
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
-    const socketRef = useRef(null);
 
     useEffect(() => {
-        if (!sessionId) return;
+        socket.on("receive_message", (data) => {
+            setMessages((prev) => [...prev, data]);
+        });
 
-        const token = sessionStorage.getItem("token");
-        const wsUrl = `ws://localhost:8000/chat/?session_id=${sessionId}&token=${token}`;
-        socketRef.current = new WebSocket(wsUrl);
-
-        socketRef.current.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.author !== user?.username) {
-                setMessages((prev) => [...prev, data]);
-            }
+        return () => {
+            socket.off("receive_message");
         };
-
-        socketRef.current.onerror = (e) => console.error("Chat WS error:", e);
-
-        return () => socketRef.current?.close();
-    }, [sessionId]);
+    }, []);
 
     const sendMessage = () => {
-        if (!message.trim() || !socketRef.current) return;
+        if (!message.trim()) return;
 
         const messageData = {
             author: user?.username,
             text: message,
         };
 
-        socketRef.current.send(JSON.stringify(messageData));
-
+        socket.emit("send_message", messageData);
         setMessages((prev) => [...prev, messageData]);
         setMessage("");
     };
-
     return (
         <div className="collab-containers chat">
             <div className="collabBox chat">
                 <div className="collab-header-font chat">Chat</div>
                 <div className="chat-container">
                     <div className="chat-messages">
-                        {messages.length === 0 && (
-                            <div className="chat-message otherUser">
-                                <span>No messages yet. Say hello!</span>
-                            </div>
-                        )}
+                        <div className="chat-message otherUser">
+                            <strong>Other User: </strong>
+                            <span>This is a placeholder for the other user's text</span>
+                        </div>
                         {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`chat-message ${msg.author === user?.username ? "user" : "otherUser"}`}
-                            >
+                            <div key={index} className="chat-message user">
                                 <strong>{msg.author}: </strong>
                                 <span>{msg.text}</span>
                             </div>
                         ))}
+
                     </div>
 
                     <div className="chat-input-area">
