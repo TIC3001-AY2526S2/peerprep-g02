@@ -1,42 +1,70 @@
 import React, { useEffect, useRef, useState } from "react";
 import './CollaborationPage.css';
 import { useUser } from "../../context/UserContext";
+import { getUser } from "../../api/UserApi";
+import { socket } from "../../hook/socket";
 
-function Chat({ sessionId }) {
+function Chat() {
+
     const { user } = useUser();
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
-    const socketRef = useRef(null);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [otherUser, setOtherUser] = useState(null);
+    const roomInfo = JSON.parse(sessionStorage.getItem("room"));
+    const userId = user.user_id;
+    const roomId = roomInfo.roomId;
+    const otherUserId = roomInfo.users.find(id => id !== userId);
+    useEffect(() => {
+        const fetchUsers = async () => {
+            const [me, other] = await Promise.all([
+                getUser(userId),
+                getUser(otherUserId)
+            ]);
+
+            setCurrentUser(me);
+            setOtherUser(other);
+        };
+
+        fetchUsers();
+    }, [userId, otherUserId]);
 
     useEffect(() => {
-        if (!sessionId) return;
-
-        const token = sessionStorage.getItem("token");
-        const wsUrl = `ws://localhost:8000/chat/?session_id=${sessionId}&token=${token}`;
-        socketRef.current = new WebSocket(wsUrl);
-
-        socketRef.current.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.author !== user?.username) {
+        socket.on("connect", () => {
+            console.log("connected");
+            socket.emit("join_room", {
+                roomId,
+                userId
+            });
+        });
+        if (socket.connected){
+            socket.emit("join_room",{
+                roomId,
+                userId
+            });
+        }
+        socket.on("receive_message", (data) => {
+            console.log(data);
+            if (data.userId !== userId) {
                 setMessages((prev) => [...prev, data]);
             }
+        });
+
+        return () => {
+            socket.off("connect");
+            socket.off("receive_message");
         };
-
-        socketRef.current.onerror = (e) => console.error("Chat WS error:", e);
-
-        return () => socketRef.current?.close();
-    }, [sessionId]);
+    }, []);
 
     const sendMessage = () => {
-        if (!message.trim() || !socketRef.current) return;
+        if (!message.trim()) return;
 
         const messageData = {
-            author: user?.username,
-            text: message,
-        };
-
-        socketRef.current.send(JSON.stringify(messageData));
-
+            roomId,
+            userId,
+            message
+        }
+        socket.emit("send_message", messageData);
         setMessages((prev) => [...prev, messageData]);
         setMessage("");
     };
@@ -47,19 +75,16 @@ function Chat({ sessionId }) {
                 <div className="collab-header-font chat">Chat</div>
                 <div className="chat-container">
                     <div className="chat-messages">
-                        {messages.length === 0 && (
-                            <div className="chat-message otherUser">
-                                <span>No messages yet. Say hello!</span>
-                            </div>
-                        )}
                         {messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`chat-message ${msg.author === user?.username ? "user" : "otherUser"}`}
-                            >
-                                <strong>{msg.author}: </strong>
-                                <span>{msg.text}</span>
-                            </div>
+                            msg.userId === userId ?
+                                <div key={index} className="chat-message user">
+                                    <strong>{currentUser?.username}: </strong>
+                                    <span>{msg.message}</span>
+                                </div> :
+                                <div key={index} className="chat-message otherUser">
+                                    <strong>{otherUser?.username}: </strong>
+                                    <span>{msg.message}</span>
+                                </div>
                         ))}
                     </div>
 

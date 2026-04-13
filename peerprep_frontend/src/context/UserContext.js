@@ -32,7 +32,7 @@ export function UserProvider({ children }) {
 
     const payload = parseJwt(jwtToken);
 
-    setUser({...userData}, payload?.role);
+    setUser({...userData}, {"role": payload?.role, "userId": payload?.sub});
 
     sessionStorage.setItem("token", jwtToken);
     sessionStorage.setItem("user", JSON.stringify(userData));

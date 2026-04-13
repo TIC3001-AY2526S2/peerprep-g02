@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
-import sampleQuestion from '../../assets/text/sampleQuestion.txt'
+import React, {  useEffect, useState } from "react";
+// import sampleQuestion from '../../assets/text/sampleQuestion.txt'
 import './CollaborationPage.css';
 
-function CodingQuestion() {
+function CodingQuestion({ question }) {
+    const [questionTitle, setQuestionTitle] = useState("");
     const [questionText, setQuestionText] = useState("");
 
-    useEffect(() => {
-        fetch(sampleQuestion)
-            .then(res => res.text())
-            .then(text => setQuestionText(text));
-    }, []);
+    useEffect(()=>{
+        setQuestionText(question.description);
+        setQuestionTitle(question.title);
+    },[]);
 
     return (
         <div className="collab-containers question">
             <div className="collabBox question">
-                <div className="collab-header-font">9. Add Binary</div>
+                <div className="collab-header-font">{questionTitle}</div>
                 <pre>{questionText}</pre>
             </div>
         </div>

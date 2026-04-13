@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SwitchCamera } from "lucide-react";
 
 const QUESTION_GATEWAY = "http://localhost:8000/questions"
 
@@ -10,6 +11,31 @@ export const getTopics = async () => {
     } catch (error) {
         console.log(error);
         return [];
+    }
+}
+
+export const getRandomQuestion = async(topic, difficulty) =>{
+    try{
+        let complexity;
+        switch(difficulty.toLowerCase()){
+            case "beginner":
+                complexity = "Easy"
+                break;
+            case "intermediate":
+                complexity = "Medium";
+                break;
+            case "advanced":
+                complexity = "Hard";
+                break;
+        }
+        const response = await axios.get(`${QUESTION_GATEWAY}/fetchRandomQuestion/${topic}/${complexity}`);
+        if (response.data){
+            console.log(response.data);
+            return response.data.question;
+        }
+    }catch(error){
+        console.log(error);
+        return {};
     }
 }
 

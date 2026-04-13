@@ -39,7 +39,7 @@ def login(data: LoginRequest):
         raise HTTPException(401, "Incorrect password")
 
     token = create_token(user["user_id"], role=user.get("role", "user"))
-    return {"token": token, "user":{"username": user["username"], "role": user["role"]}}
+    return {"token": token, "user":{"username": user["username"], "role": user["role"], "user_id": user["user_id"]}}
 
 def get_current_user(authorization: str = Header(None)):
     if not authorization:
@@ -50,6 +50,16 @@ def get_current_user(authorization: str = Header(None)):
         raise HTTPException(401, "Invalid token")
 
     return userId
+
+@UserRouter.get("/user/{user_id}")
+def get_user(user_id: str):
+    user = userService.get_user_by_user_id(user_id)
+    if not user:
+        raise HTTPException(404, "User not found")
+    return {
+        "username": user["username"],
+        "role": user["role"]
+    }
 
 @UserRouter.put("/profile")
 def update_profile(

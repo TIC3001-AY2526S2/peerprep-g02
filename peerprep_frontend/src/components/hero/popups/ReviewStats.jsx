@@ -2,7 +2,7 @@ import React from "react";
 import "./reviewStats.css";
 import logo from "../../../assets/images/logo.jpg";
 
-function ReviewStats({ onExitCollab }) {
+function ReviewStats({ question, onExitCollab }) {
     return (
         <div className="popup-overlay">
             <div className="popup-box">
@@ -10,9 +10,9 @@ function ReviewStats({ onExitCollab }) {
                 <div>
                     <h2>Prep Complete!</h2>
                     <p>Time Taken: 04 Mins 30 Secs</p>
-                    <p>Question: Add Binary</p>
-                    <p>Topic: Arrays</p>
-                    <p>Difficulty: Beginner</p>
+                    <p>Question: {question.title}</p>
+                    <p>Topic: {question.categories}</p>
+                    <p>Difficulty: {question.complexity}</p>
                     <div className="home-button" onClick={onExitCollab}>
                         Back to Home
                     </div>

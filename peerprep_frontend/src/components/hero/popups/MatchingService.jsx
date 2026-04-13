@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import logo from "../../../assets/images/logo.jpg";
 import "./matchingService.css";
+import { getRandomQuestion } from "../../../api/QuestionApi";
 
 function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm }) {
     const [peerFound, setPeerFound] = useState(false);
@@ -12,44 +13,47 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     const matchDataRef = useRef(null); // Server response
 
     // Socket connection
-useEffect(() => {
-    console.log("WebSocket mounting, topic:", selectedTopic, "difficulty:", selectedDifficulty);
-    if (socketRef.current) return;
+    useEffect(() => {
+        console.log("WebSocket mounting, topic:", selectedTopic, "difficulty:", selectedDifficulty);
+        if (socketRef.current) return;
 
-    const token = sessionStorage.getItem("token");
-    const wsUrl = `ws://localhost:8000/matching/?token=${token}`;
-    socketRef.current = new WebSocket(wsUrl);
+        const token = sessionStorage.getItem("token");
+        const wsUrl = `ws://localhost:8000/matching/?token=${token}`;
+        socketRef.current = new WebSocket(wsUrl);
 
-    socketRef.current.onopen = () => {
-        socketRef.current.send(JSON.stringify({
-            topic: selectedTopic,
-            complexity: selectedDifficulty
-        }));
-    };
+        socketRef.current.onopen = () => {
+            socketRef.current.send(JSON.stringify({
+                topic: selectedTopic,
+                complexity: selectedDifficulty
+            }));
+        };
 
-    socketRef.current.onmessage = (msg) => {
-        const data = JSON.parse(msg.data);
-        console.log("PARSED:", data);
+        socketRef.current.onmessage = (msg) => {
+            const data = JSON.parse(msg.data);
+            console.log("PARSED:", data);
 
-        if (data.status === "Match Found") {
-            matchDataRef.current = data;
-            peerFoundRef.current = true;
-            setPeerFound(true);
-            setMatchFailed(false);
-        } else if (data.status === "timeout") {
-            setMatchFailed(true);
-        }
-    };
+            if (data.status === "Match Found") {
+                matchDataRef.current = data;
+                peerFoundRef.current = true;
+                setPeerFound(true);
+                setMatchFailed(false);
+                sessionStorage.setItem("room", JSON.stringify(data.match));
+                const questionData = getQuestion(selectedTopic, selectedDifficulty);
+                sessionStorage.setItem("question", JSON.stringify(questionData));
+            } else if (data.status === "timeout") {
+                setMatchFailed(true);
+            }
+        };
 
-    socketRef.current.onerror = () => setMatchFailed(true);
+        socketRef.current.onerror = () => setMatchFailed(true);
 
-    socketRef.current.onclose = (msg) => {
-        console.log("CLOSED — code:", msg.code, "reason:", msg.reason);
-        if (!peerFoundRef.current) setMatchFailed(true);
-    };
+        socketRef.current.onclose = (msg) => {
+            console.log("CLOSED — code:", msg.code, "reason:", msg.reason);
+            if (!peerFoundRef.current) setMatchFailed(true);
+        };
 
-    return () => socketRef.current?.close();
-}, []); // connect once, never reconnect
+        return () => socketRef.current?.close();
+    }, []); // connect once, never reconnect
 
     // Elapsed time search
     useEffect(() => {
@@ -77,7 +81,14 @@ useEffect(() => {
         const seconds = time % 60;
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
-
+    const getQuestion = async (topic, difficulty) => {
+        try {
+            const data = await getRandomQuestion(topic, difficulty);
+            return data;
+        } catch (err) {
+            console.error("Failed to fetch question:", err);
+        }
+    };
     return (
         <div className="page-container">
             <div className="matching-service-container">

@@ -7,7 +7,8 @@ import ReviewStats from "../hero/popups/ReviewStats";
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 
-function CollaborationPage({ sessionId, onExitCollab }) {
+
+function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     const [showReviewStats, setShowReviewStats] = useState(false);
     const [partnerOnline, setPartnerOnline] = useState(false);
     const ydocRef = useRef(null);
@@ -42,6 +43,7 @@ function CollaborationPage({ sessionId, onExitCollab }) {
         };
     }, [sessionId]);
 
+    const question = sessionStorage.getItem("question")
     return (
         <>
             <div className="collaboration-main-container">
@@ -51,7 +53,7 @@ function CollaborationPage({ sessionId, onExitCollab }) {
                     </span>
                 </div>
 
-                <CodingQuestion />
+                <CodingQuestion question={question} />
 
                 <Coding
                     onSubmitCode={() => setShowReviewStats(true)}
@@ -66,7 +68,7 @@ function CollaborationPage({ sessionId, onExitCollab }) {
             </div>
 
             {showReviewStats && (
-                <ReviewStats onExitCollab={onExitCollab} />
+                <ReviewStats question={question} onExitCollab={onExitCollab} />
             )}
         </>
     );

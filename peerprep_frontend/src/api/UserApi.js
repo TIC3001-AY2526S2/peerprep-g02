@@ -53,3 +53,21 @@ export const signup = async (email, password, username) => {
     }
 };
 
+export const getUser = async(user_id) =>{
+    try {
+        const response = await axios.get(`${USER_GATEWAY}/user/${user_id}`);
+        return response.data;
+
+    } catch (error) {
+        if (error.response) {
+            const status = error.response.status;
+
+            if (status === 404) {
+                console.error("User not found");
+            }
+        } else {
+            alert("Server not reachable.");
+        }
+        return {}
+    }
+}

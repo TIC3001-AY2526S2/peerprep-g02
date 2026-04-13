@@ -31,3 +31,7 @@ class UserService:
     def get_user_role(self, user_id: str) -> str:
         user = self.collection.find_one({"user_id": user_id})
         return user.get("role", "user") if user else "user"
+    
+    def get_user_by_user_id(self, user_id):
+        user = self.collection.find_one({"user_id": user_id})
+        return user

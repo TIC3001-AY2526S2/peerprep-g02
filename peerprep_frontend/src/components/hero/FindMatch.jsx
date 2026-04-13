@@ -12,25 +12,6 @@ function FindMatch({ selectedDifficulty, selectedTopic, setSelectedDifficulty, s
         }
     };
 
-    // useEffect(() => {
-    //     if (showMatching && selectedDifficulty && selectedTopic) {
-    //         console.log("a: ",selectedDifficulty);
-    //         console.log("findMatch: ", selectedTopic);
-    //         return (
-    //             <MatchingService
-    //                 selectedTopic={selectedTopic}
-    //                 selectedDifficulty={selectedDifficulty}
-    //                 onClose={closeMatchingService}
-    //                 onConfirm={() => {
-    //                     setShowMatching(false);
-    //                     setShowCollaboration(true);
-    //                 }}
-    //             />
-    //         );
-    //     }
-    // },[showMatching, selectedTopic, selectedDifficulty]);
-
-
     return (
         <div className="findmatch-container">
             <div className="findamatch-fontstyle">Find a Match!</div>

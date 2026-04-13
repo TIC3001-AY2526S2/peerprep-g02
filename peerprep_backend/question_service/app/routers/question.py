@@ -53,6 +53,19 @@ def fetchQuestion(questionID: str, res: Response):
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": "Server error"}
 
+@QuestionRouter.get("/fetchRandomQuestion/{topic}/{complexity}")
+def fetchRandomQuestion(topic: str, complexity: str, res: Response):
+    try:
+        fetchQuestion = questionService.get_random_question(topic, complexity)
+        print(fetchQuestion)
+        if fetchQuestion.get("fetched"):
+            res.status_code = status.HTTP_200_OK
+            return {"message": "Question fetched", "question": fetchQuestion.get("question")}
+        res.status_code = status.HTTP_400_BAD_REQUEST
+        return {"message": fetchQuestion.get("message")}
+    except Exception:
+        res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {"message": "Server error"}
 
 @QuestionRouter.put("/updateQuestion/{questionID}")
 def updateQuestion(questionID: str, questionData: Question, res: Response):
