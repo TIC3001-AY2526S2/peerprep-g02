@@ -78,16 +78,15 @@ function Hero({ ...heroArgs }) {
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-            {/* {showMatching && (
-                <MatchingService
-                    onClose={() => setShowMatching(false)}
-                    onConfirm={() => {
-                        setShowMatching(false);
-                        setShowCollaboration(true);
+
+            {showCollaboration && (
+                <CollaborationPage
+                    onExitCollab={() => {
+                        setShowCollaboration(false);
                     }}
                 />
-            )} */}
-            {/* {showCollaboration && <CollaborationPage />} */}
+            )}
+
             {!showAboutUs &&
                 !showHowToPlay &&
                 !showQuestions &&
@@ -105,6 +104,7 @@ function Hero({ ...heroArgs }) {
                         setShowCollaboration={setShowCollaboration}
                     />
                 )}
+
             {(showLogin || showSignup || showForgotPassword) && (
                 <LoginSignup {...loginSignupArgs} />
             )}
