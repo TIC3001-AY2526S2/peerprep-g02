@@ -7,7 +7,12 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     const [timeLeft, setTimeLeft] = useState(30); //set countdown here
     const [elapsedTime, setElapsedTime] = useState(0); //timer start from 0
 
+<<<<<<< Updated upstream
     // Before peer is found
+=======
+
+    // Socket connection
+>>>>>>> Stashed changes
     useEffect(() => {
         if (peerFound) return;
 
@@ -15,6 +20,54 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
             setElapsedTime((prev) => prev + 1);
         }, 1000);
 
+<<<<<<< Updated upstream
+=======
+        socketRef.current.onopen = () => {
+            socketRef.current.send(JSON.stringify({
+                topic: selectedTopic,
+                complexity: selectedDifficulty
+            }));
+        };
+
+        socketRef.current.onmessage = async (msg) => {
+            const data = JSON.parse(msg.data);
+            console.log("PARSED:", data);
+
+            if (data.status === "Match Found") {
+                matchDataRef.current = data;
+                peerFoundRef.current = true;
+                setPeerFound(true);
+                setMatchFailed(false);
+
+                sessionStorage.setItem("room", JSON.stringify(data.match));
+
+                try {
+                    const questionData = await getQuestion(selectedTopic, selectedDifficulty);
+                    sessionStorage.setItem("question", JSON.stringify(questionData));
+                } catch (err) {
+                    console.error("Failed to fetch question:", err);
+                }
+
+            } else if (data.status === "timeout") {
+                setMatchFailed(true);
+            }
+        };
+
+        socketRef.current.onerror = () => setMatchFailed(true);
+
+        socketRef.current.onclose = (msg) => {
+            console.log("CLOSED — code:", msg.code, "reason:", msg.reason);
+            if (!peerFoundRef.current) setMatchFailed(true);
+        };
+
+        return () => socketRef.current?.close();
+    }, []); // connect once, never reconnect
+
+    // Elapsed time search
+    useEffect(() => {
+        if (peerFound || matchFailed) return;
+        const interval = setInterval(() => setElapsedTime(prev => prev + 1), 1000);
+>>>>>>> Stashed changes
         return () => clearInterval(interval);
     }, [peerFound]);
 

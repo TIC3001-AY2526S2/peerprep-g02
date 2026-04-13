@@ -1,9 +1,29 @@
 [
     {
         "title": "Reverse a String",
+<<<<<<< Updated upstream
         "description": "Write a function that reverses a string. The input string is given as an array of characters s.  You must do this by modifying the input array in-place with O(1) extra memory.  Example 1:  Input: s = ['h','e','l','l','o'] Output: ['o','l','l','e','h']  Example 2:  Input: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"] Output: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]  Constraints:  1 <= s.length <= 10^5 s[i] is a printable ASCII character.",
         "categories": ["Strings", "Algorithms"],
         "complexity": "Easy"
+=======
+        "description": "Write a function that reverses a string.\n\nThe input string is given as an array of characters s.\nYou must do this by modifying the input array in-place with O(1) extra memory.\n\nExample 1:\nInput: s = ['h','e','l','l','o']\nOutput: ['o','l','l','e','h']\n\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\n\nConstraints:\n1 <= s.length <= 10^5\ns[i] is a printable ASCII character.",
+        "categories": [
+            "Strings",
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "h e l l o",
+            "H a n n a h"
+        ],
+        "expected_output": [
+            "o l l e h",
+            "h a n n a H"
+        ],
+        "run_code": {
+            "python": "import sys\n\narr = list(map(int, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
+        }
+>>>>>>> Stashed changes
     },
     {
         "title": "Linked List Cycle Detection",
@@ -26,14 +46,44 @@
     {
         "title": "Implement Stack using Queues",
         "description": "Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).",
+<<<<<<< Updated upstream
         "categories": ["Data Structures"],
         "complexity": "Easy"
+=======
+        "categories": [
+            "Data Structures"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "MyStack push push top pop empty\n 0 1 2 3 4 5"
+        ],
+        "expected_output": [
+            "null null null 2 2 False"
+        ],
+        "run_code": {
+            "python": "import sys\n\nlines = sys.stdin.read().strip().split('\\n')\ncommands = lines[0].split()\nargs_list = lines[1].split()\n\nargs = []\ni = 0\nfor cmd in commands:\n    if cmd == 'MyStack':\n        args.append([])\n    elif cmd in ('push',):\n        args.append([int(args_list[i])])\n        i += 1\n    else:\n        args.append([])\n\n# Execute commands\nobj = None\nresults = []\nfor cmd, arg in zip(commands, args):\n    if cmd == 'MyStack':\n        obj = MyStack()\n        results.append('null')\n    elif cmd == 'push':\n        obj.push(arg[0])\n        results.append('null')\n    elif cmd == 'pop':\n        results.append(str(obj.pop()))\n    elif cmd == 'top':\n        results.append(str(obj.top()))\n    elif cmd == 'empty':\n        results.append(str(obj.empty()).lower())\n\n# Print results space-separated\nprint(' '.join(results))"
+        }
+>>>>>>> Stashed changes
     },
     {
         "title": "Combine Two Tables",
         "description": "Given table Person with the following columns: 1. personId (int) 2. lastName (varchar) 3. firstName (varchar) personId is the primary key. And table Address with the following columns: 1. addressId (int) 2. personId (int) 3. city (varchar) 4. state (varchar) addressId is the primary key. Write a solution to report the first name, last name, city, and state of each person in the Person table. If the address of a personId is not present in the Address table, report null instead. Return the result table in any order.",
+<<<<<<< Updated upstream
         "categories": ["Databases"],
         "complexity": "Easy"
+=======
+        "categories": [
+            "Databases"
+        ],
+        "complexity": "Easy",
+        "input": [
+            ""
+        ],
+        "expected_output": "Allen Wang NULL NULL\nBob Alice New York City New York",
+        "run_code": {
+            "mySQL": "CREATE TABLE Person(personId INT, lastName VARCHAR(50), firstName VARCHAR(50));\nCREATE TABLE Address(addressId INT, personId INT, city VARCHAR(50), state VARCHAR(50));\n\nINSERT INTO Person VALUES (1, 'Wang', 'Allen'), (2, 'Alice', 'Bob');\nINSERT INTO Address VALUES (1, 2, 'New York City', 'New York'), (2, 3, 'Leetcode', 'California');"
+        }
+>>>>>>> Stashed changes
     },
     {
         "title": "Repeated DNA Sequences",

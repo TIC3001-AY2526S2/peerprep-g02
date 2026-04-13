@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DropdownContainer from "./DropdownContainer";
 import MatchingService from "./popups/MatchingService";
 
+<<<<<<< Updated upstream
 function FindMatch({ topicOptions, showMatching, setShowMatching }) {
     const [selectedDifficulty, setSelectedDifficulty] = useState("");
     const [selectedTopic, setSelectedTopic] = useState("");
@@ -9,6 +10,32 @@ function FindMatch({ topicOptions, showMatching, setShowMatching }) {
 
     const start = () => {
         setShowMatching(true);
+=======
+function FindMatch({
+    selectedDifficulty,
+    selectedTopic,
+    setSelectedDifficulty,
+    setSelectedTopic,
+    topicOptions,
+    isLoggedIn,
+    setShowCollaboration,
+    showMatching,
+    setShowMatching,
+    setSelectedQuestion
+}) {
+    const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
+
+    const start = (e) => {
+        e.preventDefault();
+        if (isLoggedIn && selectedTopic && selectedDifficulty) {
+            setSelectedQuestion({
+                id: 1,
+                topic: selectedTopic,
+                difficulty: selectedDifficulty
+            });
+            setShowMatching(true);
+        }
+>>>>>>> Stashed changes
     };
 
     const closeMatchingService = () => {

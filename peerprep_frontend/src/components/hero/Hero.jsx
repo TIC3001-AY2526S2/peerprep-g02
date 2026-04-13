@@ -69,17 +69,28 @@ function Hero({ ...heroArgs }) {
         setUpdate: setUpdate
     };
 
+    console.log("selectedQuestion:", selectedQuestion);
+
     return (
         <div className="hero-section-wrapper">
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
+<<<<<<< Updated upstream
             {showMatching && (
                 <MatchingService
                     onClose={() => setShowMatching(false)}
                     onConfirm={() => {
                         setShowMatching(false);
                         setShowCollaboration(true);
+=======
+
+            {showCollaboration && selectedQuestion && (
+                <CollaborationPage
+                    questionId={selectedQuestion.id}
+                    onExitCollab={() => {
+                        setShowCollaboration(false);
+>>>>>>> Stashed changes
                     }}
                 />
             )}
@@ -95,6 +106,11 @@ function Hero({ ...heroArgs }) {
                         topicOptions={topicOptions}
                         showMatching={showMatching}
                         setShowMatching={setShowMatching}
+<<<<<<< Updated upstream
+=======
+                        setShowCollaboration={setShowCollaboration}
+                        setSelectedQuestion={setSelectedQuestion}
+>>>>>>> Stashed changes
                     />
                 )}
 
