@@ -25,7 +25,11 @@ function Hero({ ...heroArgs }) {
         showMatching,
         setShowMatching,
         showCollaboration,
-        setShowCollaboration
+        setShowCollaboration,
+        selectedTopic,
+        selectedDifficulty,
+        setSelectedTopic,
+        setSelectedDifficulty
     } = heroArgs;
 
     const [topicOptions, setTopicOptions] = useState([]);
@@ -93,6 +97,10 @@ function Hero({ ...heroArgs }) {
                         setShowMatching={setShowMatching}
                         setShowCollaboration={setShowCollaboration}
                         setSelectedQuestion={setSelectedQuestion}
+                        selectedTopic={selectedTopic}
+                        selectedDifficulty={selectedDifficulty}
+                        setSelectedTopic={setSelectedTopic}
+                        setSelectedDifficulty={setSelectedDifficulty}
                     />
                 )}
 

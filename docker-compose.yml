@@ -66,7 +66,7 @@ services:
     build: ./peerprep_backend/collaboration_service
     container_name: collaboration-service
     ports:
-      - "5000:5000"
+      - "3000:3000"
     environment:
       - CLIENT_ORIGIN=http://localhost:3000
   yws-service:
