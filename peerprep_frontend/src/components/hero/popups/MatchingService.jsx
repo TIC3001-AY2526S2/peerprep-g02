@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../../../assets/images/logo.jpg";
 import "./matchingService.css";
+import { getQuestion } from "../../../api/QuestionApi";
 
 function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm }) {
     const [peerFound, setPeerFound] = useState(false);
-    const [timeLeft, setTimeLeft] = useState(30); //set countdown here
-    const [elapsedTime, setElapsedTime] = useState(0); //timer start from 0
+    const [timeLeft, setTimeLeft] = useState(30);
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [matchFailed, setMatchFailed] = useState(false);
 
-<<<<<<< Updated upstream
-    // Before peer is found
-=======
+    const socketRef = useRef(null);
+    const matchDataRef = useRef(null);
+    const peerFoundRef = useRef(false);
 
     // Socket connection
->>>>>>> Stashed changes
     useEffect(() => {
-        if (peerFound) return;
+        socketRef.current = new WebSocket(
+            import.meta.env.VITE_MATCHING_WS_URL || "ws://localhost:5000"
+        );
 
-        const interval = setInterval(() => {
-            setElapsedTime((prev) => prev + 1);
-        }, 1000);
-
-<<<<<<< Updated upstream
-=======
         socketRef.current.onopen = () => {
             socketRef.current.send(JSON.stringify({
                 topic: selectedTopic,
@@ -47,7 +44,6 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                 } catch (err) {
                     console.error("Failed to fetch question:", err);
                 }
-
             } else if (data.status === "timeout") {
                 setMatchFailed(true);
             }
@@ -63,23 +59,14 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         return () => socketRef.current?.close();
     }, []); // connect once, never reconnect
 
-    // Elapsed time search
+    // Elapsed time during search
     useEffect(() => {
         if (peerFound || matchFailed) return;
         const interval = setInterval(() => setElapsedTime(prev => prev + 1), 1000);
->>>>>>> Stashed changes
         return () => clearInterval(interval);
-    }, [peerFound]);
+    }, [peerFound, matchFailed]);
 
-    // Simulate peer found at 3 seconds
-    useEffect(() => {
-        if (elapsedTime === 3) {
-            setPeerFound(true);
-            setTimeLeft(30);
-        }
-    }, [elapsedTime]);
-
-    // After peer is found
+    // After peer is found, countdown before auto-close
     useEffect(() => {
         if (!peerFound) return;
 
@@ -103,7 +90,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
 
     const handleButtonClick = () => {
         if (peerFound) {
-            onConfirm();
+            onConfirm(matchDataRef.current?.match?.roomId, JSON.parse(sessionStorage.getItem("question")));
         } else {
             onClose();
         }
@@ -122,9 +109,13 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                     <img src={logo} alt="Logo" className="matching-profile-image" />
 
                     <div className="findamatch-fontstyle">
-                        {peerFound ? "Peer Found!" : "Finding a Peer..."}
+                        {matchFailed
+                            ? "No peer found. Please try again."
+                            : peerFound
+                                ? "Peer Found!"
+                                : "Finding a Peer..."}
                         <br />
-                        {peerFound ? formatTime(timeLeft) : formatTime(elapsedTime)}
+                        {!matchFailed && (peerFound ? formatTime(timeLeft) : formatTime(elapsedTime))}
                     </div>
 
                     <img src={logo} alt="Logo" className="matching-profile-image" />

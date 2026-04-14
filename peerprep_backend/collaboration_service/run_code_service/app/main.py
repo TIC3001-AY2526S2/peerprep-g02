@@ -17,4 +17,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+sio = socketio.AsyncServer(
+    async_mode="asgi",
+    cors_allowed_origins=["http://localhost:3000"]
+)
+
+socket_app = socketio.ASGIApp(sio, app)
 app.include_router(runCodeRouter)

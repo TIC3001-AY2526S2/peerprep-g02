@@ -5,7 +5,6 @@ import Questions from "./Questions";
 import FindMatch from "./FindMatch";
 import CollaborationPage from "./CollaborationPage";
 import LoginSignup from "./popups/LoginSignup";
-import MatchingService from "./popups/MatchingService";
 import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "./popups/QuestionForm";
 
@@ -38,7 +37,6 @@ function Hero({ ...heroArgs }) {
         get_topics();
     }, []);
 
-
     const get_topics = async () => {
         const topics = await getTopics();
         setTopicOptions(topics);
@@ -69,33 +67,20 @@ function Hero({ ...heroArgs }) {
         setUpdate: setUpdate
     };
 
-    console.log("selectedQuestion:", selectedQuestion);
-
     return (
         <div className="hero-section-wrapper">
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
-<<<<<<< Updated upstream
-            {showMatching && (
-                <MatchingService
-                    onClose={() => setShowMatching(false)}
-                    onConfirm={() => {
-                        setShowMatching(false);
-                        setShowCollaboration(true);
-=======
 
             {showCollaboration && selectedQuestion && (
                 <CollaborationPage
                     questionId={selectedQuestion.id}
                     onExitCollab={() => {
                         setShowCollaboration(false);
->>>>>>> Stashed changes
                     }}
                 />
             )}
-
-            {showCollaboration && <CollaborationPage />}
 
             {!showAboutUs &&
                 !showHowToPlay &&
@@ -106,11 +91,8 @@ function Hero({ ...heroArgs }) {
                         topicOptions={topicOptions}
                         showMatching={showMatching}
                         setShowMatching={setShowMatching}
-<<<<<<< Updated upstream
-=======
                         setShowCollaboration={setShowCollaboration}
                         setSelectedQuestion={setSelectedQuestion}
->>>>>>> Stashed changes
                     />
                 )}
 

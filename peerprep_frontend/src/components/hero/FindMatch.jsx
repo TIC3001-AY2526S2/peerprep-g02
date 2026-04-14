@@ -1,16 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import DropdownContainer from "./DropdownContainer";
-import MatchingService from "./popups/MatchingService";
 
-<<<<<<< Updated upstream
-function FindMatch({ topicOptions, showMatching, setShowMatching }) {
-    const [selectedDifficulty, setSelectedDifficulty] = useState("");
-    const [selectedTopic, setSelectedTopic] = useState("");
-    const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
-
-    const start = () => {
-        setShowMatching(true);
-=======
 function FindMatch({
     selectedDifficulty,
     selectedTopic,
@@ -35,22 +25,7 @@ function FindMatch({
             });
             setShowMatching(true);
         }
->>>>>>> Stashed changes
     };
-
-    const closeMatchingService = () => {
-        setShowMatching(false);
-    };
-
-    if (showMatching) {
-        return (
-            <MatchingService
-                selectedTopic={selectedTopic}
-                selectedDifficulty={selectedDifficulty}
-                onClose={closeMatchingService}
-            />
-        );
-    }
 
     return (
         <div className="findmatch-container">

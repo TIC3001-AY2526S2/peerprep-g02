@@ -3,30 +3,15 @@ import './LandingPage.css';
 import Header from '../components/header/Header'
 import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
-<<<<<<< Updated upstream
-import { useUser } from "../context/UserContext"
-=======
 import MatchingService from "../components/hero/popups/MatchingService";
 import CollaborationHeader from "../components/header/CollaborationHeader";
 import CollaborationPage from "../components/hero/CollaborationPage";
 import { useUser } from "../context/UserContext";
->>>>>>> Stashed changes
 
 function LandingPage() {
     const [isLoggedIn, setLoggedIn] = useState(false);
-    const [showAboutUs, setShowAboutUs] = useState(false);
-    const [showHowToPlay, setShowHowToPlay] = useState(false);
-    const [showQuestions, setShowQuestions] = useState(false);
-    const [showLogin, setShowLogin] = useState(false);
-    const [showSignup, setShowSignup] = useState(false);
-    const [showForgotPassword, setShowForgotPassword] = useState(false);
-    const [showQuestionForm, setShowQuestionForm] = useState(false);
-    const [showMatching, setShowMatching] = useState(false); //toggle matching service
-    const [showCollaboration, setShowCollaboration] = useState(false);
     const user = JSON.parse(sessionStorage.getItem("user"));
-<<<<<<< Updated upstream
     const { login, logout, isTokenExpired } = useUser();
-=======
 
     const [uiState, setUiState] = useState({
         showAboutUs: false,
@@ -44,7 +29,6 @@ function LandingPage() {
     const [selectedDifficulty, setSelectedDifficulty] = useState("");
     const [selectedTopic, setSelectedTopic] = useState("");
     const [selectedQuestion, setSelectedQuestion] = useState(null);
->>>>>>> Stashed changes
 
     useEffect(() => {
         const token = sessionStorage.getItem("token");
@@ -54,47 +38,7 @@ function LandingPage() {
             logout();
         }
     }, []);
-    const headerArgs = {
-        isLoggedIn: isLoggedIn,
-        setShowAboutUs: setShowAboutUs,
-        setShowHowToPlay: setShowHowToPlay,
-        setShowQuestions: setShowQuestions,
-        setShowLogin: setShowLogin,
-        setShowSignup: setShowSignup,
-        setShowForgotPassword: setShowForgotPassword
-    }
 
-<<<<<<< Updated upstream
-    const heroArgs = {
-        showAboutUs: showAboutUs,
-        showHowToPlay: showHowToPlay,
-        showQuestions: showQuestions,
-        showLogin: showLogin,
-        showSignup: showSignup,
-        showForgotPassword: showForgotPassword,
-        showQuestionForm: showQuestionForm,
-        showMatching: showMatching,
-        showCollaboration: showCollaboration,
-        setShowMatching: setShowMatching,
-        setShowLogin: setShowLogin,
-        setShowSignup: setShowSignup,
-        setShowForgotPassword: setShowForgotPassword,
-        setLoggedIn: setLoggedIn,
-        setShowQuestionForm: setShowQuestionForm,
-        setShowCollaboration: setShowCollaboration,
-    }
-
-    return (
-        <>
-            <div className='background-container'>
-                <Header isDisabled={showMatching || showCollaboration} {...headerArgs} />
-                <>
-                    <Hero {...heroArgs} />
-                </>
-                <Footer />
-            </div>
-        </>
-=======
     const updateUi = (updates) => setUiState(prev => ({ ...prev, ...updates }));
 
     const handleExit = () => {
@@ -166,7 +110,6 @@ function LandingPage() {
 
             <Footer />
         </div>
->>>>>>> Stashed changes
     );
 }
 

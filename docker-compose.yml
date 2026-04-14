@@ -62,3 +62,18 @@ services:
     environment:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
+  collaboration-service:
+    build: ./peerprep_backend/collaboration_service
+    container_name: collaboration-service
+    ports:
+      - "5000:5000"
+    environment:
+      - CLIENT_ORIGIN=http://localhost:3000
+  yws-service:
+    build: ./peerprep_backend/yws_service
+    container_name: yws-service
+    ports:
+      - "1234:1234"
+    environment:
+      - PORT=1234
+      - HOST=0.0.0.0

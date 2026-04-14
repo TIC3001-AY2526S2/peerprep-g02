@@ -5,8 +5,7 @@ const QUESTION_GATEWAY = "http://localhost:8000/questions"
 export const getTopics = async () => {
     try {
         const response = await axios.get(`${QUESTION_GATEWAY}/topics`);
-        const topics = response.data.topics;
-        return topics;
+        return response.data.topics;
     } catch (error) {
         console.log(error);
         return [];
@@ -16,23 +15,33 @@ export const getTopics = async () => {
 export const getQuestions = async () => {
     try {
         const response = await axios.get(`${QUESTION_GATEWAY}/fetchQuestions`);
-        const questions = response.data.questions;
-        return questions;
+        return response.data.questions;
     } catch (error) {
         console.log(error);
         return [];
     }
 }
 
+export const getQuestion = async (topic, difficulty) => {
+    try {
+        const questions = await getQuestions();
+        const filtered = questions.filter(
+            q => q.categories === topic && q.complexity === difficulty
+        );
+        if (!filtered.length) throw new Error("No matching question found");
+        return filtered[Math.floor(Math.random() * filtered.length)];
+    } catch (error) {
+        console.error("Error fetching question:", error);
+        throw error;
+    }
+};
+
 export const createQuestion = async (questionData) => {
     const token = sessionStorage.getItem("token");
     try {
-        const response = await axios.post(`${QUESTION_GATEWAY}/newQuestion`, questionData,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }); // Adjusted route
+        const response = await axios.post(`${QUESTION_GATEWAY}/newQuestion`, questionData, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
         return response.data;
     } catch (error) {
         console.error("Error creating question:", error);
@@ -43,13 +52,12 @@ export const createQuestion = async (questionData) => {
 export const updateQuestion = async (id, questionData) => {
     const token = sessionStorage.getItem("token");
     try {
-        const response = await axios.put(`${QUESTION_GATEWAY}/updateQuestion/${id}`, questionData,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            });
+        const response = await axios.put(`${QUESTION_GATEWAY}/updateQuestion/${id}`, questionData, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
     } catch (error) {
         console.error("Error updating question:", error);
@@ -60,13 +68,12 @@ export const updateQuestion = async (id, questionData) => {
 export const deleteQuestion = async (id) => {
     const token = sessionStorage.getItem("token");
     try {
-        const response = await axios.delete(`${QUESTION_GATEWAY}/deleteQuestion/${id}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            });
+        const response = await axios.delete(`${QUESTION_GATEWAY}/deleteQuestion/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
         return response.data;
     } catch (error) {
         console.error("Error deleting question:", error);

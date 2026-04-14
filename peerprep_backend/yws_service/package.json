@@ -1,0 +1,10 @@
+{
+  "name": "yws-service",
+  "version": "1.0.0",
+  "dependencies": {
+    "y-websocket": "^2.0.0"
+  },
+  "scripts": {
+    "start": "node -e \"require('y-websocket/bin/utils')\" || node node_modules/y-websocket/dist/server.cjs"
+  }
+}
