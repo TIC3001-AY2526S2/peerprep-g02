@@ -29,7 +29,8 @@ function Hero({ ...heroArgs }) {
         selectedTopic,
         selectedDifficulty,
         setSelectedTopic,
-        setSelectedDifficulty
+        setSelectedDifficulty,
+        isLoggedIn
     } = heroArgs;
 
     const [topicOptions, setTopicOptions] = useState([]);
@@ -101,6 +102,7 @@ function Hero({ ...heroArgs }) {
                         selectedDifficulty={selectedDifficulty}
                         setSelectedTopic={setSelectedTopic}
                         setSelectedDifficulty={setSelectedDifficulty}
+                        isLoggedIn={isLoggedIn}
                     />
                 )}
 

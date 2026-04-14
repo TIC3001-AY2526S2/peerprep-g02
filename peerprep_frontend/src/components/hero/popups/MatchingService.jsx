@@ -16,7 +16,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     // Socket connection
     useEffect(() => {
         socketRef.current = new WebSocket(
-            import.meta.env.VITE_MATCHING_WS_URL || "ws://localhost:3000"
+            import.meta.env.VITE_MATCHING_WS_URL || "ws://localhost:5000"
         );
 
         socketRef.current.onopen = () => {
