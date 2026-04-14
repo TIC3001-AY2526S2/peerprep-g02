@@ -346,5 +346,133 @@
         "run_code": {
             "mySQL": "CREATE TABLE IF NOT EXISTS Trips (id INT, client_id INT, driver_id INT, city_id INT, status ENUM('completed','cancelled_by_driver','cancelled_by_client'), request_at DATE); CREATE TABLE IF NOT EXISTS Users (users_id INT, banned ENUM('Yes','No'), role ENUM('client','driver','partner')); INSERT INTO Trips (id, client_id, driver_id, city_id, status, request_at) VALUES (1,1,10,1,'completed','2013-10-01'), (2,2,11,1,'cancelled_by_driver','2013-10-01'), (3,3,12,6,'completed','2013-10-01'), (4,4,13,6,'cancelled_by_client','2013-10-01'), (5,1,10,1,'completed','2013-10-02'), (6,2,11,6,'completed','2013-10-02'), (7,3,12,6,'completed','2013-10-02'), (8,2,12,12,'completed','2013-10-03'), (9,3,10,12,'completed','2013-10-03'), (10,4,13,12,'cancelled_by_driver','2013-10-03'); INSERT INTO Users (users_id, banned, role) VALUES (1,'No','client'), (2,'Yes','client'), (3,'No','client'), (4,'No','client'), (10,'No','driver'), (11,'No','driver'), (12,'No','driver'), (13,'No','driver');"
         }
+    },
+    {
+        "title": "Merge Two Binary Trees",
+        "description": "You are given two binary trees root1 and root2. Imagine that when you put one of them to cover the other, some nodes of the two trees overlap while the others do not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the non-null node will be used as the node of the new tree.",
+        "categories": [
+            "Recursion",
+            "Data Structures"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "1 3 2 5\n2 1 3 null 4 null 7"
+        ],
+        "expected_output": [
+            "3 4 5 5 4 null 7"
+        ],
+        "run_code": {
+            "python": "import sys\n# Assume TreeNode and mergeTrees are implemented\nprint('Merged Tree Output')"
+        }
+    },
+    {
+        "title": "Generate Parentheses",
+        "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
+        "categories": [
+            "Recursion",
+            "Backtracking"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "3"
+        ],
+        "expected_output": [
+            "((())) (()()) (())() ()(()) ()()()"
+        ],
+        "run_code": {
+            "python": "import sys\nn=int(sys.stdin.read().strip())\nprint(generateParenthesis(n))"
+        }
+    },
+    {
+        "title": "Sudoku Solver",
+        "description": "Write a program to solve a Sudoku puzzle by filling the empty cells. A sudoku solution must satisfy all of the following rules: Each of the digits 1-9 must occur exactly once in each row, each column, and each of the nine 3x3 sub-boxes of the grid.",
+        "categories": [
+            "Recursion",
+            "Backtracking"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "5 3 . . 7 . . . .\n6 . . 1 9 5 . . .\n. 9 8 . . . . 6 .\n8 . . . 6 . . . 3\n4 . . 8 . 3 . . 1\n7 . . . 2 . . . 6\n. 6 . . . . 2 8 .\n. . . 4 1 9 . . 5\n. . . . 8 . . 7 9"
+        ],
+        "expected_output": [
+            "Solved Sudoku Grid"
+        ],
+        "run_code": {
+            "python": "import sys\n# Assume solveSudoku(board) modifies board in-place\nprint('Solved')"
+        }
+    },
+    {
+        "title": "Number of 1 Bits",
+        "description": "Write a function that takes an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight). Example 1: Input: n = 11 (binary: 1011) Output: 3 Example 2: Input: n = 128 (binary: 10000000) Output: 1 Example 3: Input: n = 2147483645 (binary: 1111111111111111111111111111101) Output: 30",
+        "categories": [
+            "Bit Manipulation"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "11",
+            "128"
+        ],
+        "expected_output": [
+            "3",
+            "1"
+        ],
+        "run_code": {
+            "python": "import sys\nn = int(sys.stdin.read().strip())\nprint(hammingWeight(n))"
+        }
+    },
+    {
+        "title": "Two Sum",
+        "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order. Example: Input: nums = [2,7,11,15], target = 9 Output: [0,1]",
+        "categories": [
+            "Arrays",
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "2 7 11 15\n9"
+        ],
+        "expected_output": [
+            "0 1"
+        ],
+        "run_code": {
+            "python": "import sys\nlines = sys.stdin.read().strip().split('\\n')\nnums = list(map(int, lines[0].split()))\ntarget = int(lines[1])\nprint(twoSum(nums, target))"
+        }
+    },
+    {
+        "title": "Nim Game",
+        "description": "You are playing the Nim Game with your friend. There is a heap of stones on the table, and you take turns removing 1 to 3 stones. The one who removes the last stone wins. You will take the first turn. Given n, the number of stones, return true if you can win assuming both players play optimally. Example 1: Input: n = 4 Output: false Example 2: Input: n = 1 Output: true Example 3: Input: n = 2 Output: true",
+        "categories": [
+            "Brainteaser",
+            "Game Theory"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "4",
+            "1"
+        ],
+        "expected_output": [
+            "false",
+            "true"
+        ],
+        "run_code": {
+            "python": "import sys\nn = int(sys.stdin.read().strip())\nprint(canWinNim(n))"
+        }
+    },
+    {
+        "title": "Department Highest Salary",
+        "description": "Table: Employee\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| id          | int     |\n| name        | varchar |\n| salary      | int     |\n| departmentId| int     |\n+-------------+---------+\nid is the primary key.\n\nTable: Department\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| id          | int     |\n| name        | varchar |\n+-------------+---------+\nid is the primary key.\n\nWrite a solution to find employees who have the highest salary in each of the departments. Return the result table in any order.",
+        "categories": [
+            "Databases"
+        ],
+        "complexity": "Medium",
+        "input": [
+            ""
+        ],
+        "expected_output": [
+            "Department Employee Salary"
+        ],
+        "run_code": {
+            "mySQL": "SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary\nFROM Employee e\nJOIN Department d ON e.departmentId = d.id\nWHERE e.salary = (\n    SELECT MAX(salary)\n    FROM Employee\n    WHERE departmentId = e.departmentId\n);"
+        }
     }
 ]
