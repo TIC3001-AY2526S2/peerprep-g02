@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { loginUser } from '../../../api/UserApi';
-import { useUser } from '../../../context/UserContext';
+import { loginUser } from '../../api/UserApi';
+import { useUser } from '../../context/UserContext';
 
 function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLoggedIn }) {
     const [email, setEmail] = useState("");

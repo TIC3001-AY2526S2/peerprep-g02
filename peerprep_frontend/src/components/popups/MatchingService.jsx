@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import logo from "../../../assets/images/logo.jpg";
+import logo from "../../assets/images/logo.jpg";
 import "./matchingService.css";
-import { getRandomQuestion } from "../../../api/QuestionApi";
+import { getRandomQuestion } from "../../api/QuestionApi";
 
 function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm }) {
     const [peerFound, setPeerFound] = useState(false);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signup } from '../../../api/UserApi';
+import { signup } from '../../api/UserApi';
 
 function SignupForm({handleCancel, setShowLogin}) {
     const [email, setEmail] = useState("");

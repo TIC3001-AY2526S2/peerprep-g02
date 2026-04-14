@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { createQuestion, updateQuestion } from '../../../api/QuestionApi';
+import { createQuestion, updateQuestion } from '../../api/QuestionApi';
 import './questionForm.css';
 
 function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, update }) {

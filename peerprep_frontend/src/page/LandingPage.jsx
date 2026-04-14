@@ -3,7 +3,7 @@ import './LandingPage.css';
 import Header from '../components/header/Header';
 import Hero from "../components/hero/Hero";
 import Footer from "../components/footer/Footer";
-import MatchingService from "../components/hero/popups/MatchingService";
+import MatchingService from "../components/popups/MatchingService";
 import CollaborationPage from "../components/hero/CollaborationPage";
 import { useUser } from "../context/UserContext";
 

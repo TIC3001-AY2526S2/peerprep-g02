@@ -1,6 +1,6 @@
 import React from "react";
 import "./reviewStats.css";
-import logo from "../../../assets/images/logo.jpg";
+import logo from "../../assets/images/logo.jpg";
 
 function ReviewStats({ question, onExitCollab }) {
     return (

@@ -3,7 +3,7 @@ import Chat from "./Chat";
 import Coding from "./Coding";
 import CodingQuestion from "./CodingQuestion";
 import './CollaborationPage.css';
-import ReviewStats from "../hero/popups/ReviewStats";
+import ReviewStats from "../popups/ReviewStats";
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 
