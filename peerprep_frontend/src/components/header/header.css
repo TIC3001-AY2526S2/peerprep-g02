@@ -31,3 +31,14 @@
     align-items: center;
     gap: 1rem;
 }
+
+.timer {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.timer-warning {
+    color: red;
+}

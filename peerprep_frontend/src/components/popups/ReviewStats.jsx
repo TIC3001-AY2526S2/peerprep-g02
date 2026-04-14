@@ -2,14 +2,22 @@ import React from "react";
 import "./reviewStats.css";
 import logo from "../../assets/images/logo.jpg";
 
-function ReviewStats({ question, onExitCollab }) {
+function ReviewStats({ question, onExitCollab, timeLeft, totalTime }) {
+    const timeTaken = totalTime - timeLeft;
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${minutes} Mins ${seconds} Secs`;
+    };
+
     return (
         <div className="popup-overlay">
             <div className="popup-box">
                 <img src={logo} alt="Logo" className="matching-profile-image" />
                 <div>
                     <h2>Prep Complete!</h2>
-                    <p>Time Taken: 04 Mins 30 Secs</p>
+                    <p>Time Taken: {formatTime(timeTaken)}</p>
                     <p>Question: {question.title}</p>
                     <p>Topic: {question.categories}</p>
                     <p>Difficulty: {question.complexity}</p>

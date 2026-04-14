@@ -76,17 +76,33 @@ function Coding({ onSubmitCode, ydoc, provider }) {
                                 <th>Expression</th>
                                 <th>Expected</th>
                                 <th>Output</th>
-                                <th>Pass?</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
-                            <tr>
+                            <tr className="test-pass">
                                 <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
                                 <td>(2.000000, 2.000000)</td>
                                 <td>(2.000000, 2.000000)</td>
-                                <td className="status-cell">
-                                    <span className="tick">✓</span>
-                                </td>
+                            </tr>
+                            <tr className="test-fail">
+                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
+                                <td>(2.000000, 2.000000)</td>
+                                <td>(2.000000, 2.000000)</td>
+                            </tr>
+                            <tr className="test-fail">
+                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
+                                <td>(2.000000, 2.000000)</td>
+                                <td>(2.000000, 2.000000)</td>
+                            </tr>
+                            <tr className="test-fail">
+                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
+                                <td>(2.000000, 2.000000)</td>
+                                <td>(2.000000, 2.000000)</td>
+                            </tr>
+                            <tr className="test-fail">
+                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
+                                <td>(2.000000, 2.000000)</td>
+                                <td>(2.000000, 2.000000)</td>
                             </tr>
                         </tbody>
                     </table>

@@ -4,7 +4,7 @@ import { useUser } from "../../context/UserContext";
 import { getUser } from "../../api/UserApi";
 import { socket } from "../../hook/socket";
 
-function Chat() {
+function Chat({ partnerOnline }) {
 
     const { user } = useUser();
     const [message, setMessage] = useState("");
@@ -37,8 +37,8 @@ function Chat() {
                 userId
             });
         });
-        if (socket.connected){
-            socket.emit("join_room",{
+        if (socket.connected) {
+            socket.emit("join_room", {
                 roomId,
                 userId
             });
@@ -72,9 +72,17 @@ function Chat() {
     return (
         <div className="collab-containers chat">
             <div className="collabBox chat">
-                <div className="collab-header-font chat">Chat</div>
+                <div className="collab-header-font chat">
+                    <div>Chat</div>
+                    <div>
+                        <span className={`partner-status ${partnerOnline ? 'online' : 'offline'}`}>
+                            {partnerOnline ? '● Partner connected' : '○ Waiting for partner…'}
+                        </span>
+                    </div>
+                </div>
                 <div className="chat-container">
                     <div className="chat-messages">
+                        <div className="chat-message initial">Start chatting with <strong>{otherUser?.username} </strong>!</div>
                         {messages.map((msg, index) => (
                             msg.userId === userId ?
                                 <div key={index} className="chat-message user">
