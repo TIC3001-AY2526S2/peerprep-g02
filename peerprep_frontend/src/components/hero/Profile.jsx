@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useUser } from "../../context/UserContext";
 import { getProfile, updateProfile } from "../../api/UserApi";
 import "./Profile.css";
 
 function Profile() {
-    const { token } = useUser();
+    const { token, user, setUser } = useUser();
 
     console.log("TOKEN:", token);
     console.log("AUTH HEADER:", {
@@ -37,11 +36,13 @@ function Profile() {
                     username: data.username || "",
                     email: data.email || ""
                 }));
+
+                setUser(data);
             }
         };
 
         loadProfile();
-    }, [token]);
+    }, [token, setUser]);
 
 
     const handleChange = (e) => {
@@ -79,6 +80,20 @@ function Profile() {
 
         if (res) {
             alert(`${field} updated!`);
+
+            if (field === "username") {
+                setUser({
+                    ...user,
+                    username: form.username
+                });
+            }
+
+            if (field === "email") {
+                setUser({
+                    ...user,
+                    email: form.email
+                });
+            }
 
             setEditField(prev => ({
                 ...prev,

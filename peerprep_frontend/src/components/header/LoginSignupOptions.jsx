@@ -28,7 +28,7 @@ function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn, setShowP
             </>}
             {user && <>
                 <div className='button' onClick={openProfile}>Profile</div>
-                <div className='button' onClick={() => { setLoggedIn(false); logout(); }}>Log out</div>
+                <div className='button' onClick={() => { setLoggedIn(false); logout(); setShowProfile(false); }}>Log out</div>
                 <p>{user.username}</p>
                 <img src={logo} alt="Logo" className="profile-image" />
             </>
