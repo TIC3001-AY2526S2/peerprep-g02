@@ -20,13 +20,6 @@ function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn, setShowP
         setShowSignup(false);
     };
 
-
-    const openProfile = () => {
-        setShowProfile(true);
-        setShowLogin(false);
-        setShowSignup(false);
-    };
-
     return (
         <div className='button-group'>
             {!user && <>
