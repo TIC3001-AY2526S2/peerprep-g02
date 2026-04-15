@@ -4,6 +4,7 @@ import { EditorView, basicSetup } from "codemirror";
 import { python } from "@codemirror/lang-python";
 import { EditorState } from "@codemirror/state";
 import { yCollab } from "y-codemirror.next";
+import { run } from "../../api/CollabApi";
 
 function Coding({ onSubmitCode, ydoc, provider }) {
     const editorParentRef = useRef(null);
@@ -63,6 +64,14 @@ function Coding({ onSubmitCode, ydoc, provider }) {
         };
     }, [ydoc, provider]);
 
+    const onRunCode = async () => {
+        console.log("waiting");
+        const response = await run("def reverseString(s):\n    s.reverse()\n", "o l l e h", "h e l l o");
+        if (response) {
+            console.log(response);
+        }
+    }
+
     return (
         <div className="collab-containers code">
 
@@ -109,7 +118,7 @@ function Coding({ onSubmitCode, ydoc, provider }) {
                 </div>
 
                 <div className="button-wrapper">
-                    <div className="collab-buttons">Run</div>
+                    <div className="collab-buttons" onClick={onRunCode}>Run</div>
                     <div className="collab-buttons" onClick={onSubmitCode}>
                         Submit
                     </div>

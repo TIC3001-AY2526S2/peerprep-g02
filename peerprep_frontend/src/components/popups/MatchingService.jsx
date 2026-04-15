@@ -28,7 +28,7 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
             }));
         };
 
-        socketRef.current.onmessage = (msg) => {
+        socketRef.current.onmessage = async (msg) => {
             const data = JSON.parse(msg.data);
             console.log("PARSED:", data);
 
@@ -38,8 +38,10 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
                 setPeerFound(true);
                 setMatchFailed(false);
                 sessionStorage.setItem("room", JSON.stringify(data.match));
-                const questionData = getQuestion(selectedTopic, selectedDifficulty);
-                sessionStorage.setItem("question", JSON.stringify(questionData));
+                const questionData = await getQuestion(selectedTopic, selectedDifficulty);
+                if (questionData) {
+                    localStorage.setItem("question", JSON.stringify(questionData));
+                }
             } else if (data.status === "timeout") {
                 setMatchFailed(true);
             }

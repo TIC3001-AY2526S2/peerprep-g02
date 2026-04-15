@@ -7,6 +7,7 @@ import './CollaborationPage.css';
 import ReviewStats from "../popups/ReviewStats";
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
+import {setup,run} from  '../../api/CollabApi';
 
 function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     const TOTAL_TIME = 120; //UNIT: SECONDS. Set how much time for collab.
@@ -16,6 +17,7 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     const [oneMinuteWarningShown, setOneMinuteWarningShown] = useState(false);
     const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
     const [isTimerStopped, setIsTimerStopped] = useState(false);
+    const [question, setQuestion] = useState(null);
 
     const ydocRef = useRef(null);
     const providerRef = useRef(null);
@@ -48,8 +50,18 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
             ydoc.destroy();
         };
     }, [sessionId]);
+    
+    useEffect(()=>{
+        const q = localStorage.getItem("question");
+        if (q)
+            setQuestion(JSON.parse(q));
+    },[]);
 
-    const question = JSON.parse(sessionStorage.getItem("question"));
+    useEffect(()=>{
+        if (question){
+            setup(question);
+        }
+    },[question]);
 
     const handleTimeUp = () => {
         setIsTimerStopped(true);
@@ -63,9 +75,13 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
         }
     };
 
-    const handleSubmitCode = () => {
-        setIsTimerStopped(true);
-        setShowReviewStats(true);
+    const handleSubmitCode = async () => {
+        const response = await run("def reverseString(s):\n    s.reverse()\n", );
+        if (response){
+            console.log(response);
+        }
+        // setIsTimerStopped(true);
+        // setShowReviewStats(true);
     };
 
     return (
@@ -79,7 +95,7 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
             />
 
             <div className="collaboration-main-container">
-                <CodingQuestion question={question} />
+                {question && <CodingQuestion question={question} />}
 
                 <Coding
                     onSubmitCode={handleSubmitCode}

@@ -6,31 +6,34 @@ runCodeRouter = APIRouter(tags=["Questions"])
 
 runCodeService = ""
 
+
 @runCodeRouter.post("/setup")
-def setup(question:SetupRequest):
+def setup(question: SetupRequest):
     global runCodeService
 
     question_payload = {
-        "run_code": question.run_code,
-        "input": question.input,
-        "expected_output": question.expected_output
+        "run_code": question.run_code
     }
     runCodeService = RunCodeService(question_payload)
+
 
 @runCodeRouter.post("/run")
 async def runCode(userCode: CodeRequest, req: Request, res: Response):
     # print("Received question data:", userCode) #Log request
     try:
-        result = await runCodeService.run(userCode.userCode)
-        if result.get("error"):
+        result = await runCodeService.run(userCode.userCode, userCode.input)
+        print(result)
+        if result.get("stderr") or result.get("compile_output"):
             res.status_code = status.HTTP_400_BAD_REQUEST
-            return {"message": result.get("error")}
-        
-        if runCodeService.check_output(result.get("stdout")):
+            return {"resultPassed": False, "message": result.get("stderr")}
+
+        if runCodeService.check_output(result.get("stdout"), userCode.expected_output):
             res.status_code = status.HTTP_200_OK
-            return result
+            return {"resultPassed": True}
+        print(result.get("stdout"))
+        print(result)
         res.status_code = status.HTTP_417_EXPECTATION_FAILED
-        return result
+        return {"resultPassed": False}
     except Exception as e:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": str(e)}

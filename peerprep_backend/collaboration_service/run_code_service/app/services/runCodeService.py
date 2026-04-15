@@ -5,10 +5,10 @@ JUDGE0_URL = "https://ce.judge0.com/submissions?wait=true"
 
 SAMPLE_QUESTION = {
     "run_code": {
-        "python": "import sys\narr = list(map(int, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
+        "python": "import sys\narr = list(map(str, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
     },
     "input": ["h e l l o"],
-    "expected_output": ["o l l e h"],
+    "expected_output": ["o l l e h"]
 }
 
 LANGUAGE_IDS = {
@@ -30,13 +30,11 @@ class RunCodeService:
         if not self.language_id:
             raise ValueError(f"No Judge0 language ID found for '{self.language}'")
 
-        self.stdin = "\n".join(question.get("input", []))
-
-    async def run(self, user_code):
+    async def run(self, user_code, input):
         payload = {
             "language_id": self.language_id,
             "source_code": user_code+self.source_code,
-            "stdin": self.stdin
+            "stdin": input
             }
         headers = {
             "Content-Type": "application/json",
@@ -45,7 +43,6 @@ class RunCodeService:
         retries = 5
         for retry in range(retries):
             response = requests.post(JUDGE0_URL, headers=headers, json=payload)
-
             if response.status_code in (200, 201):
                 result = response.json()
                 return {
@@ -59,5 +56,5 @@ class RunCodeService:
                 return {"error": f"{response.status_code} - {response.text}"}
         return {"error": "429 - Server busy"}
     
-    def check_output(self, output):
-        return output.strip() == self.question.get("expected_output")
+    def check_output(self, output, expected):
+        return output.strip() == expected.strip()
