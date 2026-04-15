@@ -82,12 +82,8 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     };
 
     const handleSubmitCode = async () => {
-        const response = await run("def reverseString(s):\n    s.reverse()\n");
-        if (response) {
-            console.log(response);
-        }
-        // setIsTimerStopped(true);
-        // setShowReviewStats(true);
+        setIsTimerStopped(true);
+        setShowReviewStats(true);
     };
 
     return (
@@ -103,12 +99,12 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
             <div className="collaboration-main-container">
                 {question && <CodingQuestion question={question} />}
 
-                <Coding
+                {question && <Coding
                     onSubmitCode={handleSubmitCode}
                     ydoc={ydocRef.current}
                     provider={providerRef.current}
                     skeleton={skeleton}
-                />
+                />}
 
                 <Chat
                     partnerOnline={partnerOnline}

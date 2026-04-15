@@ -16,7 +16,7 @@
             "h a n n a H"
         ],
         "starter_code": {
-            "python": "def reverseString(s):\n    \"\"\"\n    Do not return anything, modify s in-place instead.\n    \"\"\"\n    left, right = 0, len(s) - 1\n    \n    # Hint: swap elements while moving towards the center\n    while left < right:\n        # swap s[left] and s[right]\n        \n        left += 1\n        right -= 1"
+            "python": "def reverseString(s):\n    \"\"\"\n    Do not return anything, modify s in-place instead.\n    \"\"\"\n"
         },
         "run_code": {
             "python": "import sys\n\narr = list(map(int, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
@@ -39,7 +39,7 @@
             "False"
         ],
         "starter_code": {
-            "python": "def hasCycle(head):\n    # use two pointers (slow & fast)\n    slow = head\n    fast = head\n    \n    # move pointers until fast reaches end\n    while fast and fast.next:\n        # move slow by 1 and fast by 2\n        \n        # check if they meet (cycle)\n        \n    return False"
+            "python": "def hasCycle(head):\n"
         },
         "run_code": {
             "python": "class ListNode:\n    def __init__(self, val=0):\n        self.val = val\n        self.next = None\n\ndef build_linked_list(arr):\n    if not arr:\n        return None\n    head = ListNode(arr[0])\n    current = head\n    for val in arr[1:]:\n        current.next = ListNode(val)\n        current = current.next\n    return head\n\ndef add_cycle(head, pos):\n    if pos == -1:\n        return head\n    cycle_node = None\n    current = head\n    index = 0\n    while current.next:\n        if index == pos:\n            cycle_node = current\n        current = current.next\n        index += 1\n    current.next = cycle_node\n    return head\n\nimport sys\nlines = sys.stdin.read().strip().split(\"\\n\")\n\narr = list(map(int, lines[0].split()))\npos = int(lines[1])\n\nhead = build_linked_list(arr)\nhead = add_cycle(head, pos)\n\nprint(str(hasCycle(head)).lower())"
@@ -59,7 +59,7 @@
             "3"
         ],
         "starter_code": {
-            "python": "def romanToInteger(s):\n    # map roman symbols to values\n    roman_map = {}\n    total = 0\n    \n    for i in range(len(s)):\n        # if next value is larger, subtract\n        # else add\n        \n    return total"
+            "python": "def romanToInteger(s):\n"
         },
         "run_code": {
             "python": "import sys\n\nroman=sys.stdin.read()\nprint(romanToInteger(roman))"
@@ -79,7 +79,7 @@
             "100"
         ],
         "starter_code": {
-            "python": "def addBinary(a, b):\n    # simulate binary addition\n    i, j = len(a) - 1, len(b) - 1\n    carry = 0\n    result = []\n    \n    while i >= 0 or j >= 0 or carry:\n        total = carry\n        \n        # add bits from a and b\n        \n        # append result bit\n        # update carry\n        \n    return ''.join(reversed(result))"
+            "python": "def addBinary(a, b):\n"
         },
         "run_code": {
             "python": "import sys\n\na, b = sys.stdin.read().strip().split()\nprint(addBinary(a, b))"
@@ -100,7 +100,7 @@
             "1"
         ],
         "starter_code": {
-            "python": "def fib(n):\n    # base cases\n    \n    # recursive relation\n    \n    return 0"
+            "python": "def fib(n):\n"
         },
         "run_code": {
             "python": "import sys\n\nn=int(sys.stdin.read().strip())\nprint(fib(n))"
@@ -140,7 +140,7 @@
             "Allen Wang NULL NULL\nBob Alice New York City New York"
         ],
         "starter_code": {
-            "mySQL": "SELECT \n    -- select firstName, lastName, city, state\nFROM Person p\n-- LEFT JOIN Address table\n"
+            "mySQL": ""
         },
         "run_code": {
             "mySQL": "CREATE TABLE Person(personId INT, lastName VARCHAR(50), firstName VARCHAR(50));\nCREATE TABLE Address(addressId INT, personId INT, city VARCHAR(50), state VARCHAR(50));\n\nINSERT INTO Person VALUES (1, 'Wang', 'Allen'), (2, 'Alice', 'Bob');\nINSERT INTO Address VALUES (1, 2, 'New York City', 'New York'), (2, 3, 'Leetcode', 'California');"
@@ -161,7 +161,7 @@
             "AAAAACCCCC CCCCCAAAAA"
         ],
         "starter_code": {
-            "python": "def findRepeatedDnaSequences(s):\n    # use sliding window of size 10\n    seen = set()\n    result = set()\n    \n    for i in range(len(s) - 9):\n        substring = s[i:i+10]\n        \n        # check if seen before\n        \n    return list(result)"
+            "python": "def findRepeatedDnaSequences(s):\n"
         },
         "run_code": {
             "python": "import sys\n\ns = sys.stdin.read().strip()\n\nresult = findRepeatedDnaSequences(s)\n\n# Print space-separated output\nprint(' '.join(result))"
@@ -182,7 +182,7 @@
             "False"
         ],
         "starter_code": {
-            "python": "def canFinish(numCourses, prerequisites):\n    # build graph\n    graph = {}\n    \n    # detect cycle using DFS or BFS\n    \n    return True"
+            "python": "def canFinish(numCourses, prerequisites):\n"
         },
         "run_code": {
             "python": "import sys\n\nlines = sys.stdin.read().strip().split('\\n')\nnumCourses = int(lines[0])\nprerequisites = [list(map(int, line.split())) for line in lines[1:]]\n\nprint(canFinish(numCourses, prerequisites))"
@@ -223,7 +223,7 @@
             "3"
         ],
         "starter_code": {
-            "python": "def longestCommonSubsequence(text1, text2):\n    # create DP table\n    \n    # fill table based on matches\n    \n    return 0"
+            "python": "def longestCommonSubsequence(text1, text2):\n"
         },
         "run_code": {
             "python": "import sys\n\ntext1, text2 = sys.stdin.read().strip().split()\nprint(longestCommonSubsequence(text1, text2))"
@@ -244,7 +244,7 @@
             "7 4 1\n8 5 2\n9 6 3"
         ],
         "starter_code": {
-            "python": "def rotate(matrix):\n    # transpose matrix\n    \n    # reverse each row\n    "
+            "python": "def rotate(matrix):\n"
         },
         "run_code": {
             "python": "import sys\n\nlines = [line.strip() for line in sys.stdin.read().split('\\n') if line.strip()]\n\nn = int(lines[0])\nmatrix = [list(map(int, lines[i].split())) for i in range(1, n + 1)]\n\nrotate(matrix)\n\nfor row in matrix:\n    print(' '.join(map(str, row)))"
@@ -264,7 +264,7 @@
             "1"
         ],
         "starter_code": {
-            "python": "def nthPersonGetsNthSeat(n):\n    # observe pattern for probability\n    \n    return 0"
+            "python": "def nthPersonGetsNthSeat(n):\n"
         },
         "run_code": {
             "python": "import sys\nn=sys.stdin.read().strip()\nprint(nthPersonGetsNthSeat(n))"
@@ -285,7 +285,7 @@
             "true"
         ],
         "starter_code": {
-            "python": "def isValidBST(root):\n    # helper with bounds\n    \n    return True"
+            "python": "def isValidBST(root):\n"
         },
         "run_code": {
             "python": "import sys\n\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef build_tree(values):\n    if not values or values[0] == 'null':\n        return None\n\n    root = TreeNode(int(values[0]))\n    queue = [root]\n    i = 1\n\n    while queue and i < len(values):\n        node = queue.pop(0)\n\n        if i < len(values) and values[i] != 'null':\n            node.left = TreeNode(int(values[i]))\n            queue.append(node.left)\n        i += 1\n\n        if i < len(values) and values[i] != 'null':\n            node.right = TreeNode(int(values[i]))\n            queue.append(node.right)\n        i += 1\n\n    return root\n\nvalues = sys.stdin.read().strip().split()\nroot = build_tree(values)\n\n\nresult = isValidBST(root)\n\nprint(str(result))"
@@ -306,7 +306,7 @@
             "3 3 5 5 6 7"
         ],
         "starter_code": {
-            "python": "def maxSlidingWindow(nums, k):\n    # use deque to store indices\n    \n    # maintain window and max\n    \n    return []"
+            "python": "def maxSlidingWindow(nums, k):\n"
         },
         "run_code": {
             "python": "import sys\n\nlines=sys.stdin.read().strip().split('\\n')\narr = list(map(int, lines[0].strip().split()))\nk=int(lines[1])\nprint(maxSlidingWindow(arr,k))"
@@ -327,7 +327,7 @@
             ".Q..;...Q;Q...;..Q. ..Q.;Q...;...Q;.Q.."
         ],
         "starter_code": {
-            "python": "def solveNQueens(n):\n    # backtracking with board state\n    \n    return []"
+            "python": "def solveNQueens(n):\n"
         },
         "run_code": {
             "python": "import sys\n\nn = int(sys.stdin.read().strip())\n\nsolutions = solveNQueens(n)\n\nformatted = [';'.join(board) for board in solutions]\n\nprint(' '.join(formatted))"
@@ -369,7 +369,7 @@
             "False"
         ],
         "starter_code": {
-            "python": "def isMatch(s, p):\n    # dynamic programming or greedy\n    \n    return False"
+            "python": "def isMatch(s, p):\n"
         },
         "run_code": {
             "python": "import sys\ns, p=sys.stdin.read().strip().split()\nprint(isMatch(s,p))"
@@ -389,7 +389,7 @@
             "False"
         ],
         "starter_code": {
-            "python": "def xorGame(nums):\n    # compute XOR and analyze parity\n    \n    return False"
+            "python": "def xorGame(nums):\n"
         },
         "run_code": {
             "python": "import sys\n\nnums = list(map(int, sys.stdin.read().strip().split()))\n\nprint(str(xorGame(nums)))"
@@ -409,7 +409,7 @@
             ""
         ],
         "starter_code": {
-            "mySQL": "SELECT \n    -- compute cancellation rate per day\nFROM Trips t\n-- join Users and apply filters\n"
+            "mySQL": ""
         },
         "run_code": {
             "mySQL": "CREATE TABLE IF NOT EXISTS Trips (id INT, client_id INT, driver_id INT, city_id INT, status ENUM('completed','cancelled_by_driver','cancelled_by_client'), request_at DATE); CREATE TABLE IF NOT EXISTS Users (users_id INT, banned ENUM('Yes','No'), role ENUM('client','driver','partner')); INSERT INTO Trips (id, client_id, driver_id, city_id, status, request_at) VALUES (1,1,10,1,'completed','2013-10-01'), (2,2,11,1,'cancelled_by_driver','2013-10-01'), (3,3,12,6,'completed','2013-10-01'), (4,4,13,6,'cancelled_by_client','2013-10-01'), (5,1,10,1,'completed','2013-10-02'), (6,2,11,6,'completed','2013-10-02'), (7,3,12,6,'completed','2013-10-02'), (8,2,12,12,'completed','2013-10-03'), (9,3,10,12,'completed','2013-10-03'), (10,4,13,12,'cancelled_by_driver','2013-10-03'); INSERT INTO Users (users_id, banned, role) VALUES (1,'No','client'), (2,'Yes','client'), (3,'No','client'), (4,'No','client'), (10,'No','driver'), (11,'No','driver'), (12,'No','driver'), (13,'No','driver');"
@@ -430,7 +430,7 @@
             "3 4 5 5 4 null 7"
         ],
         "starter_code": {
-            "python": "def mergeTrees(root1, root2):\n    # recursively merge nodes\n    \n    return root1"
+            "python": "def mergeTrees(root1, root2):\n"
         },
         "run_code": {
             "python": "import sys\n# Assume TreeNode and mergeTrees are implemented\nprint('Merged Tree Output')"
@@ -451,7 +451,7 @@
             "((())) (()()) (())() ()(()) ()()()"
         ],
         "starter_code": {
-            "python": "def generateParenthesis(n):\n    # backtracking with open/close counts\n    \n    return []"
+            "python": "def generateParenthesis(n):\n"
         },
         "run_code": {
             "python": "import sys\nn=int(sys.stdin.read().strip())\nprint(generateParenthesis(n))"
@@ -472,7 +472,7 @@
             "Solved Sudoku Grid"
         ],
         "starter_code": {
-            "python": "def solveSudoku(board):\n    # use backtracking to fill empty cells\n    \n    def is_valid(row, col, num):\n        # check row, column, and 3x3 box\n        \n        return True\n\n    def backtrack():\n        # find empty cell\n        \n        # try digits 1-9\n        \n        # place if valid and recurse\n        \n        # undo choice if needed\n        \n        return False\n\n    backtrack()"
+            "python": "def solveSudoku(board):\n    \n    def is_valid(row, col, num):\n\n    def backtrack():\n"
         },
         "run_code": {
             "python": "import sys\n# Assume solveSudoku(board) modifies board in-place\nprint('Solved')"
@@ -494,7 +494,7 @@
             "1"
         ],
         "starter_code": {
-            "python": "def hammingWeight(n):\n    # count set bits\n    \n    return 0"
+            "python": "def hammingWeight(n):\n"
         },
         "run_code": {
             "python": "import sys\nn = int(sys.stdin.read().strip())\nprint(hammingWeight(n))"
@@ -515,7 +515,7 @@
             "0 1"
         ],
         "starter_code": {
-            "python": "def twoSum(nums, target):\n    # use hashmap to find complement\n    \n    return []"
+            "python": "def twoSum(nums, target):\n"
         },
         "run_code": {
             "python": "import sys\nlines = sys.stdin.read().strip().split('\\n')\nnums = list(map(int, lines[0].split()))\ntarget = int(lines[1])\nprint(twoSum(nums, target))"
@@ -538,7 +538,7 @@
             "true"
         ],
         "starter_code": {
-            "python": "def canWinNim(n):\n    # use modulo pattern\n    \n    return False"
+            "python": "def canWinNim(n):\n"
         },
         "run_code": {
             "python": "import sys\nn = int(sys.stdin.read().strip())\nprint(canWinNim(n))"
@@ -558,7 +558,7 @@
             "Department Employee Salary"
         ],
         "starter_code": {
-            "mySQL": "SELECT \n    -- Department name\n    -- Employee name\n    -- Salary\nFROM Employee e\nJOIN Department d ON e.departmentId = d.id\nWHERE \n    -- filter employees with highest salary per department\n"
+            "mySQL": ""
         },
         "run_code": {
             "mySQL": "SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary\nFROM Employee e\nJOIN Department d ON e.departmentId = d.id\nWHERE e.salary = (\n    SELECT MAX(salary)\n    FROM Employee\n    WHERE departmentId = e.departmentId\n);"

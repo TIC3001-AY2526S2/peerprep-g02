@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import './CollaborationPage.css';
 import { EditorView, basicSetup } from "codemirror";
 import { python } from "@codemirror/lang-python";
+import { indentUnit } from "@codemirror/language";
 import { EditorState } from "@codemirror/state";
 import { yCollab } from "y-codemirror.next";
 import { run } from "../../api/CollabApi";
@@ -9,6 +10,8 @@ import { run } from "../../api/CollabApi";
 function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
     const editorParentRef = useRef(null);
     const viewRef = useRef(null);
+    const ytextRef = useRef(null);
+    const [results, setResults] = useState([]);
 
     useEffect(() => {
         if (!ydoc || !provider || !editorParentRef.current) return;
@@ -19,6 +22,7 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
         }
 
         const ytext = ydoc.getText("code");
+        ytextRef.current = ytext;
 
         const insertSkeleton = () => {
             if (ytext.length === 0 && skeleton) {
@@ -45,6 +49,7 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
             extensions: [
                 basicSetup,
                 python(),
+                indentUnit.of("    "), // 4 spaces
                 yCollab(ytext, provider.awareness),
                 EditorView.theme({
                     "&": {
@@ -80,14 +85,24 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
         };
     }, [ydoc, provider, skeleton]);
 
-    console.log("skeleton:", skeleton);
-
     const onRunCode = async () => {
-        console.log("waiting");
-        const response = await run("def reverseString(s):\n    s.reverse()\n", "o l l e h", "h e l l o");
-        if (response) {
-            console.log(response);
+        const question = JSON.parse(localStorage.getItem("question"))
+        const inputs = question?.input;
+        const expected = question?.expected_output;
+        const userCode = ytextRef.current.toString();
+        const newResults = []
+        for (let i=0;i<inputs.length;i++ ) {
+            const response = await run(userCode, inputs[i], expected[i]);
+            if (response) {
+                const result = {
+                    "input": inputs[i],
+                    "expected_output": expected[i],
+                    "pass": response["resultPassed"]
+                }
+                newResults.push(result)
+            }
         }
+        setResults(prev => [...prev, ...newResults]);
     }
 
     return (
@@ -100,37 +115,27 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
                     <table id="test-case-table">
                         <thead>
                             <tr>
-                                <th>Expression</th>
+                                {/* <th>Expression</th> */}
+                                <th>Input</th>
                                 <th>Expected</th>
-                                <th>Output</th>
+                                {/* <th>Output</th> */}
+                                <th>Pass/Fail</th>
                             </tr>
                         </thead>
                         <tbody id="table-body">
-                            <tr className="test-pass">
-                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
-                                <td>(2.000000, 2.000000)</td>
-                                <td>(2.000000, 2.000000)</td>
-                            </tr>
-                            <tr className="test-fail">
-                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
-                                <td>(2.000000, 2.000000)</td>
-                                <td>(2.000000, 2.000000)</td>
-                            </tr>
-                            <tr className="test-fail">
-                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
-                                <td>(2.000000, 2.000000)</td>
-                                <td>(2.000000, 2.000000)</td>
-                            </tr>
-                            <tr className="test-fail">
-                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
-                                <td>(2.000000, 2.000000)</td>
-                                <td>(2.000000, 2.000000)</td>
-                            </tr>
-                            <tr className="test-fail">
-                                <td>mid_point of (1.0, 1.0) and (3.0, 3.0)</td>
-                                <td>(2.000000, 2.000000)</td>
-                                <td>(2.000000, 2.000000)</td>
-                            </tr>
+                            {results.map((result, index) => {
+                                return result.pass === true ?
+                                    <tr key={index} className="test-pass">
+                                        <td>{result["input"]}</td>
+                                        <td>{result["expected_output"]}</td>
+                                        <td>Passed</td>
+                                    </tr> :
+                                    <tr key={index} className="test-fail">
+                                        <td>{result["input"]}</td>
+                                        <td>{result["expected_output"]}</td>
+                                        <td>Failed</td>
+                                    </tr>
+                            })}
                         </tbody>
                     </table>
                 </div>

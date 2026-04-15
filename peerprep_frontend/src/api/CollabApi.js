@@ -20,16 +20,15 @@ export const setup = async (question) => {
     }
 }
 
-export const run = async (userCode, expected_output) => {
+export const run = async (userCode, input, expected_output ) => {
     try {
         const payload = {
-            "userCode": "def reverseString(s):\n    s.reverse()\n",
-            "expected_output": "o l l e h",
-            "input": "h e l l o"
+            "userCode": userCode+"\n",
+            "expected_output": expected_output,
+            "input": input
         }
 
         const response = await axios.post(`${RUN_CODE_GATEWAY}/run`, payload);
-        console.log(response);
         if (response.data) {
             console.log(response.data);
             return response.data;

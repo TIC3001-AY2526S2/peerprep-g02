@@ -13,6 +13,7 @@ function LoginSignup({ ...loginSignupArgs }) {
     }
 
     return (
+<<<<<<< Updated upstream
         <div className="popup-overlay" onClick={handleCancel}>
             <div
                 className="login-signup-container"
@@ -41,5 +42,23 @@ function LoginSignup({ ...loginSignupArgs }) {
             </div>
         </div>
     );
+=======
+        <>
+            {(showSignup || showLogin || showForgotPassword) &&
+                <div className='login-signup-container'>
+                    {showSignup && (
+                        <SignupForm handleCancel={handleCancel} setShowLogin={setShowLogin} />
+                    )}
+                    {showLogin && (
+                        <LoginForm handleCancel={handleCancel} setShowForgotPassword={setShowForgotPassword} setShowLogin={setShowLogin} setLoggedIn={setLoggedIn} />
+                    )}
+                    {showForgotPassword && (
+                        <ForgotPassword handleCancel={handleCancel} />
+                    )}
+                </div>
+            }
+        </>
+    )
+>>>>>>> Stashed changes
 }
 export default LoginSignup;
