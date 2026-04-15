@@ -1,0 +1,125 @@
+.profile-wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.profile-box {
+    width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    padding: 2rem;
+
+    background-color: #F5F5F5;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+}
+
+.profile-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.profile-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 0.9rem 1rem;
+
+    background: white;
+    border: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 0px #1E1E1E;
+}
+
+.profile-label {
+    font-weight: 600;
+    width: 90px;
+}
+
+.profile-input {
+    flex: 1;
+    padding: 0.4rem 0.6rem;
+
+    border: 2px solid transparent;
+    outline: none;
+    font-size: 14px;
+
+    background: transparent;
+}
+
+.profile-input:enabled {
+    border: 2px solid #1E1E1E;
+    background: #fff;
+}
+
+.profile-edit-btn {
+    padding: 0.35rem 0.9rem;
+    font-size: 12px;
+    font-weight: 600;
+
+    border: 2px solid #1E1E1E;
+    background-color: white;
+    color: #1E1E1E;
+
+    cursor: pointer;
+
+    border-radius: 999px;
+    transition: all 0.2s ease;
+
+    box-shadow: 2px 2px 0px 0px #1E1E1E;
+}
+
+.profile-edit-btn:hover {
+    transform: translateY(-1px);
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.profile-edit-btn.save {
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.profile-edit-btn.save:hover {
+    background-color: #333;
+}
+
+.profile-password-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    width: 100%;
+    padding: 1rem;
+
+    background: white;
+    border: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 0px #1E1E1E;
+}
+
+.profile-password-box input {
+    padding: 0.4rem 0.6rem;
+
+    border: 2px solid #1E1E1E;
+    outline: none;
+
+    font-size: 14px;
+}
+
+.profile-password-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.hero-section-wrapper {
+    display: block;
+}

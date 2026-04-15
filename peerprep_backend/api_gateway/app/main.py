@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Response, Depends, HTTPException, WebSocke
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
+
 import httpx
 import websockets
 import asyncio
@@ -14,6 +15,10 @@ QUESTION_SERVICE = "http://question-service:8000"
 QUEUEING_SERVICE = os.getenv("QUEUEING_SERVICE_URL", "ws://queueing-service:8000")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY is not set in environment variables")
+print("SECRET KEY:", SECRET_KEY)
+
 ALGORITHM = "HS256"
 
 app.add_middleware(
@@ -96,7 +101,6 @@ async def question_write_proxy(path: str, request: Request, user: dict = Depends
 async def user_proxy(path: str, request: Request):
     target_url = f"{USER_SERVICE}/{path}"
     return await forward_request(request, target_url)
-
 
 @app.websocket("/matching/")
 async def websocket_proxy(websocket: WebSocket):

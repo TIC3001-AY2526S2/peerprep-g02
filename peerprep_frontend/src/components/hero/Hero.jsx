@@ -8,6 +8,7 @@ import LoginSignup from "../popups/LoginSignup";
 import MatchingService from "../popups/MatchingService";
 import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "../popups/QuestionForm";
+import Profile from "./Profile";
 
 function Hero({ ...heroArgs }) {
     const {
@@ -27,6 +28,8 @@ function Hero({ ...heroArgs }) {
         setShowMatching,
         showCollaboration,
         setShowCollaboration,
+        showProfile,
+        setShowProfile,
         isLoggedIn,
         setSelectedTopic,
         setSelectedDifficulty,
@@ -60,7 +63,8 @@ function Hero({ ...heroArgs }) {
         setShowSignup,
         setShowForgotPassword,
         setLoggedIn,
-        showCollaboration
+        showCollaboration,
+        showProfile
     };
 
     const questionArgs = {
@@ -70,7 +74,8 @@ function Hero({ ...heroArgs }) {
         setSelectedQuestion,
         questions,
         setQuestions,
-        setUpdate
+        setUpdate,
+        setShowProfile
     };
 
     return (
@@ -78,6 +83,7 @@ function Hero({ ...heroArgs }) {
             {showAboutUs && <About />}
             {showHowToPlay && <HowToPlay />}
             {showQuestions && <Questions {...questionArgs} />}
+            {showProfile && <Profile />}
 
             {showCollaboration && (
                 <CollaborationPage
@@ -91,7 +97,8 @@ function Hero({ ...heroArgs }) {
                 !showHowToPlay &&
                 !showQuestions &&
                 !showCollaboration &&
-                !showMatching && (
+                !showMatching &&
+                !showProfile && (
                     <FindMatch
                         selectedDifficulty={selectedDifficulty}
                         setSelectedDifficulty={setSelectedDifficulty}
@@ -105,7 +112,7 @@ function Hero({ ...heroArgs }) {
                     />
                 )}
 
-            {(showLogin || showSignup || showForgotPassword) && (
+            {(showLogin || showSignup || showForgotPassword || setShowProfile) && (
                 <LoginSignup {...loginSignupArgs} />
             )}
             {showQuestionForm && (

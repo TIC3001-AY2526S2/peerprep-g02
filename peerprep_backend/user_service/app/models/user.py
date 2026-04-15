@@ -10,4 +10,7 @@ class LoginRequest(BaseModel):
     password: str
 
 class UpdateProfileRequest(BaseModel):
-    username: str
+    username: str | None = None
+    email: str | None = None
+    currentPassword: str | None = None
+    newPassword: str | None = None

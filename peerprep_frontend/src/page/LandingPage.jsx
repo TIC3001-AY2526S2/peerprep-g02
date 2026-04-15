@@ -22,6 +22,7 @@ function LandingPage() {
         showQuestionForm: false,
         showMatching: false,
         showCollaboration: false,
+        showProfile: false,
     });
 
     const [sessionId, setSessionId] = useState(null);
@@ -65,12 +66,14 @@ function LandingPage() {
                 isLoggedIn={isLoggedIn}
                 setLoggedIn={setLoggedIn}
                 isHeaderDisabled={uiState.showMatching}
+                showProfile={uiState.showProfile}
                 setShowAboutUs={(val) => updateUi({ showAboutUs: val })}
                 setShowHowToPlay={(val) => updateUi({ showHowToPlay: val })}
                 setShowQuestions={(val) => updateUi({ showQuestions: val })}
                 setShowLogin={(val) => updateUi({ showLogin: val })}
                 setShowSignup={(val) => updateUi({ showSignup: val })}
                 setShowForgotPassword={(val) => updateUi({ showForgotPassword: val })}
+                setShowProfile={(val) => updateUi({ showProfile: val })}
             />
 
             <Hero
@@ -87,6 +90,7 @@ function LandingPage() {
                 setShowQuestionForm={(val) => updateUi({ showQuestionForm: val })}
                 setShowMatching={(val) => updateUi({ showMatching: val })}
                 setShowCollaboration={(val) => updateUi({ showCollaboration: val })}
+                setShowProfile={(val) => updateUi({ showProfile: val })}
             />
 
             {isLoggedIn && uiState.showMatching && selectedTopic && selectedDifficulty && (

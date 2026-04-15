@@ -1,22 +1,25 @@
 function MenuTab({...menuTabArgs}) {
-    const { setShowAboutUs,setShowHowToPlay, setShowQuestions } = menuTabArgs;
+    const { setShowAboutUs,setShowHowToPlay, setShowQuestions, setShowProfile } = menuTabArgs;
 
     const handleAboutClick = () => {
         setShowAboutUs((prev) => !prev);
         setShowHowToPlay(false);
         setShowQuestions(false);
+        setShowProfile(false);
     };
 
     const handleHowToPlayClick = () => {
         setShowAboutUs(false);
         setShowHowToPlay((prev) => !prev);
         setShowQuestions(false);
+        setShowProfile(false);
     };
 
     const handleQuestionsClick = () => {
         setShowAboutUs(false);
         setShowHowToPlay(false);
         setShowQuestions((prev) => !prev);
+        setShowProfile(false);
     };
 
 

@@ -11,20 +11,23 @@ function Header({ ...headerArgs }) {
         setShowLogin,
         setShowSignup,
         setLoggedIn,
+        setShowProfile,
         isHeaderDisabled
     } = headerArgs;
 
     const menuTabArgs = {
         setShowAboutUs: setShowAboutUs,
         setShowHowToPlay: setShowHowToPlay,
-        setShowQuestions: setShowQuestions
+        setShowQuestions: setShowQuestions,
+        setShowProfile : setShowProfile
     }
 
     const loginSignupArgs = {
         isLoggedIn: isLoggedIn,
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
-        setLoggedIn: setLoggedIn
+        setLoggedIn: setLoggedIn,
+        setShowProfile: setShowProfile
     }
 
     const reset = () => {
@@ -33,6 +36,7 @@ function Header({ ...headerArgs }) {
         setShowLogin(false);
         setShowQuestions(false);
         setShowSignup(false);
+        setShowProfile(false);
     }
 
     return (

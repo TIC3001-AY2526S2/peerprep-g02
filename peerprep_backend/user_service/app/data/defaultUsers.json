@@ -1,14 +1,14 @@
 [
     {
         "user_id": "c6445e3b-53a2-4986-b152-dec6cd166215",
-        "email_hash": "ef2b71fc6aa4eb79dcfd7e0d8b2cf3b0e2e3abd2f7ce4ae3e2da1d562ab55266",
+        "email": "user123@gmail.com",
         "password_hash": "$2b$12$LQO.DVUlliOfM8wV8eWFJu1UdDDlebzlx1R2PCvpK1hBeoEIPwaMK",
         "username": "User123",
         "role": "user"
     },
     {
         "user_id": "9985dbe9-92fb-4027-8483-9307b76c6b4d",
-        "email_hash": "c50859475ed58c0145817ec8304a6dd6d3b1867a063514c570b7394b9da39e13",
+        "email": "admin@gmail.com",
         "password_hash": "$2b$12$XGn8XzOrUl1eZ0kq720oFuAh2r0W8QsfsANzd8D0EkOYgYaANKp6W",
         "username": "Admin123",
         "role": "admin"

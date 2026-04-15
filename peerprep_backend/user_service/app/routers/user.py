@@ -45,7 +45,12 @@ def get_current_user(authorization: str = Header(None)):
     if not authorization:
         raise HTTPException(401, "Please log in")
 
-    userId = decode_token(authorization)
+    if not authorization.startswith("Bearer "):
+        raise HTTPException(401, "Invalid authorization header")
+
+    token = authorization.split(" ")[1]
+    userId = decode_token(token)
+
     if not userId:
         raise HTTPException(401, "Invalid token")
 
@@ -58,7 +63,19 @@ def get_user(user_id: str):
         raise HTTPException(404, "User not found")
     return {
         "username": user["username"],
+        "email": user.get("email", ""),
         "role": user["role"]
+    }
+
+@UserRouter.get("/profile")
+def get_profile(userId: str = Depends(get_current_user)):
+    user = userService.get_user_by_user_id(userId)
+    if not user:
+        raise HTTPException(404, "User not found")
+    return {
+        "username": user["username"],
+        "email": user.get("email", ""),
+        "role": user.get("role", "user")
     }
 
 @UserRouter.put("/profile")
@@ -66,5 +83,29 @@ def update_profile(
     data: UpdateProfileRequest,
     userId: str = Depends(get_current_user)
 ):
-    userService.update_username(userId, data.username)
-    return {"message": "Profile updated"}
+    user = userService.get_user_by_user_id(userId)
+    if not user:
+        raise HTTPException(404, "User not found")
+
+    if data.newPassword:
+        if not data.currentPassword:
+            raise HTTPException(400, "Current password required")
+        if not verify_password(data.currentPassword, user["password_hash"]):
+            raise HTTPException(401, "Incorrect current password")
+        if verify_password(data.newPassword, user["password_hash"]):
+            raise HTTPException(400, "New password cannot be the same as old password")
+        if not validate_password(data.newPassword):
+            raise HTTPException(
+                400,
+                "Password must contain upper & lower case letters and be ≥ 8 chars"
+            )
+    try:
+        userService.update_profile(
+            userId,
+            username=data.username,
+            email=data.email,
+            password=data.newPassword
+        )
+        return {"message": "Profile updated"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))

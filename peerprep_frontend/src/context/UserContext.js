@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
 
@@ -27,16 +27,33 @@ export function UserProvider({ children }) {
     return true;
   }
 
+  useEffect(() => {
+    const savedToken = sessionStorage.getItem("token");
+    const savedUser = sessionStorage.getItem("user");
+
+    if (savedToken && !isTokenExpired(savedToken)) {
+      setToken(savedToken);
+      setUser(JSON.parse(savedUser));
+    } else {
+      sessionStorage.clear();
+    }
+  }, []);
+
   const login = (userData, jwtToken) => {
-    setToken(jwtToken);
 
     const payload = parseJwt(jwtToken);
 
-    setUser({...userData}, {"role": payload?.role, "userId": payload?.sub});
+    const fullUser = {
+      ...userData,
+      role: payload?.role,
+      userId: payload?.sub
+    };
+
+    setToken(jwtToken);
+    setUser(fullUser);
 
     sessionStorage.setItem("token", jwtToken);
-    sessionStorage.setItem("user", JSON.stringify(userData));
-
+    sessionStorage.setItem("user", JSON.stringify(fullUser));
   };
 
   const logout = () => {

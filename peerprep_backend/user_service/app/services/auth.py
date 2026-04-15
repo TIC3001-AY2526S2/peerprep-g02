@@ -4,10 +4,19 @@ import re
 from datetime import datetime, timedelta, timezone
 from jose import jwt, JWTError
 from passlib.context import CryptContext
+from dotenv import load_dotenv
+from pathlib import Path
 
-SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME_TO_ENV_VAR")
+env_path = Path(__file__).resolve().parents[3] / ".env"
+load_dotenv(env_path)
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_HOURS = 2
+
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY is not set in environment variables")
+print("SECRET KEY:", SECRET_KEY)
 
 pwd_context = CryptContext(
     schemes=["bcrypt"],
