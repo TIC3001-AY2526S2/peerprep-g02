@@ -30,9 +30,6 @@ async def runCode(userCode: CodeRequest, req: Request, res: Response):
         if runCodeService.check_output(result.get("stdout"), userCode.expected_output):
             res.status_code = status.HTTP_200_OK
             return {"resultPassed": True}
-        print(result.get("stdout"))
-        print(result)
-        res.status_code = status.HTTP_417_EXPECTATION_FAILED
         return {"resultPassed": False}
     except Exception as e:
         res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR

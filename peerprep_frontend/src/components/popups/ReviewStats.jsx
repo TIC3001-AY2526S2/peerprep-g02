@@ -19,7 +19,7 @@ function ReviewStats({ question, onExitCollab, timeLeft, totalTime }) {
                     <h2>Prep Complete!</h2>
                     <p>Time Taken: {formatTime(timeTaken)}</p>
                     <p>Question: {question.title}</p>
-                    <p>Topic: {question.categories}</p>
+                    <p>Topic: {question.categories.join(", ")}</p>
                     <p>Difficulty: {question.complexity}</p>
                     <div className="home-button" onClick={onExitCollab}>
                         Back to Home
