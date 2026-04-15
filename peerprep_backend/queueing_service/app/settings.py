@@ -1,5 +1,4 @@
-# app/test_settings.py
-SECRET_KEY = "CHANGE_ME_TO_ENV_VAR"
+
 ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     'django.contrib.auth',

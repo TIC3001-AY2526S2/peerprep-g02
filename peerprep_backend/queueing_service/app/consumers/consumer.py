@@ -3,15 +3,12 @@ import json
 import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
 from urllib.parse import parse_qs
-from jose import jwt
-from ..settings import SECRET_KEY
 from ..services.queueingService import QueueingService
 
 class MatchingConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         params = parse_qs(self.scope["query_string"].decode())
-        token = params.get("token", [None])[0]
-        self.user_id = self.get_user_from_token(token)
+        self.user_id = params.get("user_id",[None])[0]
         if not self.user_id:
             await self.close(code=401)
             return
@@ -29,13 +26,6 @@ class MatchingConsumer(AsyncWebsocketConsumer):
         self.timeout_queue = await self.queue_service.declare_queue("timeout_request")
 
         await self.accept()
-
-    def get_user_from_token(self, token):
-        try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-            return payload.get("sub")
-        except Exception:
-            return None
 
     async def receive(self, text_data):
         data = json.loads(text_data)

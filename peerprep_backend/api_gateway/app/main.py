@@ -102,15 +102,16 @@ async def user_proxy(path: str, request: Request):
 async def websocket_proxy(websocket: WebSocket):
     await websocket.accept()
 
-    token = websocket.query_params.get("token")
-    if not token:
+    user_id = websocket.query_params.get("user_id")
+    if not user_id:
         await websocket.close(code=4001)
         return
 
     try:
         async with websockets.connect(
-                f"{QUEUEING_SERVICE}/ws/matching/?token={token}"
+                f"{QUEUEING_SERVICE}/ws/matching/?user_id={user_id}"
         ) as matching_ws:
+            
 
             async def client_to_service():
                 try:
