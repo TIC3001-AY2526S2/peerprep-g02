@@ -32,6 +32,7 @@ function LoginSignup({ ...loginSignupArgs }) {
                         setShowForgotPassword={setShowForgotPassword}
                         setShowLogin={setShowLogin}
                         setLoggedIn={setLoggedIn}
+                        setShowSignup={setShowSignup}
                     />
                 )}
 

@@ -64,7 +64,8 @@ function Hero({ ...heroArgs }) {
         setShowForgotPassword,
         setLoggedIn,
         showCollaboration,
-        showProfile
+        showProfile,
+        isLoggedIn
     };
 
     const questionArgs = {
@@ -109,6 +110,7 @@ function Hero({ ...heroArgs }) {
                         showMatching={showMatching}
                         setShowMatching={setShowMatching}
                         setShowCollaboration={setShowCollaboration}
+                        setShowLogin={setShowLogin}
                     />
                 )}
 

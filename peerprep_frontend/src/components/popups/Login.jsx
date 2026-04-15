@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { loginUser } from '../../api/UserApi';
 import { useUser } from '../../context/UserContext';
 
-function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLoggedIn }) {
+function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLoggedIn, setShowSignup }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { login } = useUser();
@@ -43,6 +43,15 @@ function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLogge
                 />
                 <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button type="submit">Log In</button>
+                <div
+                    className='signup-link'
+                    onClick={() => {
+                        setShowLogin(false);
+                        setShowSignup(true);
+                    }}
+                >
+                    No account yet? Sign up here!
+                </div>
             </form>
         </>
     )

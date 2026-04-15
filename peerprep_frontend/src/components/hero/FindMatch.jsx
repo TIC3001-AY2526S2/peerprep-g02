@@ -2,13 +2,23 @@ import React, { useEffect, useState } from "react";
 import DropdownContainer from "./DropdownContainer";
 import MatchingService from "../popups/MatchingService";
 
-function FindMatch({ selectedDifficulty, selectedTopic, setSelectedDifficulty, setSelectedTopic, topicOptions, isLoggedIn, setShowCollaboration, showMatching, setShowMatching }) {
+function FindMatch({ selectedDifficulty, selectedTopic, setSelectedDifficulty, setSelectedTopic, topicOptions, isLoggedIn, setShowCollaboration, showMatching, setShowMatching, setShowLogin }) {
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];
 
     const start = (e) => {
         e.preventDefault();
-        if (isLoggedIn && selectedTopic && selectedDifficulty) {
+        if (!isLoggedIn) {
+            setShowLogin(true);
+            return;
+        }
+
+        if (selectedTopic && selectedDifficulty) {
             setShowMatching(true);
+        }
+
+        if (!selectedTopic || !selectedDifficulty) {
+            alert("Please select a topic and difficulty!");
+            return;
         }
     };
 
