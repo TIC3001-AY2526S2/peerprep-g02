@@ -112,7 +112,7 @@ function Hero({ ...heroArgs }) {
                     />
                 )}
 
-            {(showLogin || showSignup || showForgotPassword || setShowProfile) && (
+            {(showLogin || showSignup || showForgotPassword) && (
                 <LoginSignup {...loginSignupArgs} />
             )}
             {showQuestionForm && (
