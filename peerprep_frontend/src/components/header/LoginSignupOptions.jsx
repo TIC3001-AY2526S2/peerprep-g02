@@ -1,6 +1,7 @@
 import logo from '../../assets/images/logo.jpg';
 import { useUser } from "../../context/UserContext";
 
+
 function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn, setShowProfile }) {
     const { user, logout } = useUser()
     const handleShowLogin = () => {
@@ -19,15 +20,22 @@ function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn, setShowP
         setShowSignup(false);
     };
 
+
+    const openProfile = () => {
+        setShowProfile(true);
+        setShowLogin(false);
+        setShowSignup(false);
+    };
+
     return (
-        <div className='login-group'>
+        <div className='button-group'>
             {!user && <>
                 <div className='button' onClick={handleShowLogin}>Login</div>
                 <div className='button' onClick={handleShowSignup}>Sign Up</div>
             </>}
             {user && <>
                 <div className='button' onClick={openProfile}>Profile</div>
-                <div className='button' onClick={()=>{setLoggedIn(false);logout();setShowProfile(false);}}>Log out</div>
+                <div className='button' onClick={() => { setLoggedIn(false); logout(); }}>Log out</div>
                 <p>{user.username}</p>
                 <img src={logo} alt="Logo" className="profile-image" />
             </>

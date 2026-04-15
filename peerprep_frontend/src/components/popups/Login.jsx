@@ -5,12 +5,12 @@ import { useUser } from '../../context/UserContext';
 function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLoggedIn }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const {login} = useUser();
+    const { login } = useUser();
 
     const login_user = async (e) => {
         e.preventDefault();
         const user = await loginUser(email, password);
-        if (user){
+        if (user) {
             setLoggedIn(true);
             login(user.user, user.token);
             setShowLogin(false);
@@ -23,15 +23,28 @@ function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLogge
     }
 
     return (
-        <form className="forgot-password-form" onSubmit={(e) => { login_user(e) }}>
-            <p>Log in to your account</p>
-            <p>Enter your email and password to log in</p>
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <a href="#" onClick={handleForgotPassword}>Forgot your password?</a>
-            <button type="submit">Log in to my PeerPrep Account!</button>
-            <button type="button" onClick={handleCancel}>Cancel</button>
-        </form>
+        <>
+            <form className="login-signup-form" onSubmit={(e) => { login_user(e) }}>
+                <div className='close-button' onClick={handleCancel}>&times;</div>
+                <div className='text-wrapper'>
+                    <div className='title-font'>Login</div>
+                    <div className='italic-font'>Enter your email and password to log in</div>
+                </div>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    onInvalid={(e) =>
+                        e.target.setCustomValidity("Please enter a valid email address. Format: xxx@yyy.com")
+                    }
+                    onInput={(e) => e.target.setCustomValidity("")}
+                />
+                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                <button type="submit">Log In</button>
+            </form>
+        </>
     )
 }
 

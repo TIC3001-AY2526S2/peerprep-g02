@@ -13,17 +13,33 @@ function LoginSignup({ ...loginSignupArgs }) {
     }
 
     return (
-        <div className='login-signup-container'>
-            {showSignup && (
-                <SignupForm handleCancel={handleCancel} setShowLogin={setShowLogin} />
-            )}
-            {showLogin && (
-                <LoginForm handleCancel={handleCancel} setShowForgotPassword={setShowForgotPassword} setShowLogin={setShowLogin} setLoggedIn={setLoggedIn} />
-            )}
-            {showForgotPassword && (
-                <ForgotPassword handleCancel={handleCancel} />
-            )}
+        <div className="popup-overlay" onClick={handleCancel}>
+            <div
+                className="login-signup-container"
+                onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+            >
+                {showSignup && (
+                    <SignupForm
+                        handleCancel={handleCancel}
+                        setShowLogin={setShowLogin}
+                        setShowSignup={setShowSignup}
+                    />
+                )}
+
+                {showLogin && (
+                    <LoginForm
+                        handleCancel={handleCancel}
+                        setShowForgotPassword={setShowForgotPassword}
+                        setShowLogin={setShowLogin}
+                        setLoggedIn={setLoggedIn}
+                    />
+                )}
+
+                {showForgotPassword && (
+                    <ForgotPassword handleCancel={handleCancel} />
+                )}
+            </div>
         </div>
-    )
+    );
 }
 export default LoginSignup;
