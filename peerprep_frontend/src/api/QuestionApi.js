@@ -1,5 +1,4 @@
 import axios from "axios";
-import { SwitchCamera } from "lucide-react";
 
 const QUESTION_GATEWAY = "http://localhost:8000/questions"
 
@@ -97,5 +96,17 @@ export const deleteQuestion = async (id) => {
     } catch (error) {
         console.error("Error deleting question:", error);
         throw error;
+    }
+};
+
+export const getStarterCode = async (title) => {
+    try {
+        const response = await axios.get(
+            `${QUESTION_GATEWAY}/fetchStarterCode/${encodeURIComponent(title)}`
+        );
+        return response.data.starter_code;
+    } catch (error) {
+        console.error("Error fetching starter code:", error);
+        return "# Write your solution here\n";
     }
 };

@@ -6,15 +6,13 @@ import { EditorState } from "@codemirror/state";
 import { yCollab } from "y-codemirror.next";
 import { run } from "../../api/CollabApi";
 
-function Coding({ onSubmitCode, ydoc, provider }) {
+function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
     const editorParentRef = useRef(null);
     const viewRef = useRef(null);
 
     useEffect(() => {
-        // ydoc and provider from CollaborationPage
         if (!ydoc || !provider || !editorParentRef.current) return;
 
-        // Destroy previous instance
         if (viewRef.current) {
             viewRef.current.destroy();
             viewRef.current = null;
@@ -22,9 +20,28 @@ function Coding({ onSubmitCode, ydoc, provider }) {
 
         const ytext = ydoc.getText("code");
 
+        const insertSkeleton = () => {
+            if (ytext.length === 0 && skeleton) {
+                ytext.insert(0, skeleton);
+            }
+        };
+
+        // Try sync
+        if (provider.synced) {
+            insertSkeleton();
+        } else {
+            provider.once("sync", insertSkeleton);
+
+            // If sync never happens
+            setTimeout(() => {
+                if (ytext.length === 0) {
+                    insertSkeleton();
+                }
+            }, 1000);
+        }
+
         const state = EditorState.create({
-            // Blank start
-            doc: ytext.toString(),
+            doc: "",
             extensions: [
                 basicSetup,
                 python(),
@@ -43,12 +60,6 @@ function Coding({ onSubmitCode, ydoc, provider }) {
                         borderRight: "2px solid #1E1E1E",
                         color: "#888",
                     },
-                    ".cm-ySelectionInfo": {
-                        fontSize: "11px",
-                        padding: "1px 4px",
-                        borderRadius: "3px",
-                        opacity: "0.9",
-                    },
                 }),
             ],
         });
@@ -58,11 +69,18 @@ function Coding({ onSubmitCode, ydoc, provider }) {
             parent: editorParentRef.current,
         });
 
+        const handleSync = () => insertSkeleton();
+        provider.once("sync", handleSync);
+
+        if (provider.synced) insertSkeleton();
+
         return () => {
             viewRef.current?.destroy();
             viewRef.current = null;
         };
-    }, [ydoc, provider]);
+    }, [ydoc, provider, skeleton]);
+
+    console.log("skeleton:", skeleton);
 
     const onRunCode = async () => {
         console.log("waiting");

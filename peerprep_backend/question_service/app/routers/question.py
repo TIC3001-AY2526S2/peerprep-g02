@@ -3,6 +3,8 @@ from ..services.questionService import QuestionService
 from ..services.topicService import TopicService
 from ..models.question import Question
 from pydantic import ValidationError
+import json
+import os
 
 QuestionRouter = APIRouter(tags=["Questions"])
 
@@ -126,3 +128,26 @@ def allTopics(res: Response):
         return {"topics": topics}
     except Exception as e:
         return {"error": str(e)}
+
+
+@QuestionRouter.get("/fetchStarterCode/{title}")
+def fetchStarterCode(title: str, res: Response):
+    try:
+        json_path = os.path.join(os.path.dirname(__file__), "../data/defaultQuestions.json")
+        with open(json_path, "r") as f:
+            questions = json.load(f)
+
+        match = next((q for q in questions if q["title"] == title), None)
+
+        if not match:
+            res.status_code = status.HTTP_404_NOT_FOUND
+            return {"message": "Starter code not found for this question"}
+
+        starter_code = match.get("starter_code", {})
+        code = starter_code.get("python") or starter_code.get("mySQL") or "# Write your solution here\n"
+
+        res.status_code = status.HTTP_200_OK
+        return {"starter_code": code}
+    except Exception as e:
+        res.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return {"message": "Server error", "detail": str(e)}
