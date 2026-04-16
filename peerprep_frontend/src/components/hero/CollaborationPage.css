@@ -100,6 +100,11 @@
     cursor: pointer;
 }
 
+.collab-buttons.submitted {
+    background-color: #4CAF50;
+    color: white;
+}
+
 .button-wrapper {
     display: flex;
     justify-content: flex-end;

@@ -12,6 +12,7 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
     const viewRef = useRef(null);
     const ytextRef = useRef(null);
     const [results, setResults] = useState([]);
+    const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
         if (!ydoc || !provider || !editorParentRef.current) return;
@@ -91,7 +92,7 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
         const expected = question?.expected_output;
         const userCode = ytextRef.current.toString();
         const newResults = []
-        for (let i=0;i<inputs.length;i++ ) {
+        for (let i = 0; i < inputs.length; i++) {
             const response = await run(userCode, inputs[i], expected[i]);
             if (response) {
                 const result = {
@@ -142,7 +143,13 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
 
                 <div className="button-wrapper">
                     <div className="collab-buttons" onClick={onRunCode}>Run</div>
-                    <div className="collab-buttons" onClick={onSubmitCode}>
+                    <div
+                        className={`collab-buttons ${submitted ? "submitted" : ""}`}
+                        onClick={() => {
+                            setSubmitted(true);
+                            onSubmitCode();
+                        }}
+                    >
                         Submit
                     </div>
                 </div>
