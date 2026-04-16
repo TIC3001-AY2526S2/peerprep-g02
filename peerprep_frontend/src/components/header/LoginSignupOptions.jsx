@@ -2,7 +2,15 @@ import logo from '../../assets/images/logo.jpg';
 import { useUser } from "../../context/UserContext";
 
 
-function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn, setShowProfile }) {
+function LoginSignupOptions({
+                                setShowLogin,
+                                setShowSignup,
+                                setLoggedIn,
+                                setShowProfile,
+                                setShowAboutUs,
+                                setShowHowToPlay,
+                                setShowQuestions
+                            }) {
     const { user, logout } = useUser()
     const handleShowLogin = () => {
         setShowLogin((prev) => !prev);
@@ -16,6 +24,12 @@ function LoginSignupOptions({ setShowLogin, setShowSignup, setLoggedIn, setShowP
 
     const openProfile = () => {
         setShowProfile(true);
+        setShowLogin(false);
+        setShowSignup(false);
+
+        setShowAboutUs(false);
+        setShowHowToPlay(false);
+        setShowQuestions(false);
         setShowLogin(false);
         setShowSignup(false);
     };

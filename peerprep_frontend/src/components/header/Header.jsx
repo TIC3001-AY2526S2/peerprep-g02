@@ -27,7 +27,10 @@ function Header({ ...headerArgs }) {
         setShowLogin: setShowLogin,
         setShowSignup: setShowSignup,
         setLoggedIn: setLoggedIn,
-        setShowProfile: setShowProfile
+        setShowProfile: setShowProfile,
+        setShowAboutUs: setShowAboutUs,
+        setShowHowToPlay: setShowHowToPlay,
+        setShowQuestions: setShowQuestions,
     }
 
     const reset = () => {
