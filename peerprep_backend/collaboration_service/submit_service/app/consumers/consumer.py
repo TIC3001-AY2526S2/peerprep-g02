@@ -10,6 +10,8 @@ class SubmitConsumer(AsyncWebsocketConsumer):
         self.room_id = self.scope["url_route"]["kwargs"]["room_id"]
         self.user_id = self.scope["url_route"]["kwargs"]["user_id"]
 
+        room = rooms.get(self.room_id)
+
         if not room or not room["connections"]:
             room = {
                 "users": set(),

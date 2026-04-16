@@ -13,6 +13,9 @@ app = FastAPI()
 USER_SERVICE = "http://user-service:8000"
 QUESTION_SERVICE = "http://question-service:8000"
 QUEUEING_SERVICE = os.getenv("QUEUEING_SERVICE_URL", "ws://queueing-service:8000")
+CHAT_SERVICE = os.getenv("CHAT_SERVICE_URL", "ws://chat-service:8000")
+RUN_CODE_SERVICE = os.getenv("RUN_CODE_SERVICE_URL", "http://run-code-service:8000")
+SUBMIT_SERVICE = os.getenv("SUBMIT_SERVICE_URL", "ws://submit-service:8000")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
@@ -143,3 +146,70 @@ async def websocket_proxy(websocket: WebSocket):
             await websocket.close()  # close once
         except Exception:
             pass  # closed, ignore
+
+@app.websocket("/chat/{path:path}")
+async def chat_proxy(path: str, websocket: WebSocket):
+    await websocket.accept()
+    target = f"{CHAT_SERVICE}/{path}"
+    try:
+        async with websockets.connect(target) as chat_ws:
+            async def c2s():
+                try:
+                    while True:
+                        data = await websocket.receive_text()
+                        await chat_ws.send(data)
+                except (WebSocketDisconnect, Exception):
+                    await chat_ws.close()
+
+            async def s2c():
+                try:
+                    while True:
+                        data = await chat_ws.recv()
+                        await websocket.send_text(data)
+                except Exception:
+                    pass
+
+            await asyncio.gather(c2s(), s2c())
+    except Exception as e:
+        print("Chat WS proxy failed:", e)
+    finally:
+        try:
+            await websocket.close()
+        except Exception:
+            pass
+
+@app.api_route("/run-code/{path:path}", methods=["GET", "POST", "PUT", "DELETE"])
+async def run_code_proxy(path: str, request: Request, user: dict = Depends(verify_token)):
+    target_url = f"{RUN_CODE_SERVICE}/{path}"
+    return await forward_request(request, target_url)
+
+@app.websocket("/ws/submit/{room_id}/{user_id}/")
+async def submit_proxy(room_id: str, user_id: str, websocket: WebSocket):
+    await websocket.accept()
+    target = f"{SUBMIT_SERVICE}/ws/submit/{room_id}/{user_id}/"
+    try:
+        async with websockets.connect(target) as submit_ws:
+            async def c2s():
+                try:
+                    while True:
+                        data = await websocket.receive_text()
+                        await submit_ws.send(data)
+                except (WebSocketDisconnect, Exception):
+                    await submit_ws.close()
+
+            async def s2c():
+                try:
+                    while True:
+                        data = await submit_ws.recv()
+                        await websocket.send_text(data)
+                except Exception:
+                    pass
+
+            await asyncio.gather(c2s(), s2c())
+    except Exception as e:
+        print("Submit WS proxy failed:", e)
+    finally:
+        try:
+            await websocket.close()
+        except Exception:
+            pass

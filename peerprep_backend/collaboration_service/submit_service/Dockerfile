@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["uvicorn", "app.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "app.asgi:application"]

@@ -8,4 +8,4 @@ INSTALLED_APPS = [
 ]
 DATABASES={}
 ROOT_URLCONF="app.urls"
-ASGI_APPLICATION = "app.asgi.django_asgi_app"
+ASGI_APPLICATION = "app.asgi.application"
