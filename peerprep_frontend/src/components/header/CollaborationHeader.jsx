@@ -21,11 +21,6 @@ function CollaborationHeader({
             return;
         }
 
-        if (timeLeft === 60 && !oneMinuteWarned) {
-            onOneMinuteLeft?.();
-            setOneMinuteWarned(true);
-        }
-
         const timer = setTimeout(() => {
             setTimeLeft(prev => prev - 1);
         }, 1000);

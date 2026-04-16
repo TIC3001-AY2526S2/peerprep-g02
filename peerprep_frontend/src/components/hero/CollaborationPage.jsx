@@ -16,7 +16,6 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
 
     const [showReviewStats, setShowReviewStats] = useState(false);
     const [partnerOnline, setPartnerOnline] = useState(false);
-    const [oneMinuteWarningShown, setOneMinuteWarningShown] = useState(false);
     const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
     const [isTimerStopped, setIsTimerStopped] = useState(false);
     const [question, setQuestion] = useState(null);
@@ -116,12 +115,6 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
         setShowReviewStats(true);
     };
 
-    const handleOneMinuteLeft = () => {
-        if (!oneMinuteWarningShown) {
-            alert("You have 1 minute left!");
-            setOneMinuteWarningShown(true);
-        }
-    };
 
     const handleSubmitCode = async () => {
         setWaiting(true);
@@ -135,7 +128,6 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
                 timeLeft={timeLeft}
                 setTimeLeft={setTimeLeft}
                 onTimeUp={handleTimeUp}
-                onOneMinuteLeft={handleOneMinuteLeft}
                 isTimerStopped={isTimerStopped}
             />
 
