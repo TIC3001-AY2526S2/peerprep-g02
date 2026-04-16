@@ -9,6 +9,7 @@ import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import { setup, run } from '../../api/CollabApi';
 import { getStarterCode } from '../../api/QuestionApi';
+import { connectSubmitSocket, submitCode, closeSubmitSocket } from "../../hook/submitSocket";
 
 function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     const TOTAL_TIME = 120;
@@ -20,9 +21,11 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     const [isTimerStopped, setIsTimerStopped] = useState(false);
     const [question, setQuestion] = useState(null);
     const [skeleton, setSkeleton] = useState("");
+    const [waiting, setWaiting] = useState(false);
 
     const ydocRef = useRef(null);
     const providerRef = useRef(null);
+    const socketRef = useRef(null);
 
     useEffect(() => {
         if (!sessionId) return;
@@ -59,6 +62,45 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     }, []);
 
     useEffect(() => {
+        const roomRaw = sessionStorage.getItem("room");
+        const userRaw = sessionStorage.getItem("user");
+
+        if (!roomRaw || !userRaw) return;
+
+        const room = JSON.parse(roomRaw);
+        const user = JSON.parse(userRaw);
+
+        const socket = connectSubmitSocket({
+            room_id: room.roomId,
+            user_id: user.user_id,
+
+            onPeerSubmitted: () => {
+                //open prompt to ask for submit
+                console.log("Peer submitted");
+            },
+
+            onBothSubmitted: () => {
+                console.log("Both submitted");
+
+                setWaiting(false);
+                setIsTimerStopped(true);
+                setShowReviewStats(true);
+            },
+
+            onPeerDisconnected: () => {
+                //open prompt to notify user
+                console.log("Peer left");
+            }
+        });
+        socketRef.current = socket;
+
+        return () => {
+            closeSubmitSocket();
+            socketRef.current = null;
+        };
+    }, []);
+
+    useEffect(() => {
         if (!question) return;
         setup(question);
 
@@ -82,8 +124,9 @@ function CollaborationPage({ sessionId, topic, difficulty, onExitCollab }) {
     };
 
     const handleSubmitCode = async () => {
+        setWaiting(true);
+        submitCode();
         setIsTimerStopped(true);
-        setShowReviewStats(true);
     };
 
     return (

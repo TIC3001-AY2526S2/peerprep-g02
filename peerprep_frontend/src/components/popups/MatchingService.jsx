@@ -15,7 +15,6 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     const user_id = user.user_id;
     // Socket connection
     useEffect(() => {
-        console.log("WebSocket mounting, topic:", selectedTopic, "difficulty:", selectedDifficulty);
         if (socketRef.current) return;
 
         const wsUrl = `ws://localhost:8000/matching/?user_id=${user_id}`;

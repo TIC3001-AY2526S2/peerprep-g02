@@ -106,3 +106,9 @@ services:
     container_name: run-code-service
     ports:
       - "8006:8000"
+
+  submit-service:
+    build: ./peerprep_backend/collaboration_service/submit_service
+    container_name: submit-service
+    ports:
+      - "8007:8000"
