@@ -1,0 +1,507 @@
+[
+    {
+        "title": "Reverse a String",
+        "description": "Write a function that reverses a string. The input string is given as an array of characters s.  You must do this by modifying the input array in-place with O(1) extra memory.  Example 1:  Input: s = ['h','e','l','l','o'] Output: ['o','l','l','e','h']  Example 2:  Input: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"] Output: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]  Constraints:  1 <= s.length <= 10^5 s[i] is a printable ASCII character.",
+        "categories": [
+            "Strings",
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "h e l l o",
+            "H a n n a h"
+        ],
+        "expected_output": [
+            "o l l e h",
+            "h a n n a H"
+        ],
+        "starter_code": {
+            "python": "def reverseString(s):\n    \"\"\"\n    Do not return anything, modify s in-place instead.\n    \"\"\"\n"
+        },
+        "run_code": {
+            "python": "import sys\n\narr = list(map(str, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
+        }
+    },
+    {
+        "title": "Linked List Cycle Detection",
+        "description": "Implement a function to detect if a linked list contains a cycle.",
+        "categories": [
+            "Data Structures",
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "3 2 0 -4\n1",
+            "1\n-1"
+        ],
+        "expected_output": [
+            "True",
+            "False"
+        ],
+        "starter_code": {
+            "python": "def hasCycle(head):\n"
+        },
+        "run_code": {
+            "python": "class ListNode:\n    def init(self, val=0):\n        self.val = val\n        self.next = None\n\ndef build_linked_list(arr):\n    if not arr:\n        return None\n    head = ListNode(arr[0])\n    current = head\n    for val in arr[1:]:\n        current.next = ListNode(val)\n        current = current.next\n    return head\n\ndef add_cycle(head, pos):\n    if pos == -1:\n        return head\n    cycle_node = None\n    current = head\n    index = 0\n    while current.next:\n        if index == pos:\n            cycle_node = current\n        current = current.next\n        index += 1\n    current.next = cycle_node\n    return head\n\nimport sys\nlines = sys.stdin.read().strip().split(\"\\n\")\n\narr = list(map(int, lines[0].split()))\npos = int(lines[1])\n\nhead = build_linked_list(arr)\nhead = add_cycle(head, pos)\n\nprint(str(hasCycle(head)).lower())"
+        }
+    },
+    {
+        "title": "Roman to Integer",
+        "description": "Given a roman numeral, convert it to an integer.",
+        "categories": [
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "III"
+        ],
+        "expected_output": [
+            "3"
+        ],
+        "starter_code": {
+            "python": "def romanToInteger(s):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nroman=sys.stdin.read()\nprint(romanToInteger(roman))"
+        }
+    },
+    {
+        "title": "Add Binary",
+        "description": "Given two binary strings a and b, return their sum as a binary string.",
+        "categories": [
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "11 1"
+        ],
+        "expected_output": [
+            "100"
+        ],
+        "starter_code": {
+            "python": "def addBinary(a, b):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\na, b = sys.stdin.read().strip().split()\nprint(addBinary(a, b))"
+        }
+    },
+    {
+        "title": "Fibonacci Number",
+        "description": "The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is: F(0) = 0 ; F(1) = 1 ; F(n) = F(n - 1) + F(n - 2), for n > 1. Given n, calc Given n, calculate F(n).",
+        "categories": [
+            "Recursion",
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "2"
+        ],
+        "expected_output": [
+            "1"
+        ],
+        "starter_code": {
+            "python": "def fib(n):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nn=int(sys.stdin.read().strip())\nprint(fib(n))"
+        }
+    },
+    {
+        "title": "Implement Stack using Queues",
+        "description": "Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).",
+        "categories": [
+            "Data Structures"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "MyStack push push top pop empty\n 0 1 2 3 4 5"
+        ],
+        "expected_output": [
+            "null null null 2 2 False"
+        ],
+        "starter_code": {
+            "python": "class MyStack:\n    def init(self):\n        \n        \n    def push(self, x):\n        \n        \n    def pop(self):\n        \n        \n    def top(self):\n        \n        \n    def empty(self):\n        \n        "
+        },
+        "run_code": {
+            "python": "import sys\n\nlines = sys.stdin.read().strip().split('\\n')\ncommands = lines[0].split()\nargs_list = lines[1].split()\n\nargs = []\ni = 0\nfor cmd in commands:\n    if cmd == 'MyStack':\n        args.append([])\n    elif cmd in ('push',):\n        args.append([int(args_list[i])])\n        i += 1\n    else:\n        args.append([])\n\n# Execute commands\nobj = None\nresults = []\nfor cmd, arg in zip(commands, args):\n    if cmd == 'MyStack':\n        obj = MyStack()\n        results.append('null')\n    elif cmd == 'push':\n        obj.push(arg[0])\n        results.append('null')\n    elif cmd == 'pop':\n        results.append(str(obj.pop()))\n    elif cmd == 'top':\n        results.append(str(obj.top()))\n    elif cmd == 'empty':\n        results.append(str(obj.empty()).lower())\n\n# Print results space-separated\nprint(' '.join(results))"
+        }
+    },
+    {
+        "title": "Repeated DNA Sequences",
+        "description": "The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'. For example, \"ACGAATTCCG\" is a DNA sequence. When studying DNA, it is useful to identify repeated sequences within the DNA. Given a string s that represents a DNA sequence, return all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order.",
+        "categories": [
+            "Algorithms",
+            "Bit Manipulation"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+        ],
+        "expected_output": [
+            "AAAAACCCCC CCCCCAAAAA"
+        ],
+        "starter_code": {
+            "python": "def findRepeatedDnaSequences(s):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\ns = sys.stdin.read().strip()\n\nresult = findRepeatedDnaSequences(s)\n\n# Print space-separated output\nprint(' '.join(result))"
+        }
+    },
+    {
+        "title": "Course Schedule",
+        "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1. Return true if you can finish all courses. Otherwise, return false.",
+        "categories": [
+            "Data Structures",
+            "Algorithms"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "2\n1 0\n0 1"
+        ],
+        "expected_output": [
+            "False"
+        ],
+        "starter_code": {
+            "python": "def canFinish(numCourses, prerequisites):\n"
+        },
+        "run_code": {
+           "python": "import sys\n\nlines = sys.stdin.read().strip().split('\\n')\nnumCourses = int(lines[0])\nprerequisites = [list(map(int, line.split())) for line in lines[1:]]\n\nprint(canFinish(numCourses, prerequisites))"
+        }
+    },
+    {
+        "title": "LRU Cache Design",
+        "description": "Design and implement an LRU (Least Recently Used) cache.",
+        "categories": [
+            "Data Structures"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "10\nLRUCache 2\nput 1 1\nput 2 2\nget 1\nput 3 3\nget 2\nput 4 4\nget 1\nget 3\nget 4"
+        ],
+        "expected_output": [
+            "null null null 1 null -1 null -1 3 4"
+        ],
+        "starter_code": {
+            "python": "class LRUCache:\n    def init(self, capacity):\n        \n        \n    def get(self, key):\n        \n        \n    def put(self, key, value):\n        \n        "
+        },
+        "run_code": {
+            "python": "import sys\n\nlines = sys.stdin.read().strip().split('\\n')\nn = int(lines[0])\nlru = None\nresults = []\n\nfor i in range(1, n + 1):\n    parts = lines[i].split()\n    op = parts[0]\n\n    if op == \"LRUCache\":\n        capacity = int(parts[1])\n        lru = LRUCache(capacity)\n        results.append(\"null\")\n\n    elif op == \"put\":\n        key = int(parts[1])\n        value = int(parts[2])\n        lru.put(key, value)\n        results.append(\"null\")\n\n    elif op == \"get\":\n        key = int(parts[1])\n        results.append(str(lru.get(key)))\n\nprint(\" \".join(results))"
+        }
+    },
+    {
+        "title": "Longest Common Subsequence",
+        "description": "Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0. A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters. For example, \"ace\" is a subsequence of \"abcde\". A common subsequence of two strings is a subsequence that is common to both strings.",
+        "categories": [
+            "Strings",
+            "Algorithms"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "abcde ace"
+        ],
+        "expected_output": [
+            "3"
+        ],
+        "starter_code": {
+            "python": "def longestCommonSubsequence(text1, text2):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\ntext1, text2 = sys.stdin.read().strip().split()\nprint(longestCommonSubsequence(text1, text2))"
+        }
+    },
+    {
+        "title": "Rotate Image",
+        "description": "You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).",
+        "categories": [
+            "Arrays",
+            "Algorithms"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "3\n1 2 3\n4 5 6\n7 8 9\n"
+        ],
+        "expected_output": [
+            "7 4 1\n8 5 2\n9 6 3"
+        ],
+        "starter_code": {
+            "python": "def rotate(matrix):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nlines = [line.strip() for line in sys.stdin.read().split('\\n') if line.strip()]\n\nn = int(lines[0])\nmatrix = [list(map(int, lines[i].split())) for i in range(1, n + 1)]\n\nrotate(matrix)\n\nfor row in matrix:\n    print(' '.join(map(str, row)))"
+        }
+    },
+    {
+        "title": "Airplane Seat Assignment Probability",
+        "description": "n passengers board an airplane with exactly n seats. The first passenger has lost the ticket and picks a seat randomly. But after that, the rest of the passengers will: Take their own seat if it is still available, and pick other seats randomly when they find their seat occupied Return the probability that the nth person gets his own seat..",
+        "categories": [
+            "Brainteaser"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "1"
+        ],
+        "expected_output": [
+            "1"
+        ],
+        "starter_code": {
+            "python": "def nthPersonGetsNthSeat(n):\n"
+        },
+        "run_code": {
+            "python": "import sys\nn=sys.stdin.read().strip()\nprint(nthPersonGetsNthSeat(n))"
+        }
+    },
+    {
+        "title": "Validate Binary Search Tree",
+        "description": "Given the root of a binary tree, determine if it is a valid binary search tree (BST).",
+        "categories": [
+            "Data Structures",
+            "Algorithms"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "2 1 3"
+        ],
+        "expected_output": [
+            "true"
+        ],
+        "starter_code": {
+            "python": "def isValidBST(root):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nclass TreeNode:\n    def init(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef build_tree(values):\n    if not values or values[0] == 'null':\n        return None\n\n    root = TreeNode(int(values[0]))\n    queue = [root]\n    i = 1\n\n    while queue and i < len(values):\n        node = queue.pop(0)\n\n        if i < len(values) and values[i] != 'null':\n            node.left = TreeNode(int(values[i]))\n            queue.append(node.left)\n        i += 1\n\n        if i < len(values) and values[i] != 'null':\n            node.right = TreeNode(int(values[i]))\n            queue.append(node.right)\n        i += 1\n\n    return root\n\nvalues = sys.stdin.read().strip().split()\nroot = build_tree(values)\n\n\nresult = isValidBST(root)\n\nprint(str(result))"
+        }
+    },
+    {
+        "title": "Sliding Window Maximum",
+        "description": "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.",
+        "categories": [
+            "Arrays",
+            "Algorithms"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "1 3 -1 -3 5 3 6 7\n3"
+        ],
+        "expected_output": [
+            "3 3 5 5 6 7"
+        ],
+        "starter_code": {
+            "python": "def maxSlidingWindow(nums, k):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nlines=sys.stdin.read().strip().split('\\n')\narr = list(map(int, lines[0].strip().split()))\nk=int(lines[1])\nprint(maxSlidingWindow(arr,k))"
+        }
+    },
+    {
+        "title": "N-Queen Problem",
+        "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other. Given an integer n, return all distinct solutions to the n- queens puzzle. You may return the answer in any order. Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.",
+        "categories": [
+            "Bit Manipulation",
+            "Algorithms"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "4"
+        ],
+        "expected_output": [
+            ".Q..;...Q;Q...;..Q. ..Q.;Q...;...Q;.Q.."
+        ],
+        "starter_code": {
+            "python": "def solveNQueens(n):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nn = int(sys.stdin.read().strip())\n\nsolutions = solveNQueens(n)\n\nformatted = [';'.join(board) for board in solutions]\n\nprint(' '.join(formatted))"
+        }
+    },
+    {
+        "title": "Serialize and Deserialize a Binary Tree",
+        "description": "Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment. Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserializ ation algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.",
+        "categories": [
+            "Data Structures",
+            "Algorithms"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "1 2 3 null null 4 5"
+        ],
+        "expected_output": [
+            "1 2 3 null null 4 5"
+        ],
+        "starter_code": {
+            "python": "class Codec:\n\n    def serialize(self, root):\n        \n        \n        return \"\"\n\n    def deserialize(self, data):\n        \n        \n        return None"
+        },
+        "run_code": {
+            "python": "import sys\n\nclass TreeNode(object):\n    def init(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nfrom collections import deque\n\nclass Codec:\n    def serialize(self, root):\n        if not root:\n            return \"\"\n        res = []\n        queue = deque([root])\n        while queue:\n            node = queue.popleft()\n            if node:\n                res.append(str(node.val))\n                queue.append(node.left)\n                queue.append(node.right)\n            else:\n                res.append(\"null\")\n        while res and res[-1] == \"null\":\n            res.pop()\n        return \" \".join(res)\n\n    def deserialize(self, data):\n        if not data:\n            return None\n        vals = data.split()\n        root = TreeNode(int(vals[0]))\n        queue = deque([root])\n        i = 1\n        while queue and i < len(vals):\n            node = queue.popleft()\n            if i < len(vals) and vals[i] != \"null\":\n                node.left = TreeNode(int(vals[i]))\n                queue.append(node.left)\n            i += 1\n            if i < len(vals) and vals[i] != \"null\":\n                node.right = TreeNode(int(vals[i]))\n                queue.append(node.right)\n            i += 1\n        return root\n\ndata = sys.stdin.read().strip()\ncodec = Codec()\nroot = codec.deserialize(data)\nresult = codec.serialize(root)\nprint(result)"
+        }
+    },
+    {
+        "title": "Wildcard Matching",
+        "description": "Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where: '?' Matches any single character. '*' Matches any sequence of characters (including the empty sequence). The matching should cover the entire input string (not partial).",
+        "categories": [
+            "Strings",
+            "Algorithms"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "aa a"
+        ],
+        "expected_output": [
+            "False"
+        ],
+        "starter_code": {
+            "python": "def isMatch(s, p):\n"
+        },
+        "run_code": {
+            "python": "import sys\ns, p=sys.stdin.read().strip().split()\nprint(isMatch(s,p))"
+        }
+    },
+    {
+        "title": "Chalkboard XOR Game",
+        "description": "You are given an array of integers nums represents the numbers written on a chalkboard. Alice and Bob take turns erasing exactly one number from the chalkboard, with Alice starting first. If erasing a number causes the bitwise XOR of all the elements of the chalkboard to become 0, then that player loses. The bitwise XOR of one element is that element itself, and the bitwise XOR of no elements is 0. Also, if any player starts their turn with the bitwise XOR of all the elements of the chalkboard equal to 0, then that player wins. Return true if and only if Alice wins the game, assuming both players play optimally.",
+        "categories": [
+            "Brainteaser"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "1 1 2"
+        ],
+        "expected_output": [
+            "False"
+        ],
+        "starter_code": {
+            "python": "def xorGame(nums):\n"
+        },
+        "run_code": {
+            "python": "import sys\n\nnums = list(map(int, sys.stdin.read().strip().split()))\n\nprint(str(xorGame(nums)))"
+        }
+    },
+    {
+        "title": "Merge Two Binary Trees",
+        "description": "You are given two binary trees root1 and root2. Imagine that when you put one of them to cover the other, some nodes of the two trees overlap while the others do not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the non-null node will be used as the node of the new tree.",
+        "categories": [
+            "Recursion",
+            "Data Structures"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "1 3 2 5\n2 1 3 null 4 null 7"
+        ],
+        "expected_output": [
+            "3 4 5 5 4 null 7"
+        ],
+        "starter_code": {
+            "python": "def mergeTrees(root1, root2):\n"
+        },
+        "run_code": {
+            "python": "import sys\n# Assume TreeNode and mergeTrees are implemented\nprint('Merged Tree Output')"
+        }
+    },
+    {
+        "title": "Generate Parentheses",
+        "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
+        "categories": [
+            "Recursion",
+            "Backtracking"
+        ],
+        "complexity": "Medium",
+        "input": [
+            "3"
+        ],
+        "expected_output": [
+            "((())) (()()) (())() ()(()) ()()()"
+        ],
+        "starter_code": {
+            "python": "def generateParenthesis(n):\n"
+        },
+        "run_code": {
+            "python": "import sys\nn=int(sys.stdin.read().strip())\nprint(generateParenthesis(n))"
+        }
+    },
+    {
+        "title": "Sudoku Solver",
+        "description": "Write a program to solve a Sudoku puzzle by filling the empty cells. A sudoku solution must satisfy all of the following rules: Each of the digits 1-9 must occur exactly once in each row, each column, and each of the nine 3x3 sub-boxes of the grid.",
+        "categories": [
+            "Recursion",
+            "Backtracking"
+        ],
+        "complexity": "Hard",
+        "input": [
+            "5 3 . . 7 . . . .\n6 . . 1 9 5 . . .\n. 9 8 . . . . 6 .\n8 . . . 6 . . . 3\n4 . . 8 . 3 . . 1\n7 . . . 2 . . . 6\n. 6 . . . . 2 8 .\n. . . 4 1 9 . . 5\n. . . . 8 . . 7 9"
+        ],
+        "expected_output": [
+            "Solved Sudoku Grid"
+        ],
+        "starter_code": {
+            "python": "def solveSudoku(board):\n    \n    def is_valid(row, col, num):\n\n    def backtrack():\n"
+        },
+        "run_code": {
+            "python": "import sys\n# Assume solveSudoku(board) modifies board in-place\nprint('Solved')"
+        }
+    },
+    {
+        "title": "Number of 1 Bits",
+        "description": "Write a function that takes an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight). Example 1: Input: n = 11 (binary: 1011) Output: 3 Example 2: Input: n = 128 (binary: 10000000) Output: 1 Example 3: Input: n = 2147483645 (binary: 1111111111111111111111111111101) Output: 30",
+        "categories": [
+            "Bit Manipulation"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "11",
+            "128"
+        ],
+        "expected_output": [
+            "3",
+            "1"
+        ],
+        "starter_code": {
+            "python": "def hammingWeight(n):\n"
+        },
+        "run_code": {
+            "python": "import sys\nn = int(sys.stdin.read().strip())\nprint(hammingWeight(n))"
+        }
+    },
+    {
+        "title": "Two Sum",
+        "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order. Example: Input: nums = [2,7,11,15], target = 9 Output: [0,1]",
+        "categories": [
+            "Arrays",
+            "Algorithms"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "2 7 11 15\n9"
+        ],
+        "expected_output": [
+            "0 1"
+        ],
+        "starter_code": {
+            "python": "def twoSum(nums, target):\n"
+        },
+        "run_code": {
+            "python": "import sys\nlines = sys.stdin.read().strip().split('\\n')\nnums = list(map(int, lines[0].split()))\ntarget = int(lines[1])\nprint(twoSum(nums, target))"
+        }
+    },
+    {
+        "title": "Nim Game",
+        "description": "You are playing the Nim Game with your friend. There is a heap of stones on the table, and you take turns removing 1 to 3 stones. The one who removes the last stone wins. You will take the first turn. Given n, the number of stones, return true if you can win assuming both players play optimally. Example 1: Input: n = 4 Output: false Example 2: Input: n = 1 Output: true Example 3: Input: n = 2 Output: true",
+        "categories": [
+            "Brainteaser",
+            "Game Theory"
+        ],
+        "complexity": "Easy",
+        "input": [
+            "4",
+            "1"
+        ],
+        "expected_output": [
+            "false",
+            "true"
+        ],
+        "starter_code": {
+            "python": "def canWinNim(n):\n"
+        },
+        "run_code": {
+            "python": "import sys\nn = int(sys.stdin.read().strip())\nprint(canWinNim(n))"
+        }
+    }
+]

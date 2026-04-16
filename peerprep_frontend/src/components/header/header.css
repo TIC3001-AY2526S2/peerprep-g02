@@ -1,0 +1,43 @@
+.header-container {
+    height: 8vh;
+    box-sizing: border-box;
+    position: sticky;
+    background-color: #F5F5F5;
+    outline: 3px solid #1E1E1E;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.profile-container {
+    display: flex;
+    align-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.timer {
+    font-size: 18px;
+    font-weight: 500;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.timer-warning {
+    color: red;
+}

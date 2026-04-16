@@ -1,0 +1,101 @@
+services:
+  mongo:
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 10s
+      retries: 5
+    image: mongo:7
+    container_name: mongo
+    restart: always
+    ports:
+      - "27018:27017"
+  api-gateway:
+    environment:
+      - USER_SERVICE_URL=http://user-service:8000
+      - QUESTION_SERVICE_URL=http://question-service:8000
+      - QUEUEING_SERVICE_URL=ws://queueing-service:8000
+      - SECRET_KEY=PEERPREPG0220260415ABC
+      - CHAT_SERVICE_URL=ws://chat-service:8000
+      - RUN_CODE_SERVICE_URL=http://run-code-service:8000
+      - SUBMIT_SERVICE_URL=ws://submit-service:8000
+    build: ./peerprep_backend/api_gateway
+    container_name: api-gateway
+    depends_on:
+      - user-service
+      - question-service
+      - queueing-service
+      - chat-service
+      - run-code-service
+      - submit-service
+    ports:
+      - "8000:8000"
+  user-service:
+    depends_on:
+      mongo:
+        condition: service_healthy
+    build: ./peerprep_backend/user_service
+    container_name: user-service
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+      - SECRET_KEY=PEERPREPG0220260415ABC
+    ports:
+      - "8001:8000"
+
+  question-service:
+    build: ./peerprep_backend/question_service
+    container_name: question-service
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+      - SECRET_KEY=PEERPREPG0220260415ABC
+    ports:
+      - "8002:8000"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  matching-service:
+    build: ./peerprep_backend/matching_service
+    container_name: matching-service
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8003:8000"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+
+  queueing-service:
+    build: ./peerprep_backend/queueing_service
+    container_name: queueing-service
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8004:8000"
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+
+  chat-service:
+    build: ./peerprep_backend/collaboration_service/chat_service
+    container_name: chat-service
+    ports:
+      - "8005:8000"
+  
+  run-code-service:
+    build: ./peerprep_backend/collaboration_service/run_code_service
+    container_name: run-code-service
+    ports:
+      - "8006:8000"
+
+  submit-service:
+    build: ./peerprep_backend/collaboration_service/submit_service
+    container_name: submit-service
+    ports:
+      - "8007:8000"

@@ -1,0 +1,32 @@
+.page-container {
+    height: 100vh;
+    width: 100%;
+    align-content: center;
+}
+
+.matching-service-container {
+    display: flex;
+    flex-direction: column;
+    padding: 6rem;
+    padding-top: 2rem;
+    gap: 2rem;
+    align-items: center;
+    text-align: center;
+}
+
+.countdown-container {
+    height: 20vh;
+    width: auto;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    gap: 2rem;
+}
+
+.matching-profile-image {
+    height: 200px;
+    outline: 2px solid #1E1E1E;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
+    border-radius: 50%;
+    object-fit: cover;
+}

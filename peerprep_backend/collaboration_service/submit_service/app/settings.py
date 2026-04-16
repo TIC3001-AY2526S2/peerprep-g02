@@ -1,0 +1,11 @@
+
+ALLOWED_HOSTS = ["*"]
+INSTALLED_APPS = [
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    "channels",
+    "app",  # app with consumer
+]
+DATABASES={}
+ROOT_URLCONF="app.urls"
+ASGI_APPLICATION = "app.asgi.application"
