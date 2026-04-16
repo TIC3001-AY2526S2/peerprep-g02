@@ -93,7 +93,6 @@
 }
 
 /* Dropdown */
-/* Wrap the dropdowns horizontally */
 .dropdowns-wrapper {
     display: flex;
     justify-content: center;
@@ -131,7 +130,6 @@
 
 .dropdown-content {
     display: none;
-    /* hidden by default */
     position: absolute;
     background-color: #F5F5F5;
     width: 15rem;
@@ -141,7 +139,6 @@
     overflow-y: auto;
 }
 
-/* Dropdown item */
 .dropdown-item {
     padding: 0.5rem;
     cursor: pointer;
@@ -152,7 +149,6 @@
     background-color: coral;
 }
 
-/* Show menu on hover */
 .dropdown:hover .dropdown-content {
     display: flex;
     scroll-behavior: auto;

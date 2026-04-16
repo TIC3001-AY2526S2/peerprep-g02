@@ -1,25 +1,121 @@
-.question-form-container{
-    position:fixed;
-    width: 50%;
-    /* height: 50%; */
-    top:25%;
-    left:25%;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-}
-.question-form{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
+.question-form-container {
+    width: 30%;
+    height: fit-content;
+    position: relative;
     background-color: white;
-    padding:1rem;
     outline: 2px solid #1E1E1E;
-    height: 100%;
+    box-shadow: 2px 2px 0px 2px #1E1E1E;
 }
+
+.question-form {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.question-form input,
+textarea,
+button {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+    outline: none;
+    font-family: inherit;
+    padding: 0.6rem 0.8rem;
+    font-size: 14px;
+
+    border: 2px solid #1E1E1E;
+    background-color: white;
+
+    box-shadow: none;
+}
+
+.question-form input {
+    padding: 0.6rem 0.8rem;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+.question-form button {
+    font-weight: 700;
+    font-size: 20px;
+    /* dimensions */
+    width: 100%;
+    height: auto;
+
+    /* alignment */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    box-shadow: 2px 2px 0px #1E1E1E;
+    cursor: pointer;
+    margin-top: 1.5rem;
+}
+
+.input-containers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.question-dropdown-button {
+    width: 100%;
+    background-color: #F5F5F5;
+    padding: 0.5rem 1rem;
+    border: 2px solid #1E1E1E;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: 'PitagonSansMono', monospace;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.dropdown-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 2.5rem;
+    outline: none;
+    border-radius: 0;
+}
+
 .topics-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.4rem 1rem;
+    margin-top: 0.5rem;
+}
+
+.topic-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: 'PitagonSansMono', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.topic-item input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    cursor: pointer;
+    appearance: auto;
+    -webkit-appearance: checkbox;
+}
+
+.topic-item span {
+    line-height: 1.2;
+}
+
+.topic-item:hover span {
+    color: coral;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createQuestion, updateQuestion } from '../../api/QuestionApi';
 import './questionForm.css';
+import './loginSignup.css';
 
 function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, update }) {
     const [title, setTitle] = useState(question?.title || "");
@@ -54,48 +55,53 @@ function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, up
     };
 
     return (
-        <div className='question-form-container'>
-            <form className="forgot-password-form" onSubmit={handleSubmit}> {/* Added onSubmit */}
-                <p>Questions</p>
-                <div>
-                    <label>Title: </label>
-                    <input type="text" placeholder="Question title" value={title} onChange={(e) => setTitle(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Description: </label>
-                    <textarea type="text" placeholder="Question description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-                </div>
-                <div>
-                    <label><span>Topics</span></label>
-                    <div className='topics-container'>
-
-                        {topics.map((topic) => (
-                            <div key={topic}> {/* Added key for React list */}
-                                <input
-                                    type="checkbox"
-                                    value={topic}
-                                    checked={categories?.includes(topic)}
-                                    onChange={handleTopicChange}
-                                />
-                                <label>{topic}</label>
-                            </div>
-                        ))}
+        <div className="popup-overlay" >
+            <div className='question-form-container'>
+                <div className='close-button' onClick={handleCancelQuestion}>&times;</div>
+                <form className="question-form" onSubmit={handleSubmit}> {/* Added onSubmit */}
+                    <div className='title-font'>Questions</div>
+                    <div className='input-containers'>
+                        <label>Title: </label>
+                        <input type="text" placeholder="Question title" value={title} onChange={(e) => setTitle(e.target.value)} required />
                     </div>
+                    <div className='input-containers'>
+                        <label>Description: </label>
+                        <textarea type="text" placeholder="Question description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+                    </div>
+                    <div>
+                        <label><span>Topics</span></label>
+                        <div className="topics-container">
+                            {topics.map((topic) => (
+                                <label key={topic} className="topic-item">
+                                    <input
+                                        type="checkbox"
+                                        value={topic}
+                                        checked={categories?.includes(topic)}
+                                        onChange={handleTopicChange}
+                                    />
+                                    <span>{topic}</span>
+                                </label>
+                            ))}
+                        </div>
 
-                </div>
-                <div>
-                    <label>Complexity: </label>
-                    <select value={complexity} onChange={(e) => setComplexity(e.target.value)} placeholder="Question complexity">
-                        <option value={"Easy"}>
-                            Easy
-                        </option>
-                        <option value={"Medium"}>Medium</option>
-                        <option value={"Hard"}>Hard</option>
-                    </select>
-                </div>
-                <button type="submit">{update ? "Update" : "Create"}</button>
-                <button type="button" onClick={handleCancelQuestion}>Cancel</button>
-            </form>
+                    </div>
+                    <div className="input-containers">
+                        <label>Complexity: </label>
+                        <div className="dropdown">
+                            <select
+                                className="question-dropdown-button dropdown-select"
+                                value={complexity}
+                                onChange={(e) => setComplexity(e.target.value)}
+                            >
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit">{update ? "Update" : "Create"}</button>
+                </form>
+            </div>
         </div>
     )
 }
