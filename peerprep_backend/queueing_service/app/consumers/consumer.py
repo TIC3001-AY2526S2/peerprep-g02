@@ -1,4 +1,3 @@
-# consumers.py
 import json
 import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -16,11 +15,9 @@ class MatchingConsumer(AsyncWebsocketConsumer):
         self.isWaiting = False
         self.timeout = 30
 
-        # Initialize QueueingService
         self.queue_service = QueueingService()
         await self.queue_service.connect()
 
-        # Declare queues
         self.match_queue = await self.queue_service.declare_queue(f"match_response_{self.user_id}")
         self.request_queue = await self.queue_service.declare_queue("match_request")
         self.timeout_queue = await self.queue_service.declare_queue("timeout_request")
@@ -38,7 +35,6 @@ class MatchingConsumer(AsyncWebsocketConsumer):
             "complexity": data["complexity"],
         }
 
-        # Publish match request
         await self.queue_service.publish("match_request", match_data)
 
         await self.send(json.dumps({"status": "Waiting"}))

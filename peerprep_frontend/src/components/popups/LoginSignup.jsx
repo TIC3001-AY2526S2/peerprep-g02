@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import LoginForm from './Login';
 import './loginSignup.css';
 import SignupForm from './Signup';
-import ForgotPassword from './ForgotPassword';
 function LoginSignup({ ...loginSignupArgs }) {
     const { showLogin, showSignup, setShowLogin, setShowSignup, showForgotPassword, setShowForgotPassword, setLoggedIn } = loginSignupArgs;
 
@@ -16,7 +14,7 @@ function LoginSignup({ ...loginSignupArgs }) {
         <div className="popup-overlay" onClick={handleCancel}>
             <div
                 className="login-signup-container"
-                onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+                onClick={(e) => e.stopPropagation()}
             >
                 {showSignup && (
                     <SignupForm
@@ -29,15 +27,10 @@ function LoginSignup({ ...loginSignupArgs }) {
                 {showLogin && (
                     <LoginForm
                         handleCancel={handleCancel}
-                        setShowForgotPassword={setShowForgotPassword}
                         setShowLogin={setShowLogin}
                         setLoggedIn={setLoggedIn}
                         setShowSignup={setShowSignup}
                     />
-                )}
-
-                {showForgotPassword && (
-                    <ForgotPassword handleCancel={handleCancel} />
                 )}
             </div>
         </div>

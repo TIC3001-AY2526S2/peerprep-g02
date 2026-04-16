@@ -50,7 +50,7 @@ def admin_required(user: dict = Depends(verify_token)):
 
 async def forward_request(request: Request, target_url: str, extra_headers: dict = {}):
     try:
-        # merged filtered headers and extra_headers
+        # merged headers and extra_headers
         merged_headers = {
             k: v for k, v in request.headers.items()
             if k.lower() not in ("host", "content-length")
@@ -87,7 +87,7 @@ async def forward_request(request: Request, target_url: str, extra_headers: dict
             detail=f"Gateway error when forwarding to {target_url}: {str(e)}"
         )
 
-# stripped prefix for downstream services
+# stripped prefix
 @app.api_route("/questions/{path:path}", methods=["GET"])
 async def question_read_proxy(path: str, request: Request):
     target_url = f"{QUESTION_SERVICE}/{path}"
@@ -134,7 +134,7 @@ async def websocket_proxy(websocket: WebSocket):
                         data = await matching_ws.recv()
                         await websocket.send_text(data)
                 except Exception:
-                    pass  # don't close
+                    pass  # do not close
 
             await asyncio.gather(client_to_service(), service_to_client())
 
@@ -145,7 +145,7 @@ async def websocket_proxy(websocket: WebSocket):
         try:
             await websocket.close()  # close once
         except Exception:
-            pass  # closed, ignore
+            pass
 
 @app.websocket("/chat/{path:path}")
 async def chat_proxy(path: str, websocket: WebSocket):

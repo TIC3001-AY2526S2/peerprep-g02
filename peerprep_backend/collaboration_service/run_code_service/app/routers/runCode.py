@@ -19,7 +19,7 @@ def setup(question: SetupRequest):
 
 @runCodeRouter.post("/run")
 async def runCode(userCode: CodeRequest, req: Request, res: Response):
-    # print("Received question data:", userCode) #Log request
+    # print("Received question data:", userCode) # diagnostic request
     try:
         result = await runCodeService.run(userCode.userCode, userCode.input)
         print(result)

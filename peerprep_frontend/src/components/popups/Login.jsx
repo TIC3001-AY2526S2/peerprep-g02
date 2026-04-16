@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { loginUser } from '../../api/UserApi';
 import { useUser } from '../../context/UserContext';
 
@@ -15,11 +15,6 @@ function LoginForm({ handleCancel, setShowForgotPassword, setShowLogin, setLogge
             login(user.user, user.token);
             setShowLogin(false);
         }
-    }
-
-    const handleForgotPassword = () => {
-        setShowForgotPassword(true);
-        setShowLogin(false);
     }
 
     return (

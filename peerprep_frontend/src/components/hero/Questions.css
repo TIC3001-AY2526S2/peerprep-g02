@@ -35,7 +35,6 @@
     padding:1rem;
 }
 
-/* Status Tick */
 .tick {
     color: #22c55e;
     font-weight: bold;
@@ -46,12 +45,10 @@
     color: #64748b;
 }
 
-/* Question Name */
 .question-name {
     font-weight: 500;
 }
 
-/* Difficulty Colors */
 .difficulty {
     padding: 4px 10px;
     border-radius: 8px;

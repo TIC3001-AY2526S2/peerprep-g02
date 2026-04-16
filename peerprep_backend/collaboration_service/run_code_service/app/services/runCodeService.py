@@ -13,15 +13,15 @@ SAMPLE_QUESTION = {
 
 LANGUAGE_IDS = {
     "python": 71,
-    "javascript": 63,  # Judge0 language ID for Node.js
-    # Add more languages here if needed
+    "javascript": 63,  # Judge0 ID for Node.js
+    # space for other languages
 }
 
 
 class RunCodeService:
     def __init__(self, question):
         self.question = question
-        # Get the code for the specified language
+        # Get code for node
         run_code_field = question.get("run_code", {})
         self.language = list(run_code_field.keys())[0].lower()
         self.language_id = LANGUAGE_IDS.get(self.language)

@@ -1,4 +1,3 @@
-# app/services/queueing_service.py
 import json
 import os
 import aio_pika

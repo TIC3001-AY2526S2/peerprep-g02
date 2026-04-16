@@ -6,11 +6,6 @@ import "./Profile.css";
 function Profile() {
     const { token, user, setUser } = useUser();
 
-    console.log("TOKEN:", token);
-    console.log("AUTH HEADER:", {
-        Authorization: `Bearer ${token}`
-    });
-
     const [form, setForm] = useState({
         username: "",
         email: "",
@@ -116,7 +111,6 @@ function Profile() {
             <div className="profile-box">
                 <h2 className="profile-title">My Profile</h2>
 
-                {/* USERNAME */}
                 <div className="profile-row">
                     <label>Username</label>
 
@@ -139,7 +133,6 @@ function Profile() {
                     )}
                 </div>
 
-                {/* EMAIL */}
                 <div className="profile-row">
                     <label>Email</label>
 
@@ -162,7 +155,6 @@ function Profile() {
                     )}
                 </div>
 
-                {/* PASSWORD */}
                 <div className="profile-row">
                     <label>Password</label>
 

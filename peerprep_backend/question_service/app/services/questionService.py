@@ -82,7 +82,7 @@ class QuestionService:
         try:
             if questionID is None:
                 return {"deleted": False, "error": "Missing question ID"}
-            print(f"Attempting to delete with questionID: {questionID}")
+            print(f"Attempting to delete {questionID}")
             question = self.collection.find_one({"_id": ObjectId(questionID)})  # cast here
             if question is None:
                 return {"deleted": False, "error": "Question not found"}

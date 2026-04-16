@@ -7,11 +7,6 @@ function SignupForm({ handleCancel, setShowLogin, setShowSignup }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [username, setUsername] = useState("");
 
-    const isValidPassword = (password) => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-        return regex.test(password);
-    };
-
     const signup_user = async (e) => {
         e.preventDefault();
 

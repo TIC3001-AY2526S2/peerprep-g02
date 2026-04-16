@@ -10,10 +10,9 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
     const [elapsedTime, setElapsedTime] = useState(0);
     const socketRef = useRef(null);
     const peerFoundRef = useRef(false);
-    const matchDataRef = useRef(null); // Server response
+    const matchDataRef = useRef(null);
     const user = JSON.parse(sessionStorage.getItem('user'));
     const user_id = user.user_id;
-    // Socket connection
     useEffect(() => {
         if (socketRef.current) return;
 
@@ -54,23 +53,20 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
         };
 
         return () => socketRef.current?.close();
-    }, []); // connect once, never reconnect
+    }, []);
 
-    // Elapsed time search
     useEffect(() => {
         if (peerFound || matchFailed) return;
         const interval = setInterval(() => setElapsedTime(prev => prev + 1), 1000);
         return () => clearInterval(interval);
     }, [peerFound, matchFailed]);
 
-    // Countdown after found
     useEffect(() => {
         if (!peerFound || timeLeft <= 0) return;
         const timer = setTimeout(() => setTimeLeft(prev => prev - 1), 1000);
         return () => clearTimeout(timer);
     }, [peerFound, timeLeft]);
 
-    // SessionId from match
     useEffect(() => {
         if (peerFound && timeLeft <= 0) {
             onConfirm(matchDataRef.current?.match?.roomId ?? null);
@@ -134,72 +130,3 @@ function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm
 }
 
 export default MatchingService;
-
-// import React, { useEffect, useState } from "react";
-// import logo from "../../assets/images/logo.jpg";
-// import "./matchingService.css";
-// import { getRandomQuestion } from "../../api/QuestionApi";
-
-// function MatchingService({ selectedTopic, selectedDifficulty, onClose, onConfirm }) {
-//     const [loading, setLoading] = useState(true);
-//     const [error, setError] = useState(false);
-
-//     useEffect(() => {
-//         const bypassMatchmaking = async () => {
-//             try {
-//                 const topic = "Strings";
-//                 const difficulty = "Beginner";
-
-//                 const questionData = await getRandomQuestion(topic, difficulty);
-//                 const user = JSON.parse(sessionStorage.getItem("user"));
-//                 const fakeRoom = {
-//                     roomId: `solo-${Date.now()}`,
-//                     users: [user.user_id, "bot-user"] // 👈 important
-//                 };
-
-//                 sessionStorage.setItem("room", JSON.stringify(fakeRoom));
-//                 sessionStorage.setItem("question", JSON.stringify(questionData));
-
-//                 onConfirm(fakeRoom.roomId);
-//             } catch (err) {
-//                 console.error("Failed to start solo mode:", err);
-//             }
-//         };
-
-//         bypassMatchmaking();
-//     }, [onConfirm]);
-
-//     return (
-//         <div className="page-container">
-//             <div className="matching-service-container">
-//                 <div className="topic-difficulty-font">
-//                     Topic: {selectedTopic} | Difficulty: {selectedDifficulty}
-//                 </div>
-
-//                 <div className="countdown-container">
-//                     <img src={logo} alt="Logo" className="matching-profile-image" />
-
-//                     <div className="findamatch-fontstyle">
-//                         {error
-//                             ? "Failed to load collaboration session"
-//                             : loading
-//                                 ? "Starting Collaboration..."
-//                                 : "Redirecting..."}
-//                     </div>
-
-//                     <img src={logo} alt="Logo" className="matching-profile-image" />
-//                 </div>
-
-//                 <div className="lets-go-wrapper">
-//                     {error && (
-//                         <div className="letsgo-button" onClick={onClose}>
-//                             Close
-//                         </div>
-//                     )}
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
-
-// export default MatchingService;

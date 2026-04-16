@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from "react";
-// import sampleQuestion from '../../assets/text/sampleQuestion.txt'
 import './CollaborationPage.css';
 
 function CodingQuestion({ question }) {

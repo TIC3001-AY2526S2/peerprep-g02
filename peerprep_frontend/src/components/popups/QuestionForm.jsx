@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { createQuestion, updateQuestion } from '../../api/QuestionApi';
 import './questionForm.css';
 import './loginSignup.css';
@@ -58,7 +58,7 @@ function QuestionForm({ handleCancelQuestion, question, topics, setQuestions, up
         <div className="popup-overlay" >
             <div className='question-form-container'>
                 <div className='close-button' onClick={handleCancelQuestion}>&times;</div>
-                <form className="question-form" onSubmit={handleSubmit}> {/* Added onSubmit */}
+                <form className="question-form" onSubmit={handleSubmit}>
                     <div className='title-font'>Questions</div>
                     <div className='input-containers'>
                         <label>Title: </label>

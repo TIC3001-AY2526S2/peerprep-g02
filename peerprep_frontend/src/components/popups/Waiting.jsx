@@ -1,5 +1,3 @@
-import React from "react";
-
 function Waiting({ otherSubmitted }) {
     return (
         <div className="popup-overlay">

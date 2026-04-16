@@ -57,7 +57,7 @@ export const createQuestion = async (questionData) => {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            }); // Adjusted route
+            });
         return response.data;
     } catch (error) {
         console.error("Error creating question:", error);

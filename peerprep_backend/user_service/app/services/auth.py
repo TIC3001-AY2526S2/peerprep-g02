@@ -7,7 +7,7 @@ from passlib.context import CryptContext
 from dotenv import load_dotenv
 from pathlib import Path
 
-env_path = Path(__file__).resolve().parents[3] / ".env"
+env_path = Path(__file__).resolve().parents[3]
 load_dotenv(env_path)
 
 SECRET_KEY = os.getenv("SECRET_KEY")

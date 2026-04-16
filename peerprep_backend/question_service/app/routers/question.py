@@ -144,7 +144,7 @@ def fetchStarterCode(title: str, res: Response):
             return {"message": "Starter code not found for this question"}
 
         starter_code = match.get("starter_code", {})
-        code = starter_code.get("python") or starter_code.get("mySQL") or "# Write your solution here\n"
+        code = starter_code.get("python") or "# Write your solution here\n"
 
         res.status_code = status.HTTP_200_OK
         return {"starter_code": code}

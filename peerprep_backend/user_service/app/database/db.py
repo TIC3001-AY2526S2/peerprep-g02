@@ -30,7 +30,7 @@ class UserServiceDatabase:
         self, collection_name: str, json_file_path: str, overwrite: bool = False
     ):
         """
-        Seeds a MongoDB collection from a JSON file.
+        Seeds from JSON file.
         """
         try:
             collection = self.get_collection(collection_name)
@@ -48,13 +48,13 @@ class UserServiceDatabase:
             if data:
                 collection.insert_many(data)
                 print(
-                    f"Inserted {len(data)} documents into '{collection_name}' successfully!"
+                    f"Inserted {len(data)} into '{collection_name}' successfully!"
                 )
             else:
-                print("No data found in JSON file to insert.")
+                print("No data found to insert.")
 
         except Exception as e:
-            print(f"Failed to seed collection '{collection_name}':", e)
+            print(f"Failed to seed '{collection_name}':", e)
 
     def seed_at_startup(self):
         users_collection = self.get_collection("users")

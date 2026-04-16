@@ -19,7 +19,7 @@ class QuestionServiceDatabase:
 
             self.client.admin.command("ping")
 
-            print ("Question Service connected to MongoDB successfully!")
+            print ("Question Service connected to MongoDB successfully")
 
             self.seed_at_startup()
         except Exception as e:
@@ -30,7 +30,7 @@ class QuestionServiceDatabase:
     
     def seed_collection(self, collection_name: str, json_file_path: str, overwrite: bool = False):
         """
-        Seeds a MongoDB collection from a JSON file.
+        Seeds from JSON file.
         """
         try:
             collection = self.get_collection(collection_name)
@@ -39,17 +39,17 @@ class QuestionServiceDatabase:
                 data = json.load(file)
 
             if not isinstance(data, list):
-                raise ValueError("JSON file must contain a list of documents.")
+                raise ValueError("JSON file must list of documents")
 
             if overwrite:
                 collection.delete_many({})
-                print(f"Existing documents in '{collection_name}' deleted.")
+                print(f"Existing in '{collection_name}' deleted")
 
             if data:
                 collection.insert_many(data)
-                print(f"Inserted {len(data)} documents into '{collection_name}' successfully!")
+                print(f"Inserted {len(data)} into '{collection_name}' successfully")
             else:
-                print("No data found in JSON file to insert.")
+                print("No data found in JSON file to insert")
 
         except Exception as e:
             print(f"Failed to seed collection '{collection_name}':", e)
@@ -58,8 +58,8 @@ class QuestionServiceDatabase:
         questions_collection = self.get_collection("questions")
         topics_collection = self.get_collection("topics")
         if questions_collection.count_documents({}) == 0:
-            print("Seeding questions collection at startup...")
+            print("Seeding questions at startup...")
             self.seed_collection("questions",QUESTION_SEED_FILE)
         if topics_collection.count_documents({}) == 0:
-            print("Seeding topics collection at start up...")
+            print("Seeding topics at start up...")
             self.seed_collection("topics", TOPIC_SEED_FILE)

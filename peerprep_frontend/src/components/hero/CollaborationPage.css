@@ -83,18 +83,14 @@
 }
 
 .collab-buttons {
-    /* dimensions */
     width: 10vh;
-    /* alignment */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    /* colour */
     background-color: #F5F5F5;
     outline: 2px solid #1E1E1E;
     box-shadow: 2px 2px 0px 2px #1E1E1E;
-    /* text */
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;
@@ -210,7 +206,6 @@ td {
     color: #888780;
 }
 
-/* Yjs remote cursor label */
 .cm-ySelectionInfo {
     font-weight: 200;
     font-size: 11px;

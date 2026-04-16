@@ -4,7 +4,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     "channels",
-    "app",  # your app with consumer
+    "app",  # app with consumer
 ]
 DATABASES={}
 ROOT_URLCONF="app.urls"

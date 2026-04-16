@@ -7,7 +7,6 @@
 }
 
 .how-to-play-container {
-    /* dimensions */
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -23,12 +22,9 @@
 }
 
 .box {
-    /* dimensions */
     width: fit-content;
-    /* alignment */
     display: flex;
     padding: 0.5rem;
-    /* colour */
     background-color: #F5F5F5;
     outline: 2px solid #1E1E1E;
     box-shadow: 2px 2px 0px 2px #1E1E1E;

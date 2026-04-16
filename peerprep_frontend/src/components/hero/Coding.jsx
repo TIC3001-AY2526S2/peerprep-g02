@@ -37,7 +37,7 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
         } else {
             provider.once("sync", insertSkeleton);
 
-            // If sync never happens
+            // If sync doesnt happen
             setTimeout(() => {
                 if (ytext.length === 0) {
                     insertSkeleton();
@@ -50,7 +50,7 @@ function Coding({ onSubmitCode, ydoc, provider, skeleton }) {
             extensions: [
                 basicSetup,
                 python(),
-                indentUnit.of("    "), // 4 spaces
+                indentUnit.of("    "),
                 yCollab(ytext, provider.awareness),
                 EditorView.theme({
                     "&": {

@@ -1,7 +1,6 @@
 import logo from '../../assets/images/logo.jpg';
 import { useUser } from "../../context/UserContext";
 
-
 function LoginSignupOptions({
                                 setShowLogin,
                                 setShowSignup,
@@ -14,12 +13,12 @@ function LoginSignupOptions({
     const { user, logout } = useUser()
     const handleShowLogin = () => {
         setShowLogin((prev) => !prev);
-        setShowSignup(false); // Ensure signup is hidden when login is shown
+        setShowSignup(false); // Ensure signup hidden when login shown
     }
 
     const handleShowSignup = () => {
         setShowSignup((prev) => !prev);
-        setShowLogin(false); // Ensure login is hidden when signup is shown
+        setShowLogin(false); // Ensure login hidden when signup shown
     }
 
     const openProfile = () => {

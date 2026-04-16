@@ -19,7 +19,6 @@ function Questions({ ...questionArgs }) {
     }
 
     const handleDeleteQuestion = async (id) => {
-        // console.log("Deleting question with ID:", id); // Add this line
         if (window.confirm("Are you sure you want to delete this question?")) {
             try {
                 await deleteQuestion(id);
@@ -36,7 +35,6 @@ function Questions({ ...questionArgs }) {
 
     useEffect(() => {
         get_questions();
-        console.log(user);
     }, []);
 
     return (

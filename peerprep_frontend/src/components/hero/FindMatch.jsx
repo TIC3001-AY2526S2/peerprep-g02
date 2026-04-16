@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import DropdownContainer from "./DropdownContainer";
-import MatchingService from "../popups/MatchingService";
 
 function FindMatch({ selectedDifficulty, selectedTopic, setSelectedDifficulty, setSelectedTopic, topicOptions, isLoggedIn, setShowCollaboration, showMatching, setShowMatching, setShowLogin }) {
     const difficultyOptions = ["Beginner", "Intermediate", "Advanced"];

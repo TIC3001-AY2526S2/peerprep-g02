@@ -34,11 +34,11 @@ class MatchingService:
                     auto_ack=True,
                 )
 
-                print("✅ Matching worker started")
+                print("Matching worker started")
                 channel.start_consuming()
 
             except Exception as e:
-                print("❌ RabbitMQ not ready, retrying...", e)
+                print("Retrying RabbitMQ...", e)
                 time.sleep(5)
     
     def callback(self, ch, method, properties, body): 

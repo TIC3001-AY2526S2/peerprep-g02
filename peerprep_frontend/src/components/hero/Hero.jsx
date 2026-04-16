@@ -5,7 +5,6 @@ import Questions from "./Questions";
 import FindMatch from "./FindMatch";
 import CollaborationPage from "./CollaborationPage";
 import LoginSignup from "../popups/LoginSignup";
-import MatchingService from "../popups/MatchingService";
 import { getTopics } from "../../api/QuestionApi";
 import QuestionForm from "../popups/QuestionForm";
 import Profile from "./Profile";
