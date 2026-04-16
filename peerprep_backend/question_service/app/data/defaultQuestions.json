@@ -19,7 +19,7 @@
             "python": "def reverseString(s):\n    \"\"\"\n    Do not return anything, modify s in-place instead.\n    \"\"\"\n"
         },
         "run_code": {
-            "python": "import sys\n\narr = list(map(int, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
+            "python": "import sys\n\narr = list(map(str, sys.stdin.read().strip().split()))\nreverseString(arr)\nprint(' '.join(arr))"
         }
     },
     {
